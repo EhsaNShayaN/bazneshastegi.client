@@ -1,0 +1,418 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'assets/styles/material-icons';
+@use '@angular/material/prebuilt-themes/indigo-pink.css';
+@use 'app/theme/styles/base';
+@use 'app/theme/styles/spaces';
+@use 'app/theme/styles/theme';
+@use 'app/theme/styles/rtl';
+@use 'assets/fonts/alborzchem/alborzchem';
+@use './app/theme/styles/variables' as *;
+@use 'ngx-toastr/toastr.css';
+
+.single-line {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 1.5em;
+  height: 1.5em;
+
+  @supports (-webkit-line-clamp: 1) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: initial;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.two-lines {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 1.5em;
+  height: 3em;
+
+  @supports (-webkit-line-clamp: 2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: initial;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.three-lines {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 1.5em;
+  height: 4.5em;
+
+  @supports (-webkit-line-clamp: 3) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: initial;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.four-lines {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 1.5em;
+  height: 6em;
+
+  @supports (-webkit-line-clamp: 4) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: initial;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.two-lines1 {
+  line-height: 1.5em;
+  height: 3em;
+  overflow: hidden;
+  /*white-space: nowrap;
+  text-overflow: ellipsis;*/
+}
+
+.mat-toolbar-single-row {
+  padding: 0 !important;
+}
+
+.app[dir="rtl"] {
+  /* webkit solution */
+  ::-webkit-input-placeholder {
+    text-align: right;
+  }
+
+  /* mozilla solution */
+  input:-moz-placeholder {
+    text-align: right;
+  }
+}
+
+.img-square {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+::selection {
+  /*color: red;*/
+  color: $back-second;
+  background: $primary;
+}
+
+.mat-mdc-button.mat-unthemed {
+  --mdc-text-button-label-text-color: $white !important;
+}
+
+.btn-rounded {
+  border-radius: 24px !important;
+}
+
+.bg-warn2 {
+  background-color: $warn2 !important;
+}
+
+.position-relative {
+  position: relative !important;
+}
+
+.mask-div {
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.font-large {
+  font-size: 1.5em;
+}
+
+.font-medium {
+  font-size: 1em;
+}
+
+.font-small {
+  font-size: .75em;
+}
+
+.ws-normal {
+  white-space: normal;
+}
+
+.multi-line-span {
+  table {
+    margin: 0 auto;
+
+    td {
+      padding: .5rem;
+
+      &:first-child {
+        background-color: #d9d9d9;
+      }
+
+      &:nth-child(2) {
+        background-color: #ececec;
+      }
+    }
+  }
+}
+
+.mat-mdc-form-field-error {
+  color: $warn !important;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+
+.timepicker-dial__container {
+  direction: ltr;
+}
+
+.alborz-chem-english {
+  font-family: 'Alborzchem_en', serif;
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.d-inline {
+  display: inline;
+}
+
+/*begin neshan*/
+/*#map {
+  height: 100%;
+  width: 100%;
+}*/
+
+.marker {
+  background-image: url('https://platform.neshan.org/wp-content/uploads/2023/11/custom_marker.png');
+  background-size: cover;
+  width: 32px;
+  height: 40px;
+  top: -20px;
+  cursor: pointer;
+}
+
+.mapboxgl-popup {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+  text-align: center;
+  color: $black;
+}
+
+/*end neshan*/
+
+.mat-drawer-content-home {
+  margin-top: $top-toolbar-height;
+}
+
+.mat-drawer-content-other {
+  margin-top: $top-toolbar-height + $main-toolbar-height;
+}
+
+.file-border {
+  border-radius: 4px;
+  border: solid 1px #a0a0a0;
+}
+
+.our-title {
+  font-size: 24px;
+  font-weight: bold;
+  display: block;
+}
+
+.our-desc {
+  font-size: 16px;
+}
+
+.logo img {
+  height: 64px;
+
+  &.logo-footer img {
+    height: 34px;
+  }
+}
+
+@media screen and (max-width: $mobile-size) {
+  .logo img {
+    height: 48px !important;
+
+    &.logo-footer img {
+      height: 28px !important;
+    }
+  }
+
+  .shop {
+    width: 24px !important;
+    padding: 12px 0 !important;
+  }
+}
+
+.deleted {
+  text-decoration: line-through;
+  color: $primary;
+}
+
+.clock-face {
+  background-color: $black !important;
+}
+
+.sidebar {
+  padding-right: 16px;
+}
+
+.main {
+  padding-left: 16px;
+}
+
+.link-guid {
+  background: rgba(120, 140, 70, 0.3);
+  font-size: 15px;
+  margin: 10px 0 30px;
+  padding: 15px 15px;
+  display: flex;
+  border-radius: 5px;
+  flex-wrap: wrap;
+
+  .mat-icon {
+    font-size: 18px;
+    line-height: 1.3;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.header-title-content {
+  .category-title {
+    color: $warn;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+.guide {
+  background-color: #e3e2e2;
+  padding: 20px 15px 40px 15px;
+  margin-bottom: 50px;
+  border-radius: 5px;
+
+  p {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  ul {
+    padding-right: 20px;
+    padding-top: 10px;
+
+    li {
+      list-style-type: decimal;
+      padding-top: 10px;
+      text-decoration: none;
+      color: #3e3e3e;
+      display: block;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  }
+}
+
+.border-none {
+  border-radius: 0 !important;
+}
+
+.image-article {
+  padding: 10px 0 !important;
+  width: 70% !important;
+  max-width: max-content !important;
+  display: flex !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+.desc-footer {
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+// sm
+@media screen and (max-width: 480px) {
+  .sidebar {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .main {
+    padding-top: 16px;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .image-article {
+    object-fit: contain;
+    width: 100% !important;
+    flex-wrap: wrap;
+  }
+
+  .our-title {
+    font-size: 16px;
+  }
+
+  .our-desc {
+    display: none;
+  }
+
+  .desc-footer {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .multi-line-span {
+    table {
+      margin: unset !important;
+      width: 100% !important;
+
+      td {
+        padding: .2rem;
+      }
+    }
+  }
+}

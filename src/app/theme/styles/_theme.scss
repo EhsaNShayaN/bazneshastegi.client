@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+@use './variables' as *;
+@use 'theme-reset' as *;
+@use "skins/green-custom" as *;
+
+$custom-typography: mat.m2-define-typography-config(
+  $font-family: $font-family,
+  $body-1: mat.m2-define-typography-level(14px, 20px, 400),
+  $button: mat.m2-define-typography-level(14px, 14px, 500),
+);
+@include mat.all-component-typographies($custom-typography);
+@include mat.core();
+
+.app {
+  &.green-custom {
+    @include mat.all-component-colors($green-custom-theme);
+    @include theme-reset($green-custom-theme);
+  }
+}

@@ -1,0 +1,44 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 100%;
+}
+
+.dependents {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dependent-item {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  border: 1px dashed #ccc;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.submit-btn {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+input[type="file"] {
+  margin-top: 10px;
+}
+
+.control-row {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.certificate-item {
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}

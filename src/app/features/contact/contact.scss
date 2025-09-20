@@ -1,0 +1,21 @@
+.contact-container {
+  direction: rtl;
+  max-width: 800px;
+  margin: 2rem auto;
+
+  mat-form-field {
+    margin-bottom: 1rem;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .info {
+    margin-top: 2rem;
+
+    p {
+      line-height: 1.8;
+    }
+  }
+}

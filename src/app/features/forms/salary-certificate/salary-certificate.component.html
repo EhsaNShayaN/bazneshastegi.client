@@ -1,0 +1,50 @@
+<h2 class="text-center mb-2">گواهی حقوق</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+
+  <div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-xs="33.3">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>حقوق دریافتی (ریال)</mat-label>
+        <input matInput formControlName="payAmount" class="ltr">
+        <mat-error *ngIf="form.get('payAmount')?.touched && form.get('payAmount')?.hasError('required')">
+          مبلغ حقوق الزامی است
+        </mat-error>
+        <mat-error *ngIf="form.get('payAmount')?.touched && form.get('payAmount')?.hasError('min')">
+          مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>تاریخ بازنشستگی</mat-label>
+        <input matInput type="date" formControlName="retirementDate">
+      </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-xs="33.3">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>سابقه سنوات خدمت(سال)</mat-label>
+        <input matInput type="number" formControlName="retiredRealDuration" class="ltr">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap">
+    <mat-checkbox formControlName="includeSalary">درج حقوق در گواهی</mat-checkbox>
+    <mat-checkbox formControlName="includeHistory">درج سابقه در گواهی</mat-checkbox>
+  </div>
+
+  <div class="control-row">
+    <mat-form-field appearance="outline">
+      <mat-label>معرفی به</mat-label>
+      <input matInput formControlName="organization">
+      <mat-error *ngIf="form.get('organization')?.touched && form.get('organization')?.hasError('required')">
+        معرفی به الزامی است
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="end center">
+    <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
+  </div>
+</form>

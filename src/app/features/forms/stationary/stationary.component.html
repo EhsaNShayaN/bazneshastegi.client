@@ -1,0 +1,41 @@
+<h2 class="text-center mb-2">لوازم تحریر</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+  <div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-xs="50" class="pl-1">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>دریافت کننده لوارم تحریر</mat-label>
+        <mat-select formControlName="prizeReceiver">
+          @for (prizeReceiver of prizeReceivers; track prizeReceiver.lookUpID) {
+            <mat-option [value]="prizeReceiver.lookUpID">{{ prizeReceiver.lookUpName }}</mat-option>
+          }
+        </mat-select>
+        <mat-error *ngIf="form.get('prizeReceiver')?.touched && form.get('prizeReceiver')?.hasError('required')">
+          انتخاب دریافت کننده لوارم تحریر الزامی است
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>مبلغ تسهیلات (ریال)</mat-label>
+        <input matInput type="number" formControlName="loanAmount" onlyNumber class="ltr">
+        <mat-error *ngIf="form.get('loanAmount')?.touched && form.get('loanAmount')?.hasError('required')">
+          مبلغ الزامی است
+        </mat-error>
+        <mat-error *ngIf="form.get('loanAmount')?.touched && form.get('loanAmount')?.hasError('min')">
+          مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <h3>مدارک مورد نیاز</h3>
+  <div formArrayName="attachments">
+    <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
+      <mat-checkbox formControlName="uploaded">{{ att.type }}</mat-checkbox>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="end center">
+    <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
+  </div>
+</form>

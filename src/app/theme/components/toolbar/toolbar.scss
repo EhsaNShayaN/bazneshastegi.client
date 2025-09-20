@@ -1,0 +1,101 @@
+@use '../../../theme/styles/variables' as *;
+
+.blue {
+  background-color: #03a9f4 !important;
+}
+
+.buttons {
+  margin-left: 4px;
+}
+
+.fs2 {
+  font-size: 1.75rem;
+}
+
+.p2 {
+  padding: 2px 16px;
+}
+
+.font-1 {
+  font-size: 1rem;
+}
+
+input {
+  height: 32px;
+  border-radius: 12px;
+  border: solid 2px silver;
+  padding: 0 8px;
+
+  &::placeholder {
+    color: $accent;
+    opacity: 0.5;
+  }
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.menu {
+  min-width: 44px;
+}
+
+.font-sm {
+  font-size: 8pt !important;
+}
+
+.font-sm2 {
+  font-size: 10pt !important;
+}
+
+// sm
+@media screen and (max-width: 480px) {
+  .social {
+    display: none !important;
+  }
+}
+
+::ng-deep {
+  #main-toolbar {
+    .d-block {
+      display: block !important;
+    }
+  }
+
+  body.open {
+    .cdk-overlay-container {
+      top: $top-toolbar-height;
+    }
+
+    .cdk-overlay-connected-position-bounding-box {
+      top: 0 !important;
+    }
+  }
+
+  .cart-menu-panel {
+    max-width: 350px !important;
+  }
+
+  .mat-mdc-menu-content:empty {
+    padding: 0;
+  }
+}
+
+.btn-rounded {
+  padding: 0;
+  white-space: nowrap !important;
+  width: 120px !important;
+
+  &.small {
+    font-size: 8pt !important;
+    border-radius: 0 !important;
+    width: 90px !important;
+  }
+}
+
+.mixing-btn {
+  white-space: normal !important;
+  line-height: 110%;
+  text-align: center;
+}

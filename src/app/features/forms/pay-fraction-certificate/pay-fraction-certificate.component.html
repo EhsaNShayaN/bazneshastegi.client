@@ -1,0 +1,221 @@
+<h2 class="text-center mb-2">گواهی کسر از حقوق</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <h2>ثبت درخواست</h2>
+  <div>
+    <!-- حقوق ضامن -->
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>حقوق ضامن</mat-label>
+          <input matInput formControlName="guarantorSalary" type="number" onlyNumber class="ltr">
+          <mat-error *ngIf="form.get('guarantorSalary')?.touched && form.get('guarantorSalary')?.hasError('required')">حقوق ضامن ضروری است</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>مبلغ مانده کسر از حقوق</mat-label>
+          <input matInput formControlName="amountRemain" type="number" onlyNumber class="ltr">
+          <mat-error *ngIf="form.get('amountRemain')?.touched && form.get('amountRemain')?.hasError('required')">مبلغ مانده کسر از حقوق ضروری است</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="control-row mb-2">
+      <h3>مدارک مورد نیاز</h3>
+      <div formArrayName="attachments">
+        <div *ngFor="let attachment of attachments.controls; let i = index" [formGroupName]="i" class="attachment-row">
+
+          <!-- File type title -->
+          <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
+
+          <!-- File input -->
+          <input type="file" (change)="onFileSelected($event, i)"/>
+
+          <!-- Upload status -->
+          <!--<mat-icon *ngIf="attachment.get('uploaded')?.value" color="primary">check_circle</mat-icon>
+          <mat-icon *ngIf="!attachment.get('uploaded')?.value" color="warn">highlight_off</mat-icon>-->
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div fxLayout="row wrap">
+    <div class="control-row">
+      <mat-checkbox formControlName="includeSalary">درج حقوق در گواهی</mat-checkbox>
+    </div>
+    <div class="control-row">
+      <mat-checkbox formControlName="includeHistory">درج سابقه در گواهی</mat-checkbox>
+    </div>
+  </div>
+
+  <!-- مشخصات وام گیرنده -->
+  <mat-divider class="mb-1"></mat-divider>
+  <h3>مشخصات وام‌گیرنده</h3>
+  <mat-divider class="mt-1"></mat-divider>
+
+  <div formGroupName="borrower" class="mt-3">
+    <div fxLayout="row wrap">
+
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>شماره ملی</mat-label>
+          <input matInput formControlName="nationalCode" required onlyNumber maxlength="10" class="ltr">
+          <mat-error *ngIf="borrower.get('nationalCode')?.touched && borrower.get('nationalCode')?.invalid">شماره ملی معتبر نیست</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>تاریخ تولد</mat-label>
+          <input matInput formControlName="birthDate" type="date">
+          <mat-error *ngIf="borrower.get('birthDate')?.touched && borrower.get('birthDate')?.hasError('required')">تاریخ تولد ضروری است</mat-error>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>نام</mat-label>
+          <input matInput formControlName="firstName">
+          <mat-error *ngIf="borrower.get('firstName')?.touched && borrower.get('firstName')?.hasError('required')">نام ضروری است</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>نام خانوادگی</mat-label>
+          <input matInput formControlName="lastName">
+          <mat-error *ngIf="borrower.get('lastName')?.touched && borrower.get('lastName')?.hasError('required')">ضروری است</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>نسبت</mat-label>
+          <input matInput formControlName="relation">
+          <mat-error *ngIf="borrower.get('relation')?.touched && borrower.get('relation')?.hasError('required')">
+            نسبت الزامی است
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <!-- مشخصات وام دهنده -->
+  <mat-divider class="mb-1"></mat-divider>
+  <h3>مشخصات وام‌دهنده</h3>
+  <mat-divider class="mt-1"></mat-divider>
+
+  <div formGroupName="lender" class="mt-3">
+
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>نام وام دهنده</mat-label>
+          <mat-select formControlName="name" required (selectionChange)="lenderChanged($event)">
+            @for (item of lenders; track item.lookUpID) {
+              <mat-option [value]="item">
+                {{ item.lookUpTypeName }}
+                {{ item.lookUpName }}
+              </mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="lender.get('name')?.touched && lender.get('name')?.hasError('required')">
+            نام وام دهنده را انتخاب نمایید.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>نام شعبه</mat-label>
+          <mat-select formControlName="branchName" required>
+            @for (item of branches; track item.lookUpID) {
+              <mat-option [value]="item">
+                {{ item.lookUpTypeName }}
+                {{ item.lookUpName }}
+              </mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="lender.get('branchName')?.touched && lender.get('branchName')?.hasError('required')">
+            نام شعبه را انتخاب نمایید.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>کد شعبه</mat-label>
+          <input matInput formControlName="branchCode">
+          <mat-error *ngIf="lender.get('branchCode')?.touched && lender.get('branchCode')?.hasError('required')">
+            کد شعبه الزامی است
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>مبلغ وام(ریال)</mat-label>
+          <input matInput formControlName="loanAmount" type="number" onlyNumber class="ltr">
+          <mat-error *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('required')">
+            مبلغ وام الزامی است
+          </mat-error>
+          <mat-error *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('min')">
+            مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>تعداد اقساط</mat-label>
+          <input matInput formControlName="installmentCount" min="1" type="number" onlyNumber class="ltr">
+          <mat-error *ngIf="lender.get('installmentCount')?.touched && lender.get('installmentCount')?.hasError('required')">
+            تعداد اقساط الزامی است
+          </mat-error>
+          <mat-error *ngIf="lender.get('installmentCount')?.touched && lender.get('installmentCount')?.hasError('min')">
+            حداقل باید یک قسط انتخاب شود
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <!-- لیست گواهی کسر از حقوق -->
+  <!--<mat-divider class="mb-1"></mat-divider>
+  <h3>لیست گواهی‌های فعال</h3>
+  <mat-divider class="mt-1"></mat-divider>-->
+
+  @if (dataSource) {
+    <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+      @for (column of columnsToDisplay; track column.key) {
+        <ng-container matColumnDef="{{column.key}}">
+          <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+          <td *matCellDef="let element; let i = index;" mat-cell>
+            @switch (column.key) {
+              @case ('parentId') {
+                {{ element.parentTitle }}
+              }
+              @default {
+                {{ element[column.key] }}
+              }
+            }
+          </td>
+        </ng-container>
+      }
+      <ng-container matColumnDef="expand">
+        <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+      </ng-container>
+      <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
+      <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+      </tr>
+    </table>
+    <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+  }
+
+  <div fxLayout="row wrap" fxLayoutAlign="end center">
+    <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
+  </div>
+</form>

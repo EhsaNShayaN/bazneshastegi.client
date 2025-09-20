@@ -1,0 +1,27 @@
+nav {
+  background: #f4f4f4;
+  padding: 1rem;
+  min-height: 100vh;
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin: 0.5rem 0;
+
+      a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+        padding: 0.5rem;
+        border-radius: 4px;
+
+        &.active {
+          background: #1976d2;
+          color: white;
+        }
+      }
+    }
+  }
+}

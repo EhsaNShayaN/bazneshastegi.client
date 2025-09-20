@@ -1,0 +1,15 @@
+<div id="load-more">
+  <div *ngIf="!settings.loadMore.complete">
+    <button *ngIf="!settings.loadMore.start" mat-raised-button color="primary" (click)="startLoad()" class="uppercase">
+      بیشتر
+    </button>
+    <mat-spinner *ngIf="settings.loadMore.start"></mat-spinner>
+  </div>
+  <mat-chip-listbox *ngIf="settings.loadMore.complete">
+    <mat-chip-option selected disableRipple="true" color="warn" class="uppercase ws-nowrap">
+      <span class="background-color">
+        تعداد کل
+        {{ settings.loadMore.result }}</span>
+    </mat-chip-option>
+  </mat-chip-listbox>
+</div>

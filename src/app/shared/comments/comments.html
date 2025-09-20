@@ -1,0 +1,69 @@
+@if (commentForm) {
+  <mat-card class="p-2 mt-5">
+    <span class="mt-3 font-large ">نظر خود را بیان نمایید:</span>
+    <div class="divider"></div>
+    <form [formGroup]="commentForm" (ngSubmit)="onCommentFormSubmit(commentForm.value)" fxLayout="row wrap"
+          fxLayoutAlign="space-between" class="comment-form">
+      <div class="p-2">
+        <h3 fxLayoutAlign="start center" class="mt-3 text-muted">
+          <span>امتیاز شما:</span>
+          <button *ngFor="let rating of ratings" mat-icon-button [matTooltip]="rating.title" matTooltipPosition="above"
+                  (click)="rate(rating)" class="p-0">
+            <mat-icon class="mat-icon-lg" [class.primary-color]="rating.selected">{{ rating.icon }}</mat-icon>
+          </button>
+        </h3>
+      </div>
+      <div class="p-2 flex-grow-1" *ngIf="!authService.isLoggedIn()">
+        <mat-form-field appearance="outline" class="w-100 mt-3">
+          <mat-label>موبایل</mat-label>
+          <input matInput placeholder="موبایل" formControlName="mobile" required>
+          <mat-error *ngIf="commentForm?.controls['mobile'].errors?.['required']">
+            موبایل الزامی است.
+          </mat-error>
+          <mat-error *ngIf="commentForm.controls.mobile.hasError('invalidMobile')">
+            موبایل نامعتبر است.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" class="p-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>متن نظر</mat-label>
+          <textarea matInput placeholder="متن نظر" formControlName="description" required rows="5"></textarea>
+          <mat-error *ngIf="commentForm.controls['description'].errors?.['required']">
+            متن نظر الزامی است.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" class="text-center w-100">
+        <button mat-raised-button color="primary" type="submit" class="uppercase">ارسال</button>
+      </div>
+    </form>
+    <mat-card-header fxLayoutAlign="center center" *ngIf="items?.length > 0">
+      <mat-card-title class="uppercase">نظرات</mat-card-title>
+    </mat-card-header>
+    <div class="divider" *ngIf="items?.length > 0"></div>
+    <mat-list class="reviews mt-3">
+      <mat-list-item *ngFor="let review of items" class="h-100">
+        <img *ngIf="review.profile?.image" matListItemAvatar [src]="review.profile?.image" alt="image"
+             class="review-author">
+        <h3 fxLayoutAlign="start center">
+          <span class="fw-500">{{ review.profile?.firstName }} {{ review.profile?.lastName }}</span>
+          <mat-icon class="text-muted px-1">{{ review.icon }}</mat-icon>
+        </h3>
+        <p class="text-muted"><small>{{ review.creationDate }}</small></p>
+        <p class="text">{{ review.description }}</p>
+        <div *ngIf="review.answers?.length > 0">
+          <div class="mr-5" *ngFor="let answer of review.answers">
+            <p>
+              ---پاسخ:
+              {{ answer }}
+            </p>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+    <div *ngIf="items?.length" fxFlex="100" fxLayoutAlign="center center">
+      <app-load-more [step]="1"></app-load-more>
+    </div>
+  </mat-card>
+}

@@ -1,0 +1,68 @@
+﻿@font-face {
+  font-family: Alborzchem;
+  font-style: normal;
+  font-weight: bold;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_FD_Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Alborzchem;
+  font-style: normal;
+  font-weight: 500;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_FD_Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Alborzchem;
+  font-style: normal;
+  font-weight: 300;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_FD_Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Alborzchem;
+  font-style: normal;
+  font-weight: 200;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_FD_Thin.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Alborzchem;
+  font-style: normal;
+  font-weight: normal;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_FD_Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: Alborzchem_en;
+  font-style: normal;
+  font-weight: bold;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Alborzchem_en;
+  font-style: normal;
+  font-weight: 500;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Alborzchem_en;
+  font-style: normal;
+  font-weight: 300;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Alborzchem_en;
+  font-style: normal;
+  font-weight: 200;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_Thin.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Alborzchem_en;
+  font-style: normal;
+  font-weight: normal;
+  src: /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('ttf/Alborzchem_Regular.ttf') format('truetype');
+}

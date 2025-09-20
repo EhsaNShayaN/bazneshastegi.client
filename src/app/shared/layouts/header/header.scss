@@ -1,0 +1,40 @@
+.header-toolbar {
+  direction: rtl;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    margin-left: 1rem;
+  }
+
+  .main-menu a {
+    margin: 0 0.5rem;
+    font-weight: 500;
+    color: white;
+  }
+
+  .mobile-toggle {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-toggle {
+      display: inline-flex;
+      color: white;
+    }
+  }
+}
+
+.sidenav-container {
+  direction: rtl;
+  height: 100%;
+}
+
+.mobile-sidenav {
+  width: 250px;
+}

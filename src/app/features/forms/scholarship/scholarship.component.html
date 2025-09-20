@@ -1,0 +1,108 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+
+  <mat-form-field appearance="outline">
+    <mat-label>نام</mat-label>
+    <input matInput formControlName="firstName">
+    <mat-error *ngIf="form.get('firstName')?.hasError('required')">
+      نام الزامی است
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>نام خانوادگی</mat-label>
+    <input matInput formControlName="lastName">
+    <mat-error *ngIf="form.get('lastName')?.hasError('required')">
+      نام خانوادگی الزامی است
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>نسبت</mat-label>
+    <input matInput formControlName="relation">
+    <mat-error *ngIf="form.get('relation')?.hasError('required')">
+      نسبت الزامی است
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>مقطع تحصیلی</mat-label>
+    <input matInput formControlName="grade">
+    <mat-error *ngIf="form.get('grade')?.hasError('required')">
+      مقطع تحصیلی الزامی است
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>مبلغ جایزه (ریال)</mat-label>
+    <input matInput type="number" formControlName="scholarshipAmount">
+    <mat-error *ngIf="form.get('scholarshipAmount')?.hasError('required')">
+      مبلغ جایزه الزامی است
+    </mat-error>
+    <mat-error *ngIf="form.get('scholarshipAmount')?.hasError('min')">
+      مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>نوع درخواست</mat-label>
+    <mat-select formControlName="requestType">
+      <mat-option value="student">دانشجو</mat-option>
+      <mat-option value="pupil">محصل</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('requestType')?.hasError('required')">
+      انتخاب نوع درخواست الزامی است
+    </mat-error>
+  </mat-form-field>
+
+  <h3>مدارک مورد نیاز</h3>
+  <div formArrayName="attachments">
+    <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
+      <mat-checkbox formControlName="uploaded">{{att.type}}</mat-checkbox>
+    </div>
+  </div>
+
+  <h3>وابستگان</h3>
+  <div formArrayName="dependents" class="dependents">
+    <div *ngFor="let dep of dependents.controls; let i=index" [formGroupName]="i" class="dependent-item">
+      <mat-form-field appearance="outline">
+        <mat-label>نام</mat-label>
+        <input matInput formControlName="firstName">
+        <mat-error *ngIf="dep.get('firstName')?.hasError('required')">نام الزامی است</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>نام خانوادگی</mat-label>
+        <input matInput formControlName="lastName">
+        <mat-error *ngIf="dep.get('lastName')?.hasError('required')">نام خانوادگی الزامی است</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>نسبت</mat-label>
+        <input matInput formControlName="relation">
+        <mat-error *ngIf="dep.get('relation')?.hasError('required')">نسبت الزامی است</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>مقطع تحصیلی</mat-label>
+        <input matInput formControlName="grade">
+        <mat-error *ngIf="dep.get('grade')?.hasError('required')">مقطع تحصیلی الزامی است</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>مبلغ دریافتی (اختیاری)</mat-label>
+        <input matInput type="number" formControlName="scholarshipAmount">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>تاریخ دریافت (اختیاری)</mat-label>
+        <input matInput type="date" formControlName="dateReceived">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" type="button" (click)="addDependent()">➕ افزودن وابسته</button>
+
+  <div class="submit-btn">
+    <button mat-raised-button color="accent" type="submit">ثبت درخواست</button>
+  </div>
+</form>

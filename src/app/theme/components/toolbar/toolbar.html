@@ -1,0 +1,40 @@
+<mat-toolbar id="top-toolbar" class="top-toolbar d-none">
+  <div class="theme-container " fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="mr-2">
+      <span class="font-large fw-600" ngClass.xs="font-sm fw-600"></span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <app-social-icons fxLayout="row" fxLayoutAlign="start center" fxShow="false" fxShow.gt-md></app-social-icons>
+      <div fxLayout="row" fxLayoutAlign="start center" class="px-2">
+        <mat-icon color="primary" fxShow.lt-sm="false">call</mat-icon>
+        <div class="px-1">
+          <a href="tel:021xxxxxxxx" class="not-link">xxxxxxxx</a>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxShow="false" fxShow.gt-xs>
+        <mat-icon color="primary">mail</mat-icon>
+        <div class="px-1">
+          <a href="mailto:{{settings.email}}" class="not-link">{{ settings.email }}</a>
+        </div>
+      </div>
+    </div>
+    <div></div>
+    <div fxLayout="row" fxLayoutAlign="end center" class="right-section" ngClass.xs="w-100">
+      @if (!authService.isLoggedIn()) {
+        <a [routerLink]="['/login']" class="background-color not-link">
+          ورود
+        </a>
+      } @else {
+        <app-user-menu></app-user-menu>
+      }
+      <button mat-button class="menu" fxHide="false" fxHide.gt-sm (click)="sidenavToggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-toolbar id="main-toolbar" class="mat-elevation-z2" color="accent">
+  <div class="theme-container0 w-100">
+    <app-header></app-header>
+  </div>
+</mat-toolbar>

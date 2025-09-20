@@ -1,0 +1,72 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+
+  <mat-form-field appearance="outline">
+    <mat-label>شماره کارت</mat-label>
+    <input matInput formControlName="cardNumber">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>نوع صدور</mat-label>
+    <mat-select formControlName="issueType">
+      <mat-option value="first">اولین بار</mat-option>
+      <mat-option value="duplicate">المثنی</mat-option>
+      <mat-option value="fix">رفع نقص</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('issueType')?.hasError('required')">
+      انتخاب نوع صدور الزامی است
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>تاریخ صدور</mat-label>
+    <input matInput type="date" formControlName="issueDate">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="form.get('issueType')?.value === 'duplicate'">
+    <mat-label>شماره کارت قبلی</mat-label>
+    <input matInput formControlName="previousCardNumber">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>توضیحات تقاضا</mat-label>
+    <textarea matInput formControlName="description" rows="3"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>نحوه دریافت</mat-label>
+    <mat-select formControlName="deliveryMethod">
+      <mat-option value="post">پست</mat-option>
+      <mat-option value="inPerson">حضوری</mat-option>
+      <mat-option value="representative">نماینده</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('deliveryMethod')?.hasError('required')">
+      انتخاب نحوه دریافت الزامی است
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="form.get('deliveryMethod')?.value === 'representative'">
+    <mat-label>نام و نام خانوادگی گیرنده</mat-label>
+    <input matInput formControlName="receiverName">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>هزینه صدور (ریال)</mat-label>
+    <input matInput type="number" formControlName="issueCost" readonly>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="form.get('deliveryMethod')?.value === 'post'">
+    <mat-label>هزینه پست (ریال)</mat-label>
+    <input matInput type="number" formControlName="postCost" readonly>
+  </mat-form-field>
+
+  <h3>مدارک مورد نیاز</h3>
+  <div formArrayName="attachments">
+    <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
+      <mat-checkbox formControlName="uploaded">{{att.type}}</mat-checkbox>
+    </div>
+  </div>
+
+  <div class="submit-btn">
+    <button mat-raised-button color="accent" type="submit">ثبت درخواست</button>
+  </div>
+</form>

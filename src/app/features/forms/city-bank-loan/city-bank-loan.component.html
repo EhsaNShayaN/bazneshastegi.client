@@ -1,0 +1,63 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+
+  <mat-form-field appearance="outline">
+    <mat-label>نام شعبه وام‌دهنده</mat-label>
+    <input matInput formControlName="branchName">
+    <mat-error *ngIf="form.get('branchName')?.hasError('required')">
+      نام شعبه الزامی است
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>مبلغ وام درخواستی (ریال)</mat-label>
+    <input matInput type="number" formControlName="requestedAmount">
+    <mat-error *ngIf="form.get('requestedAmount')?.hasError('required')">
+      مبلغ وام الزامی است
+    </mat-error>
+    <mat-error *ngIf="form.get('requestedAmount')?.hasError('min')">
+      مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>تعداد اقساط</mat-label>
+    <input matInput type="number" formControlName="installmentCount">
+    <mat-error *ngIf="form.get('installmentCount')?.hasError('required')">
+      تعداد اقساط الزامی است
+    </mat-error>
+    <mat-error *ngIf="form.get('installmentCount')?.hasError('min')">
+      حداقل باید یک قسط انتخاب شود
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>تاریخ آخرین قسط</mat-label>
+    <input matInput type="date" formControlName="lastInstallmentDate">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>تاریخ دریافت</mat-label>
+    <input matInput type="date" formControlName="receivedDate">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>مبلغ دریافتی</mat-label>
+    <input matInput type="number" formControlName="receivedAmount">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>مانده</mat-label>
+    <input matInput type="number" formControlName="remainingAmount">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>توضیحات</mat-label>
+    <textarea matInput formControlName="description" rows="3"></textarea>
+  </mat-form-field>
+
+  <mat-checkbox formControlName="needGuarantor">نیاز به ضامن</mat-checkbox>
+
+  <div class="submit-btn">
+    <button mat-raised-button color="accent" type="submit">ثبت درخواست</button>
+  </div>
+</form>

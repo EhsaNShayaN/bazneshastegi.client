@@ -1,0 +1,32 @@
+<a mat-button [matMenuTriggerFor]="userMenu" #userMenuTrigger="matMenuTrigger" ngClass.xs="small">
+  <mat-icon class="mat-icon-sm">person</mat-icon>
+  <span fxShow="false" fxShow.gt-sm class="mx-1 uppercase">{{ 'ACCOUNT'}}</span>
+  <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+</a>
+<mat-menu #userMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-menu-panel user-menu">
+    <span (mouseleave)="userMenuTrigger.closeMenu()">
+        <div fxLayout="row" fxLayoutAlign="start center" class="user-info">
+            <img [src]="profile?.image" alt="user-image" width="50">
+            <p class="m-0">{{ profile?.firstName }} {{ profile?.lastName }}
+              <br>
+              <small><i></i></small>
+            </p>
+        </div>
+        <div class="divider"></div>
+      <a mat-menu-item [routerLink]="['/account/profile']">
+          <mat-icon class="mat-icon-sm">person</mat-icon>
+          <span>{{ 'PROFILE'}}</span>
+      </a>
+      @if (authService.isAdmin()) {
+        <a mat-menu-item [routerLink]="['/admin']">
+          <mat-icon class="mat-icon-sm">management</mat-icon>
+          <span>{{ 'MANAGEMENT'}}</span>
+      </a>
+      }
+      <div class="divider"></div>
+      <a mat-menu-item (click)="logout()">
+        <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>
+        <span>{{ 'LOGOUT'}}</span>
+      </a>
+    </span>
+</mat-menu>

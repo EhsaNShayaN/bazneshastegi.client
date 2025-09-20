@@ -1,0 +1,14 @@
+<h4>ثبت نظر</h4>
+<form (ngSubmit)="submitComment()">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>نام شما</mat-label>
+    <input matInput [(ngModel)]="comment.author" name="author" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>نظر شما</mat-label>
+    <textarea matInput [(ngModel)]="comment.text" name="text" required></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary">ارسال نظر</button>
+</form>

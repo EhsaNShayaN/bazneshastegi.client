@@ -1,0 +1,32 @@
+<div class="contact-container">
+  <mat-card>
+    <mat-card-title>تماس با ما</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>نام</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>ایمیل</mat-label>
+          <input matInput formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>پیام</mat-label>
+          <textarea matInput formControlName="message" rows="5"></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">ارسال پیام</button>
+      </form>
+
+      <div class="info">
+        <h3>اطلاعات تماس</h3>
+        <p><strong>تلفن:</strong> 021-12345678</p>
+        <p><strong>ایمیل:</strong> {{ 'info@bazneshastegi.com' }}</p>
+        <p><strong>آدرس:</strong> تهران، خیابان مثال، پلاک ۱۰</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
