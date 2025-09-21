@@ -1,2 +1,1 @@
-C:\works\personal\Bazneshastegi\Bazneshastegi\src\bazneshastegi.client\obj\Debug\bazneshastegi.client.esproj.CoreCompileInputs.cache
-C:\works\personal\Bazneshastegi\src\bazneshastegi.client\obj\Debug\bazneshastegi.client.esproj.CoreCompileInputs.cache
+C:\works\personal\Bazneshastegi\bazneshastegi.client\obj\Debug\bazneshastegi.client.esproj.CoreCompileInputs.cache
