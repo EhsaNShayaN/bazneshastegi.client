@@ -42,3 +42,4 @@ testem.log
 Thumbs.db
 **/obj/
 /obj/
+/obj/Debug/package.g.props
