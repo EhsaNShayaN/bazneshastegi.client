@@ -7,7 +7,7 @@ import {MatSidenav, MatSidenavContainer, MatSidenavContent, MatSidenavModule} fr
 import {MatDivider, MatList, MatListItem, MatListModule, MatNavList} from '@angular/material/list';
 import {MatCard, MatCardActions, MatCardContent, MatCardModule, MatCardTitle} from '@angular/material/card';
 import {MatFormField, MatInput, MatInputModule, MatLabel} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatError, MatFormFieldModule} from '@angular/material/form-field';
 import {CommentForm} from './components/comment-form/comment-form';
 import {TreeViewComponent} from './tree-view/tree-view.component';
 import {MatTooltip} from '@angular/material/tooltip';
@@ -18,7 +18,6 @@ import {DirectivesModule} from '../core/directives/directives.module';
 import {LoadMoreComponent} from './load-more/load-more.component';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatChipListbox, MatChipOption} from '@angular/material/chips';
-import {MobileFormatterPipe} from '../core/pipes/mobile-formatter.pipe';
 import {Comments} from './comments/comments';
 import {DefaultClassDirective, DefaultFlexDirective, DefaultLayoutAlignDirective, DefaultLayoutDirective, DefaultShowHideDirective} from 'ngx-flexible-layout';
 import {ToastrModule} from 'ngx-toastr';
@@ -40,7 +39,6 @@ import {MatPaginator} from '@angular/material/paginator';
     CurrencyFormatterPipe,
     SafeHtmlPipe,
     ReplaceUrlSpacesPipe,
-    MobileFormatterPipe,
     LoadMoreComponent,
     Comments,
   ],
@@ -109,6 +107,7 @@ import {MatPaginator} from '@angular/material/paginator';
     MatRowDef,
     MatTable,
     MatPaginator,
+    MatError,
   ],
   exports: [
     FormsModule,
@@ -117,7 +116,6 @@ import {MatPaginator} from '@angular/material/paginator';
     CurrencyFormatterPipe,
     SafeHtmlPipe,
     ReplaceUrlSpacesPipe,
-    MobileFormatterPipe,
     LoadMoreComponent,
     Comments,
     MatDatepickerModule,
@@ -172,6 +170,7 @@ import {MatPaginator} from '@angular/material/paginator';
     MatRowDef,
     MatTable,
     MatPaginator,
+    MatError,
   ],
   providers: [
     CurrencyFormatterPipe,

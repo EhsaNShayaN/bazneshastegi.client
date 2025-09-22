@@ -1,5 +1,10 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {mobileValidator} from '../../../core/utils/app-validators';
+import {PureComponent} from '../../../pure-component';
+import {RestApiService} from '../../../core/rest-api.service';
+import {Router} from '@angular/router';
+import {LoginForPortalResponse} from '../../../core/models/LoginForPortalResponse';
 
 @Component({
   selector: 'app-login',
@@ -7,20 +12,32 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrl: './login.scss',
   standalone: false,
 })
-export class Login {
-  loginForm: FormGroup;
+export class Login extends PureComponent {
+  form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+  constructor(private restApiService: RestApiService,
+              private router: Router,
+              private fb: FormBuilder) {
+    super();
+    this.form = this.fb.group({
+      nationalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+      cellPhone: [null, Validators.compose([Validators.required, mobileValidator])],
     });
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      const {username, password} = this.loginForm.value;
+    console.log('onSubmit');
+    if (this.form.valid) {
+      const {nationalCode, cellPhone} = this.form.value;
       // ارسال به سرویس ورود...
+      this.restApiService.loginForPortal(nationalCode, cellPhone).subscribe((b: LoginForPortalResponse) => {
+        if (b.data) {
+          this.router.navigate(['/']);
+        }
+      });
+    } else {
+      this.form.markAllAsTouched();
+      console.log(this.findInvalidControls(this.form));
     }
   }
 }

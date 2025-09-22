@@ -14,6 +14,7 @@ import {InsertRequest, InsertRequestComplementary} from '../features/forms/pay-f
 import {InsertResponse} from './models/InsertResponse';
 import {InsertComplementaryResponse} from './models/InsertComplementaryResponse';
 import {RelatedPersonsResponse} from './models/RelatedPersonsResponse';
+import {LoginForPortalResponse} from './models/LoginForPortalResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,12 @@ import {RelatedPersonsResponse} from './models/RelatedPersonsResponse';
 export class RestApiService {
   constructor(private http: HttpClient,
               private authService: AuthService) {
+  }
+
+  loginForPortal(nationalCode: string, cellPhone: string): Observable<any> {
+    return this.http.get<LoginForPortalResponse>(`${endpoint()}forms/loginForPortal?nationalCode=${nationalCode}&cellPhone=${cellPhone}`,).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getPersonInfo(personId: string): Observable<any> {

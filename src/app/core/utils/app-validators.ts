@@ -1,4 +1,4 @@
-import {UntypedFormGroup, UntypedFormControl} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 
 export function emailValidator(control: UntypedFormControl): { [key: string]: any } | null {
   const emailRegexp = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
@@ -18,11 +18,11 @@ export function urlValidator(control: UntypedFormControl): { [key: string]: any 
 
 export function mobileValidator(control: UntypedFormControl): { [key: string]: any } | null {
   const urlRegexp = /^9[0-9]{9}$/i;
-  let mobile = control.value;
+  let mobile = control.value?.toString() ?? '';
   if (!mobile) {
     return null;
   }
-  mobile = mobile.replace(/\+/gi, '').replace(/-/gi, '').replace(/ /gi, '');
+  mobile = mobile?.replace(/\+/gi, '')?.replace(/-/gi, '')?.replace(/ /gi, '') ?? '';
   if (mobile.startsWith('0')) {
     mobile = mobile.substring(1, mobile.length);
   }

@@ -1,19 +1,41 @@
 <div class="login-container">
   <mat-card class="login-card">
-    <h2>ورود به حساب کاربری</h2>
+    <h2 class="mb-2">ورود به حساب کاربری</h2>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>نام کاربری</mat-label>
-        <input matInput formControlName="username" required>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>رمز عبور</mat-label>
-        <input matInput type="password" formControlName="password" required>
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>کدملی</mat-label>
+          <input matInput type="text" formControlName="nationalCode" required
+                 [minLength]="10" [maxLength]="10" onlyNumber class="ltr">
+        </mat-form-field>
+        @if (form.get('nationalCode')?.touched) {
+          <mat-error *ngIf="form.get('nationalCode')?.hasError('required')">
+            کدملی الزامی است.
+          </mat-error>
+          <mat-error *ngIf="form.get('nationalCode')?.hasError('minlength')">
+            کدملی باید 10 کاراکتر باشد.
+          </mat-error>
+          <mat-error *ngIf="form.get('nationalCode')?.hasError('maxlength')">
+            کدملی باید 10 کاراکتر باشد.
+          </mat-error>
+        }
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>موبایل</mat-label>
+          <input matInput type="number" formControlName="cellPhone" required onlyNumber class="ltr" [maxLength]="12">
+        </mat-form-field>
+        @if (form.get('cellPhone')?.touched) {
+          <mat-error *ngIf="form.get('cellPhone')?.hasError('required')">
+            موبایل الزامی است.
+          </mat-error>
+          <mat-error *ngIf="form.get('cellPhone')?.hasError('invalidMobile')">
+            موبایل نامعتبر است.
+          </mat-error>
+        }
+      </div>
+      <button mat-raised-button color="primary" type="submit">
         ورود
       </button>
     </form>
