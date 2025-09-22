@@ -5,6 +5,7 @@ import {PureComponent} from '../../../pure-component';
 import {RestApiService} from '../../../core/rest-api.service';
 import {Router} from '@angular/router';
 import {LoginForPortalResponse} from '../../../core/models/LoginForPortalResponse';
+import {AuthService} from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class Login extends PureComponent {
 
   constructor(private restApiService: RestApiService,
               private router: Router,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private auth: AuthService) {
     super();
     this.form = this.fb.group({
       nationalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
@@ -32,6 +34,7 @@ export class Login extends PureComponent {
       // ارسال به سرویس ورود...
       this.restApiService.loginForPortal(nationalCode, cellPhone).subscribe((b: LoginForPortalResponse) => {
         if (b.data) {
+          this.auth.login(b.data.token);
           this.router.navigate(['/']);
         }
       });

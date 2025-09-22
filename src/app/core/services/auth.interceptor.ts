@@ -18,10 +18,6 @@ export class AuthInterceptor implements HttpInterceptor {
       });
       return next.handle(cloned);
     }
-    const lang = localStorage.getItem('lang') ?? 'fa';
-    req = req.clone({
-      headers: req.headers.set('Accept-Language', lang),
-    });
     return next.handle(req);
   }
 }

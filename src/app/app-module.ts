@@ -27,6 +27,7 @@ import {JwtModule} from '@auth0/angular-jwt';
 import {BidiModule} from '@angular/cdk/bidi';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Forms} from './features/forms/forms';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -72,6 +73,7 @@ export function tokenGetter() {
     provideHttpClient(),
     AppSettings,
     {provide: UrlSerializer, useClass: LowerCaseUrlSerializer},
+    AuthGuard,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   ],
   exports: [],

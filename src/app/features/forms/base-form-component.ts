@@ -19,7 +19,7 @@ export class BaseFormComponent extends BaseComponent implements OnInit, OnDestro
 
   constructor() {
     super();
-    this.restApiService.getPersonInfo('R78').subscribe((b: PersonInfoResponse) => {
+    this.restApiService.getPersonInfo().subscribe((b: PersonInfoResponse) => {
       this.personInfo = b.data;
       this.personInfoSubject.next(b.data);
     });

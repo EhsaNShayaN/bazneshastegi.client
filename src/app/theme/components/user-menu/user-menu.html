@@ -17,12 +17,6 @@
           <mat-icon class="mat-icon-sm">person</mat-icon>
           <span>{{ 'PROFILE'}}</span>
       </a>
-      @if (authService.isAdmin()) {
-        <a mat-menu-item [routerLink]="['/admin']">
-          <mat-icon class="mat-icon-sm">management</mat-icon>
-          <span>{{ 'MANAGEMENT'}}</span>
-      </a>
-      }
       <div class="divider"></div>
       <a mat-menu-item (click)="logout()">
         <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>

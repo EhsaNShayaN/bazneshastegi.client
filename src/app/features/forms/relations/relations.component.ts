@@ -50,7 +50,7 @@ export class RelationsComponent extends BaseFormComponent {
   override ngOnInit() {
     super.ngOnInit();
 
-    this.restApiService.getRelatedPersons('R78').subscribe((b: RelatedPersonsResponse) => {
+    this.restApiService.getRelatedPersons().subscribe((b: RelatedPersonsResponse) => {
       this.initDataSource(b);
     });
   }

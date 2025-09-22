@@ -30,14 +30,14 @@ export class RestApiService {
     );
   }
 
-  getPersonInfo(personId: string): Observable<any> {
-    return this.http.get<PersonInfoResponse>(`${endpoint()}forms/personInfo?personId=${personId}`,).pipe(
+  getPersonInfo(): Observable<any> {
+    return this.http.get<PersonInfoResponse>(`${endpoint()}forms/personInfo`,).pipe(
       catchError(this.handleError)
     );
   }
 
-  getRelatedPersons(personId: string): Observable<any> {
-    return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/relatedPersons?personId=${personId}`,).pipe(
+  getRelatedPersons(): Observable<any> {
+    return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/relatedPersons`,).pipe(
       catchError(this.handleError)
     );
   }
