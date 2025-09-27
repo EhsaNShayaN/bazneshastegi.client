@@ -13,7 +13,11 @@
     <a mat-button [routerLink]="'/'">خانه</a>
     <!--<a mat-button [routerLink]="'/forms/pay-fraction-certificate'">گواهی کسر از حقوق</a>
     <a mat-button [routerLink]="'/forms/salary-certificate'">گواهی حقوق</a>-->
-    <a mat-button [routerLink]="'/auth/login'">ورود</a>
+    @if (authService.isLoggedIn()) {
+      <a mat-button [routerLink]="'/auth/logout'">خروج</a>
+    } @else {
+      <a mat-button [routerLink]="'/auth/login'">ورود</a>
+    }
   </nav>
 </mat-toolbar>
 

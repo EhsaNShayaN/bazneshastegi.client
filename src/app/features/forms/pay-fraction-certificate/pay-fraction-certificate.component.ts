@@ -9,8 +9,8 @@ import {LookUpData, LookUpDataResponse} from '../../../core/models/LookUpRespons
 import {MatSelectChange} from '@angular/material/select';
 import {InsertResponse} from '../../../core/models/InsertResponse';
 import {CustomConstants} from '../../../core/constants/custom.constants';
-import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
 import {BaseFormComponent} from '../base-form-component';
+import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
 
 @Component({
   selector: 'app-pay-fraction-certificate',
@@ -127,28 +127,36 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         requestFrom: 2,
       };
       this.restApiService.insert(insert).subscribe((c: InsertResponse) => {
-        console.log(c.data);
-        const insertComplementary: InsertRequestComplementary = {
-          requestID: c.data.requestID,
-          personID: this.personInfo!.personID,
-          ceremonyDate: new Date(),
-          insertPayAmountInCertificate: request.includeSalary,
-          insertDurationInCertificate: request.includeHistory,
-          applicantNationalCode: request.borrower.nationalCode,
-          applicantBirthDate: request.borrower.birthDate,
-          applicantFirstName: request.borrower.firstName,
-          applicantLastName: request.borrower.lastName,
-          applicantRelationship: request.borrower.relation,
-          facilityAmount: request.lender.loanAmount,
-          facilityInstalementCount: request.lender.installmentCount,
-        };
-        this.restApiService.insertComplementary(insertComplementary).subscribe((d: InsertComplementaryResponse) => {
-          console.log(d);
-          this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
-          this.form.reset();
-          this.form.markAsPristine();
-          this.form.markAsUntouched();
-        });
+        if (c.isSuccess) {
+          console.log(c);
+          const insertComplementary: InsertRequestComplementary = {
+            requestID: c.data.requestID,
+            personID: this.personInfo!.personID,
+            ceremonyDate: new Date(),
+            insertPayAmountInCertificate: request.includeSalary,
+            insertDurationInCertificate: request.includeHistory,
+            applicantNationalCode: request.borrower.nationalCode,
+            applicantBirthDate: request.borrower.birthDate,
+            applicantFirstName: request.borrower.firstName,
+            applicantLastName: request.borrower.lastName,
+            applicantRelationship: request.borrower.relation,
+            facilityAmount: request.lender.loanAmount,
+            facilityInstalementCount: request.lender.installmentCount,
+          };
+          this.restApiService.insertComplementary(insertComplementary).subscribe((d: InsertComplementaryResponse) => {
+            console.log(d);
+            if (d.isSuccess) {
+              this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
+              this.form.reset();
+              this.form.markAsPristine();
+              this.form.markAsUntouched();
+            } else {
+              this.toaster.error(c.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+            }
+          });
+        } else {
+          this.toaster.error(c.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+        }
       });
     } else {
       this.form.markAllAsTouched();

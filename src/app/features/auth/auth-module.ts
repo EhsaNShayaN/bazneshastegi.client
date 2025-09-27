@@ -6,11 +6,13 @@ import {Login} from './login/login';
 import {Register} from './register/register';
 import {ForgotPassword} from './forgot-password/forgot-password';
 import {SharedModule} from '../../shared/shared-module';
+import {Logout} from './logout/logout';
 
 @NgModule({
   declarations: [
     Auth,
     Login,
+    Logout,
     Register,
     ForgotPassword
   ],

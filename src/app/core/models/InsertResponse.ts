@@ -1,5 +1,6 @@
-export interface InsertResponse {
-  data: InsertInfo;
+import {BaseResult} from "./BaseResult";
+
+export interface InsertResponse extends BaseResult<InsertInfo> {
 }
 
 export interface InsertInfo {

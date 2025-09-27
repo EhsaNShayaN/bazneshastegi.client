@@ -1,5 +1,6 @@
-export interface InsertComplementaryResponse {
-  data: InsertComplementaryInfo;
+import {BaseResult} from './BaseResult';
+
+export interface InsertComplementaryResponse extends BaseResult<InsertComplementaryInfo> {
 }
 
 export class InsertComplementaryInfo {
