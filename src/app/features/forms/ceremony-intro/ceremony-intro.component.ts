@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, Validators} from '@angular/forms';
 import {CeremonyIntroRequest} from './ceremony-intro.model';
+import {BaseFormComponent} from '../base-form-component';
 
 @Component({
   selector: 'app-ceremony-intro',
@@ -8,10 +9,12 @@ import {CeremonyIntroRequest} from './ceremony-intro.model';
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class CeremonyIntroComponent {
-  form: FormGroup;
+export class CeremonyIntroComponent extends BaseFormComponent {
+  constructor() {
+    super();
+  }
 
-  constructor(private fb: FormBuilder) {
+  override createForm() {
     this.form = this.fb.group({
       ceremonyType: ['', Validators.required],
       introduceTo: ['', Validators.required],
@@ -20,10 +23,7 @@ export class CeremonyIntroComponent {
       inviteesCount: [null],
       forWhom: ['self', Validators.required],
       dependents: this.fb.array([]),
-      attachments: this.fb.array([
-        this.fb.group({type: 'کپی شناسنامه', uploaded: [false]}),
-        this.fb.group({type: 'کپی گواهی بهزیستی', uploaded: [false]})
-      ])
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
     });
   }
 

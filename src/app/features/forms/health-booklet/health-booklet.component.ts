@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HealthBookletRequest } from './health-booklet.model';
+import {Component, OnInit} from '@angular/core';
+import {Validators} from '@angular/forms';
+import {HealthBookletRequest} from './health-booklet.model';
+import {BaseFormComponent} from '../base-form-component';
 
 @Component({
   selector: 'app-health-booklet',
@@ -8,11 +9,14 @@ import { HealthBookletRequest } from './health-booklet.model';
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class HealthBookletComponent {
-  form: FormGroup;
+export class HealthBookletComponent extends BaseFormComponent implements OnInit {
   uploadedFileName: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
+    super();
+  }
+
+  override createForm() {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -22,18 +26,18 @@ export class HealthBookletComponent {
       deliveryMethod: ['', Validators.required],
       deliveryCost: [250000],
       photo: [null],
-      attachments: this.fb.array([
-        this.fb.group({ type: 'کپی شناسنامه', uploaded: [false] }),
-        this.fb.group({ type: 'کپی کارت ملی', uploaded: [false] })
-      ])
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
     });
+  }
+
+  ngOnInit() {
   }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.uploadedFileName = file.name;
-      this.form.patchValue({ photo: file });
+      this.form.patchValue({photo: file});
     }
   }
 

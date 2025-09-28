@@ -1,8 +1,10 @@
 import {isPlatformBrowser} from '@angular/common';
-import {Component, ViewChild, HostListener, Inject, PLATFORM_ID} from '@angular/core';
+import {Component, HostListener, Inject, PLATFORM_ID, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {Settings, AppSettings} from '../app.settings';
+import {AppSettings, Settings} from '../app.settings';
 import {PureComponent} from '../pure-component';
+import {PersonInfo, PersonInfoResponse} from '../core/models/PersonInfoResponse';
+import {RestApiService} from '../core/rest-api.service';
 
 @Component({
   selector: 'app-pages',
@@ -18,15 +20,20 @@ export class Pages extends PureComponent {
   public showBackToTop = false;
   public scrolledCount = 0;
   public settings: Settings;
+  personInfo: PersonInfo | null = null;
 
   constructor(public appSettings: AppSettings,
               public router: Router,
+              private restApiService: RestApiService,
               @Inject(PLATFORM_ID) private platformId: any) {
     super();
     this.settings = this.appSettings.settings;
     this.toolbarTypeOption = this.settings.toolbar;
     this.headerTypeOption = this.settings.header;
     this.searchPanelVariantOption = this.settings.searchPanelVariant;
+    this.restApiService.getPersonInfo().subscribe((b: PersonInfoResponse) => {
+      this.personInfo = b.data;
+    });
   }
 
   @HostListener('window:scroll') onWindowScroll() {

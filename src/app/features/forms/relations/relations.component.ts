@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormArray, Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
 import {CustomConstants} from '../../../core/constants/custom.constants';
 import {MatTableDataSource} from '@angular/material/table';
@@ -13,8 +13,7 @@ import {RelatedPersons, RelatedPersonsResponse} from '../../../core/models/Relat
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class RelationsComponent extends BaseFormComponent {
-  form: FormGroup;
+export class RelationsComponent extends BaseFormComponent implements OnInit {
   dataSource: MatTableDataSource<RelatedPersons> | null = null;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
@@ -28,8 +27,11 @@ export class RelationsComponent extends BaseFormComponent {
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     super();
+  }
+
+  override createForm() {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -38,18 +40,11 @@ export class RelationsComponent extends BaseFormComponent {
       loanAmount: [null, [Validators.required, Validators.min(1000)]],
       requestType: ['', Validators.required], // محصل یا دانشجو
       dependents: this.fb.array([]),
-      attachments: this.fb.array([
-        this.fb.group({type: 'کپی شناسنامه', uploaded: [false]}),
-        this.fb.group({type: 'کپی کارت ملی', uploaded: [false]})
-      ])
-    });
-    this.sub2 = this.personInfoSubject.subscribe(data => {
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
     });
   }
 
-  override ngOnInit() {
-    super.ngOnInit();
-
+  ngOnInit() {
     this.restApiService.getRelatedPersons().subscribe((b: RelatedPersonsResponse) => {
       this.initDataSource(b);
     });

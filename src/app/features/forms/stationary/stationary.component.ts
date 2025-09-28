@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Validators} from '@angular/forms';
 import {StationaryRequest} from './stationary.model';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
@@ -14,12 +14,14 @@ import {LookUpData, LookUpDataResponse} from '../../../core/models/LookUpRespons
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class StationaryComponent extends BaseFormComponent {
-  form: FormGroup;
+export class StationaryComponent extends BaseFormComponent implements OnInit {
   prizeReceivers: LookUpData[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     super();
+  }
+
+  override createForm() {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -28,17 +30,11 @@ export class StationaryComponent extends BaseFormComponent {
       loanAmount: [null, [Validators.required, Validators.min(1000)]],
       prizeReceiver: ['', Validators.required], // محصل یا دانشجو
       dependents: this.fb.array([]),
-      attachments: this.fb.array([
-        this.fb.group({type: 'کپی شناسنامه', uploaded: [false]}),
-        this.fb.group({type: 'کپی کارت ملی', uploaded: [false]})
-      ])
-    });
-    this.sub2 = this.personInfoSubject.subscribe(data => {
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
     });
   }
 
-  override ngOnInit() {
-    super.ngOnInit();
+  ngOnInit() {
     this.restApiService.getLookupData('PrizeReceiver', null).subscribe((a: LookUpDataResponse) => {
       this.prizeReceivers = a.data;
     });

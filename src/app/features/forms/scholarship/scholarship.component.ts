@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ScholarshipRequest } from './scholarship.model';
+import {Component} from '@angular/core';
+import {FormArray, Validators} from '@angular/forms';
+import {ScholarshipRequest} from './scholarship.model';
+import {BaseFormComponent} from '../base-form-component';
 
 @Component({
   selector: 'app-scholarship',
@@ -8,10 +9,12 @@ import { ScholarshipRequest } from './scholarship.model';
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class ScholarshipComponent {
-  form: FormGroup;
+export class ScholarshipComponent extends BaseFormComponent {
+  constructor() {
+    super();
+  }
 
-  constructor(private fb: FormBuilder) {
+  override createForm() {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -20,10 +23,7 @@ export class ScholarshipComponent {
       scholarshipAmount: [null, [Validators.required, Validators.min(1000)]],
       requestType: ['', Validators.required],
       dependents: this.fb.array([]),
-      attachments: this.fb.array([
-        this.fb.group({ type: 'کپی شناسنامه', uploaded: [false] }),
-        this.fb.group({ type: 'کپی کارت ملی', uploaded: [false] })
-      ])
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
     });
   }
 

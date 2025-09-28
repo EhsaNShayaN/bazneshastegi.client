@@ -1,5 +1,6 @@
-export interface PersonInfoResponse {
-  data: PersonInfo;
+import {BaseResult} from "./BaseResult";
+
+export interface PersonInfoResponse extends BaseResult<PersonInfo> {
 }
 
 export class PersonInfo {
@@ -10,7 +11,7 @@ export class PersonInfo {
   personLastName!: string;
   personFatherName!: string;
   personCertificateNo!: string;
-  personBirthDate!: Date;
+  personBirthDate!: string;
   personAddress!: string;
   personPostalCode!: string;
   personRegion!: string | null;

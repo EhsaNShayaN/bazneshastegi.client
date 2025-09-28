@@ -12,6 +12,34 @@
     <header [ngClass]="'toolbar-' + settings.toolbar" [class.main-toolbar-fixed]="settings.mainToolbarFixed">
       <app-toolbar (onMenuIconClick)="sidenav.toggle()"></app-toolbar>
     </header>
+    <mat-card class="theme-container my-3">
+      @if (personInfo) {
+        <mat-card-content class="bg-primary background-color">
+          <div fxFlex="row wrap">
+            <div fxFlex="100" fxFlex.gt-xs="20">
+              نام:
+              {{ personInfo.personFirstName }}
+            </div>
+            <div fxFlex="100" fxFlex.gt-xs="20">
+              نام خانوادگی:
+              {{ personInfo.personLastName }}
+            </div>
+            <div fxFlex="100" fxFlex.gt-xs="20">
+              شماره بازنشستگی:
+              {{ personInfo.retiredID }}
+            </div>
+            <div fxFlex="100" fxFlex.gt-xs="20">
+              کد ملی:
+              {{ personInfo.personNationalCode }}
+            </div>
+            <div fxFlex="100" fxFlex.gt-xs="20">
+              وضعیت اشتغال:
+              {{ personInfo.pensionaryStatusName }}
+            </div>
+          </div>
+        </mat-card-content>
+      }
+    </mat-card>
     <main [class.content-offset-to-top]="settings.contentOffsetToTop" class="theme-container my-2">
       <router-outlet (activate)="activateComponent($event)"></router-outlet>
     </main>

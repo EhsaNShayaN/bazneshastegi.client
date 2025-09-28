@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Validators} from '@angular/forms';
 import {WelfareCardRequest} from './welfare-card.model';
+import {BaseFormComponent} from '../base-form-component';
 
 @Component({
   selector: 'app-welfare-card',
@@ -8,10 +9,12 @@ import {WelfareCardRequest} from './welfare-card.model';
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class WelfareCardComponent {
-  form: FormGroup;
+export class WelfareCardComponent extends BaseFormComponent {
+  constructor() {
+    super();
+  }
 
-  constructor(private fb: FormBuilder) {
+  override createForm(): void {
     this.form = this.fb.group({
       cardNumber: [''],
       issueType: ['', Validators.required],
@@ -22,10 +25,7 @@ export class WelfareCardComponent {
       receiverName: [''],
       issueCost: [150000, Validators.required],
       postCost: [250000],
-      attachments: this.fb.array([
-        this.fb.group({type: 'کپی شناسنامه', uploaded: [false]}),
-        this.fb.group({type: 'کپی کارت ملی', uploaded: [false]})
-      ])
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
     });
   }
 

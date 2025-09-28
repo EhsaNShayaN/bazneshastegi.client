@@ -1,8 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormGroup, Validators} from '@angular/forms';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {Helpers} from '../../../core/helpers';
 import {MatTableDataSource} from '@angular/material/table';
 import {InsertRequest, InsertRequestComplementary, PayFractionCertificate} from './pay-fraction-certificate.model';
 import {LookUpData, LookUpDataResponse} from '../../../core/models/LookUpResponse';
@@ -19,7 +18,6 @@ import {InsertComplementaryResponse} from '../../../core/models/InsertComplement
   standalone: false
 })
 export class PayFractionCertificateComponent extends BaseFormComponent implements OnInit {
-  form: FormGroup;
   dataSource: MatTableDataSource<any> | null = null;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | undefined;
   @ViewChild(MatSort, {static: true}) sort: MatSort | undefined;
@@ -37,28 +35,26 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   lenders: LookUpData[] = [];
   branches: LookUpData[] = [];
 
-  constructor(private fb: FormBuilder,
-              private helpers: Helpers) {
+  constructor() {
     super();
+  }
+
+  override createForm(): void {
     this.form = this.fb.group({
-      guarantorSalary: ['', Validators.required],
-      amountRemain: ['', Validators.required],
+      guarantorSalary: [{value: this.personInfo!.payAmount, disabled: true}, Validators.required],
+      amountRemain: [{value: this.personInfo!.remainedAmountForCertificate, disabled: true}, Validators.required],
       includeSalary: [false],
       includeHistory: [false],
-      attachments: this.fb.array([
-        this.fb.group({type: 'کپی شناسنامه', uploaded: [false]}),
-        this.fb.group({type: 'کپی کارت ملی', uploaded: [false]})
-      ]),
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
 
       // مشخصات وام گیرنده
       borrower: this.fb.group({
         nationalCode: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-        firstName: [{value: '', disabled: true}, Validators.required],
-        lastName: [{value: '', disabled: true}, Validators.required],
+        firstName: [{value: '', disabled: false}, Validators.required],
+        lastName: [{value: '', disabled: false}, Validators.required],
         birthDate: ['', Validators.required],
         relation: ['']
       }),
-
       // مشخصات وام دهنده
       lender: this.fb.group({
         name: ['', Validators.required],
@@ -74,12 +70,9 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         other: ['']
       }),
     });
-    this.sub2 = this.personInfoSubject.subscribe(data => {
-      this.form.get('amountRemain')?.setValue(this.personInfo?.remainedAmountForCertificate);
-    });
   }
 
-  override ngOnInit(): void {
+  ngOnInit(): void {
     this.helpers.setPaginationLang();
     this.restApiService.getLookupData('Bank', null).subscribe((a: LookUpDataResponse) => {
       this.lenders = a.data;
@@ -110,6 +103,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   }
 
   submit() {
+    this.form.getRawValue().bo
     if (this.form.valid) {
       console.log(this.form.getRawValue());
       const request: PayFractionCertificate = this.form.getRawValue();
@@ -136,7 +130,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
             insertPayAmountInCertificate: request.includeSalary,
             insertDurationInCertificate: request.includeHistory,
             applicantNationalCode: request.borrower.nationalCode,
-            applicantBirthDate: request.borrower.birthDate,
+            applicantBirthDate: this.toGeorgianDate(request.borrower.birthDate),
             applicantFirstName: request.borrower.firstName,
             applicantLastName: request.borrower.lastName,
             applicantRelationship: request.borrower.relation,

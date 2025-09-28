@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Validators} from '@angular/forms';
 import {CityBankLoanRequest} from './city-bank-loan.model';
+import {BaseFormComponent} from '../base-form-component';
 
 @Component({
   selector: 'app-city-bank-loan',
@@ -8,10 +9,12 @@ import {CityBankLoanRequest} from './city-bank-loan.model';
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class CityBankLoanComponent {
-  form: FormGroup;
+export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
+  constructor() {
+    super();
+  }
 
-  constructor(private fb: FormBuilder) {
+  override createForm() {
     this.form = this.fb.group({
       branchName: ['', Validators.required],
       requestedAmount: [null, [Validators.required, Validators.min(1000)]],
@@ -21,8 +24,12 @@ export class CityBankLoanComponent {
       receivedAmount: [null],
       remainingAmount: [null],
       description: [''],
-      needGuarantor: [false, Validators.required]
+      needGuarantor: [false, Validators.required],
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
     });
+  }
+
+  ngOnInit() {
   }
 
   submit() {

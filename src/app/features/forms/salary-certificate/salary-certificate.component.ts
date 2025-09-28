@@ -1,12 +1,11 @@
-import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Validators} from '@angular/forms';
 import {SalaryCertificate} from './salary-certificate.model';
 import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
 import {CustomConstants} from '../../../core/constants/custom.constants';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertResponse} from '../../../core/models/InsertResponse';
 import {BaseFormComponent} from '../base-form-component';
-import {CurrencyFormatterPipe} from '../../../core/pipes/currency-formatter.pipe';
 
 @Component({
   selector: 'app-salary-certificate',
@@ -14,27 +13,25 @@ import {CurrencyFormatterPipe} from '../../../core/pipes/currency-formatter.pipe
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class SalaryCertificateComponent extends BaseFormComponent {
-  form: FormGroup;
+export class SalaryCertificateComponent extends BaseFormComponent implements OnInit {
 
-  constructor(private currencyFormatter: CurrencyFormatterPipe,
-              private fb: FormBuilder) {
+  constructor() {
     super();
+  }
+
+  override createForm() {
     this.form = this.fb.group({
       organization: ['', Validators.required],
-      payAmount: [{value: null, disabled: true}, [Validators.required, Validators.min(1000)]],
-      retirementDate: [{value: null, disabled: true}],
-      retiredRealDuration: [{value: null, disabled: true}],
+      payAmount: [{value: this.personInfo?.payAmount, disabled: true}, [Validators.required, Validators.min(1000)]],
+      retirementDate: [{value: this.personInfo?.retirementDate.substring(0, 10), disabled: true}],
+      retiredRealDuration: [{value: this.personInfo?.retiredRealDurationYEAR, disabled: true}],
       includeSalary: [false],
       includeHistory: [false],
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
     });
-    this.sub2 = this.personInfoSubject.subscribe(data => {
-      if (data) {
-        this.form.get('payAmount')?.setValue(this.currencyFormatter.transform(this.personInfo!.payAmount));
-        this.form.get('retirementDate')?.setValue(this.personInfo!.retirementDate.substring(0, 10));
-        this.form.get('retiredRealDuration')?.setValue(this.personInfo!.retiredRealDurationYEAR);
-      }
-    });
+  }
+
+  ngOnInit() {
   }
 
   submit() {
@@ -65,7 +62,7 @@ export class SalaryCertificateComponent extends BaseFormComponent {
             applicantNationalCode: this.personInfo!.personNationalCode,
             applicantFirstName: this.personInfo!.personFirstName,
             applicantLastName: this.personInfo!.personLastName,
-            applicantBirthDate: this.personInfo!.personBirthDate,
+            applicantBirthDate: this.toGeorgianDate(this.personInfo!.personBirthDate),
             facilityGiverDesc: request.organization
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((d: InsertComplementaryResponse) => {

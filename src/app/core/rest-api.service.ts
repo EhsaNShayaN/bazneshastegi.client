@@ -1,6 +1,6 @@
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {map, Observable, throwError} from 'rxjs';
+import {BehaviorSubject, map, Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {endpoint} from './services/cookie-utils';
 import {AddResourceRequest, Resource, ResourceRequest, ResourceResponse, ResourcesRequest} from './models/ResourceResponse';
@@ -9,17 +9,20 @@ import {ResourceCategoriesResponse} from './models/ResourceCategoryResponse';
 import {AuthService} from './services/auth.service';
 import {RequestTypeResponse} from './models/RequestTypeResponse';
 import {LookUpDataResponse} from './models/LookUpResponse';
-import {PersonInfoResponse} from './models/PersonInfoResponse';
+import {PersonInfo, PersonInfoResponse} from './models/PersonInfoResponse';
 import {InsertRequest, InsertRequestComplementary} from '../features/forms/pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertResponse} from './models/InsertResponse';
 import {InsertComplementaryResponse} from './models/InsertComplementaryResponse';
 import {RelatedPersonsResponse} from './models/RelatedPersonsResponse';
 import {LoginForPortalResponse} from './models/LoginForPortalResponse';
+import {RequestTypeAttachmentResponse} from './models/RequestTypeAttachmentResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestApiService {
+  personInfoSubject: BehaviorSubject<PersonInfo | null> = new BehaviorSubject<PersonInfo | null>(null);
+
   constructor(private http: HttpClient,
               private authService: AuthService) {
   }
@@ -31,13 +34,24 @@ export class RestApiService {
   }
 
   getPersonInfo(): Observable<any> {
-    return this.http.get<PersonInfoResponse>(`${endpoint()}forms/personInfo`,).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<PersonInfoResponse>(`${endpoint()}forms/personInfo`)
+      .pipe(catchError(this.handleError),
+        map((d: PersonInfoResponse) => {
+          if (d.isSuccess) {
+            this.personInfoSubject.next(d.data);
+          }
+          return d;
+        }));
   }
 
   getRelatedPersons(): Observable<any> {
     return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/relatedPersons`,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getRequestTypeAttachment(requestTypeID: string): Observable<any> {
+    return this.http.get<RequestTypeAttachmentResponse>(`${endpoint()}forms/requestTypeAttachment?requestTypeID=${requestTypeID}`,).pipe(
       catchError(this.handleError)
     );
   }

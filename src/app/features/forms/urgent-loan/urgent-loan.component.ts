@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Validators} from '@angular/forms';
 import {UrgentLoanRequest} from './urgent-loan.model';
+import {BaseFormComponent} from '../base-form-component';
 
 @Component({
   selector: 'app-urgent-loan',
@@ -8,10 +9,12 @@ import {UrgentLoanRequest} from './urgent-loan.model';
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class UrgentLoanComponent {
-  form: FormGroup;
+export class UrgentLoanComponent extends BaseFormComponent {
+  constructor() {
+    super();
+  }
 
-  constructor(private fb: FormBuilder) {
+  override createForm() {
     this.form = this.fb.group({
       requestedAmount: [null, [Validators.required, Validators.min(1000)]],
       installmentCount: [null, [Validators.required, Validators.min(1)]],
@@ -21,10 +24,7 @@ export class UrgentLoanComponent {
       lastInstallmentDate: [''],
       installmentAmount: [null],
       description: [''],
-      attachments: this.fb.array([
-        this.fb.group({type: 'کپی شناسنامه', uploaded: [false]}),
-        this.fb.group({type: 'کپی کارت ملی', uploaded: [false]})
-      ])
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
     });
   }
 
