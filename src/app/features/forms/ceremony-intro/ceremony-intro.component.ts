@@ -23,7 +23,7 @@ export class CeremonyIntroComponent extends BaseFormComponent {
       inviteesCount: [null],
       forWhom: ['self', Validators.required],
       dependents: this.fb.array([]),
-      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
     });
   }
 

@@ -45,7 +45,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
       amountRemain: [{value: this.personInfo!.remainedAmountForCertificate, disabled: true}, Validators.required],
       includeSalary: [false],
       includeHistory: [false],
-      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
 
       // مشخصات وام گیرنده
       borrower: this.fb.group({
@@ -103,7 +103,6 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   }
 
   submit() {
-    this.form.getRawValue().bo
     if (this.form.valid) {
       console.log(this.form.getRawValue());
       const request: PayFractionCertificate = this.form.getRawValue();
@@ -120,11 +119,11 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         insertUserID: 'baz-1',
         requestFrom: 2,
       };
-      this.restApiService.insert(insert).subscribe((c: InsertResponse) => {
-        if (c.isSuccess) {
-          console.log(c);
+      this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
+        if (a.isSuccess) {
+          console.log(a);
           const insertComplementary: InsertRequestComplementary = {
-            requestID: c.data.requestID,
+            requestID: a.data.requestID,
             personID: this.personInfo!.personID,
             ceremonyDate: new Date(),
             insertPayAmountInCertificate: request.includeSalary,
@@ -137,19 +136,29 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
             facilityAmount: request.lender.loanAmount,
             facilityInstalementCount: request.lender.installmentCount,
           };
-          this.restApiService.insertComplementary(insertComplementary).subscribe((d: InsertComplementaryResponse) => {
-            console.log(d);
-            if (d.isSuccess) {
+          this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
+            console.log(b);
+
+            /*const insertRequestAttachment: InsertRequestAttachment = {
+              requestID: a.data.requestID,
+              attachementTypeID: this.attachementTypeID,
+              attachementTypeName: this.attachementTypeName,
+              insertUserID: this.insertUserID,
+              insertTime: this.insertTime,
+              updateUserID: this.updateUserID,
+              updateTime: this.updateTime,
+            };*/
+            if (b.isSuccess) {
               this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
               this.form.reset();
               this.form.markAsPristine();
               this.form.markAsUntouched();
             } else {
-              this.toaster.error(c.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+              this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
             }
           });
         } else {
-          this.toaster.error(c.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+          this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
         }
       });
     } else {

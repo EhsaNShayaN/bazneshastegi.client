@@ -27,7 +27,7 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
       retiredRealDuration: [{value: this.personInfo?.retiredRealDurationYEAR, disabled: true}],
       includeSalary: [false],
       includeHistory: [false],
-      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
     });
   }
 

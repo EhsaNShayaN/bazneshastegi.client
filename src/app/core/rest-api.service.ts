@@ -10,12 +10,13 @@ import {AuthService} from './services/auth.service';
 import {RequestTypeResponse} from './models/RequestTypeResponse';
 import {LookUpDataResponse} from './models/LookUpResponse';
 import {PersonInfo, PersonInfoResponse} from './models/PersonInfoResponse';
-import {InsertRequest, InsertRequestComplementary} from '../features/forms/pay-fraction-certificate/pay-fraction-certificate.model';
+import {InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from '../features/forms/pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertResponse} from './models/InsertResponse';
 import {InsertComplementaryResponse} from './models/InsertComplementaryResponse';
 import {RelatedPersonsResponse} from './models/RelatedPersonsResponse';
 import {LoginForPortalResponse} from './models/LoginForPortalResponse';
 import {RequestTypeAttachmentResponse} from './models/RequestTypeAttachmentResponse';
+import {InsertRequestAttachmentResponse} from './models/InsertRequestAttachmentResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -100,6 +101,12 @@ export class RestApiService {
 
   insertComplementary(model: InsertRequestComplementary): Observable<any> {
     return this.http.post<InsertComplementaryResponse>(`${endpoint()}forms/insertComplementary`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  insertRequestAttachment(model: InsertRequestAttachment): Observable<any> {
+    return this.http.post<InsertRequestAttachmentResponse>(`${endpoint()}forms/insertRequestAttachment`, model).pipe(
       catchError(this.handleError)
     );
   }

@@ -92,3 +92,16 @@ export interface InsertRequestComplementary {
   requestDescription: string;*/
 }
 
+export interface InsertRequestAttachment {
+  //requestAttachmentID: string;
+  requestID: string;
+  attachementTypeID: string;
+  attachementTypeName: string;
+  //attachementDesc: string;
+  //attachment: string;
+  //contentType: string;
+  insertUserID: string;
+  insertTime: string;   // ISO datetime string
+  updateUserID: string;
+  updateTime: string;   // ISO datetime string
+}

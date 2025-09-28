@@ -25,7 +25,7 @@ export class WelfareCardComponent extends BaseFormComponent {
       receiverName: [''],
       issueCost: [150000, Validators.required],
       postCost: [250000],
-      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
     });
   }
 

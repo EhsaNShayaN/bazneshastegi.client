@@ -40,7 +40,7 @@ export class RelationsComponent extends BaseFormComponent implements OnInit {
       loanAmount: [null, [Validators.required, Validators.min(1000)]],
       requestType: ['', Validators.required], // محصل یا دانشجو
       dependents: this.fb.array([]),
-      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
     });
   }
 

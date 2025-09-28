@@ -26,7 +26,7 @@ export class HealthBookletComponent extends BaseFormComponent implements OnInit 
       deliveryMethod: ['', Validators.required],
       deliveryCost: [250000],
       photo: [null],
-      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({type: s.lookupName, uploaded: [false]}))),
+      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
     });
   }
 
