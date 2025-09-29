@@ -28,7 +28,7 @@ export interface Borrower {
   nationalCode: string;
   firstName: string;
   lastName: string;
-  birthDate: string;
+  birthDate: Date;
   relation: string;
 }
 
@@ -69,7 +69,7 @@ export interface InsertRequestComplementary {
   insertPayAmountInCertificate?: boolean;
   insertDurationInCertificate?: boolean;
   applicantNationalCode?: string;
-  applicantBirthDate?: string;
+  applicantBirthDate: string;
   applicantFirstName?: string;
   applicantLastName?: string;
   applicantRelationship?: string;

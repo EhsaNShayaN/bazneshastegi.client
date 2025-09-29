@@ -78,11 +78,21 @@
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>تاریخ تولد</mat-label>
-            <input matInput formControlName="birthDate" type="text" class="ltr">
+            <input #dateInput matInput [matDatepicker]="picker" formControlName="birthDate" class="ltr" onlyNumber
+                   (dateChange)="dateChanged(dateInput)" placeholder="تاریخ تولد">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
             <mat-error *ngIf="borrower.get('birthDate')?.touched && borrower.get('birthDate')?.hasError('required')">
               تاریخ تولد اجباری می باشد
             </mat-error>
           </mat-form-field>
+          <!--<mat-form-field appearance="outline" class="w-100">
+            <mat-label>تاریخ تولد</mat-label>
+            <input matInput formControlName="birthDate" type="text" class="ltr">
+            <mat-error *ngIf="borrower.get('birthDate')?.touched && borrower.get('birthDate')?.hasError('required')">
+              تاریخ تولد اجباری می باشد
+            </mat-error>
+          </mat-form-field>-->
         </div>
 
       </div>

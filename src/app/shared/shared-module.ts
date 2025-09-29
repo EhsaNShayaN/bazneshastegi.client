@@ -25,7 +25,6 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, provideNativeDateAdapter} from '@angular/material/core';
 import {JalaliMomentDateAdapter, PERSIAN_DATE_FORMATS} from '../core/custom-date-adapter';
-import {DatePickerComponent} from './date-picker/date-picker.component';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable} from '@angular/material/table';
@@ -34,7 +33,6 @@ import {MatPaginator} from '@angular/material/paginator';
 @NgModule({
   declarations: [
     CommentForm,
-    DatePickerComponent,
     /////////////////
     CurrencyFormatterPipe,
     SafeHtmlPipe,
@@ -120,7 +118,6 @@ import {MatPaginator} from '@angular/material/paginator';
     Comments,
     MatDatepickerModule,
     MatNativeDateModule,
-    DatePickerComponent,
     //////////////////////
     DefaultShowHideDirective,
     MatMenuTrigger,

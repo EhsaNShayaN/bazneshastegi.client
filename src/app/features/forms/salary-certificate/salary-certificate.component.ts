@@ -62,7 +62,7 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
             applicantNationalCode: this.personInfo!.personNationalCode,
             applicantFirstName: this.personInfo!.personFirstName,
             applicantLastName: this.personInfo!.personLastName,
-            applicantBirthDate: this.toGeorgianDate(this.personInfo!.personBirthDate),
+            applicantBirthDate: this.datePipe.transform(this.personInfo!.personBirthDate, 'yyyy-MM-dd') ?? '',
             facilityGiverDesc: request.organization
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((d: InsertComplementaryResponse) => {

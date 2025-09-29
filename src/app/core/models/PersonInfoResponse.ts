@@ -11,7 +11,7 @@ export class PersonInfo {
   personLastName!: string;
   personFatherName!: string;
   personCertificateNo!: string;
-  personBirthDate!: string;
+  personBirthDate!: Date;
   personAddress!: string;
   personPostalCode!: string;
   personRegion!: number | null;

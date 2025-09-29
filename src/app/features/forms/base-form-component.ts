@@ -8,6 +8,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Helpers} from '../../core/helpers';
 import {RequestTypeAttachment, RequestTypeAttachmentResponse} from '../../core/models/RequestTypeAttachmentResponse';
 import * as moment from 'jalali-moment';
+import {DatePipe} from '@angular/common';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -17,6 +18,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   restApiService = inject(RestApiService);
   helpers = inject(Helpers);
   toaster = inject(ToastrService);
+  datePipe = inject(DatePipe);
   fb = inject(FormBuilder);
   form!: FormGroup;
   personInfo: PersonInfo | null = null;
@@ -44,7 +46,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   createForm(): void {
   }
 
-  toGeorgianDate(date: string) {
+  convertToGeorgianDate(date: string) {
     return moment.from(date, 'fa', 'YYYY/MM/DD').locale('en').format('YYYY-MM-DD');
   }
 

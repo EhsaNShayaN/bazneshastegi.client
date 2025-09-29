@@ -27,7 +27,8 @@ import {JwtModule} from '@auth0/angular-jwt';
 import {BidiModule} from '@angular/cdk/bidi';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Forms} from './features/forms/forms';
-import { AuthGuard } from './core/guards/auth.guard';
+import {AuthGuard} from './core/guards/auth.guard';
+import {DatePipe} from '@angular/common';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -69,6 +70,7 @@ export function tokenGetter() {
     MatLine,
   ],
   providers: [
+    DatePipe,
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(),
     AppSettings,

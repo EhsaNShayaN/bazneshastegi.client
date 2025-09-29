@@ -10,6 +10,7 @@ import {InsertResponse} from '../../../core/models/InsertResponse';
 import {CustomConstants} from '../../../core/constants/custom.constants';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-pay-fraction-certificate',
@@ -130,7 +131,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
             insertPayAmountInCertificate: request.includeSalary,
             insertDurationInCertificate: request.includeHistory,
             applicantNationalCode: request.borrower.nationalCode,
-            applicantBirthDate: this.toGeorgianDate(request.borrower.birthDate),
+            applicantBirthDate: this.datePipe.transform(request.borrower.birthDate, 'yyyy-MM-dd') ?? '',
             applicantFirstName: request.borrower.firstName,
             applicantLastName: request.borrower.lastName,
             applicantRelationship: request.borrower.relation,
@@ -174,5 +175,15 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
     this.restApiService.getLookupData('BankBranch', $event.value.lookUpID).subscribe((a: LookUpDataResponse) => {
       this.branches = a.data;
     });
+  }
+
+  dateChanged(dateInput: HTMLInputElement) {
+    console.log(dateInput.value);
+    const date = this.borrower.get('birthDate')?.value;
+    console.log(date);
+    console.log(date.toISOString().split('T')[0]);
+    const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
+    console.log(formattedDate); // "1985-04-04"
+
   }
 }
