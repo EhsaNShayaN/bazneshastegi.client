@@ -55,6 +55,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         birthDate: ['', Validators.required],
         relation: ['']
       }),
+
       // مشخصات وام دهنده
       lender: this.fb.group({
         name: ['', Validators.required],
