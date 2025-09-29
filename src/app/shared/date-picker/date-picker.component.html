@@ -1,7 +1,0 @@
-<mat-form-field appearance="outline" class="w-100">
-  <mat-label>{{ title}}</mat-label>
-  <input #dateInput matInput [matDatepicker]="picker"
-         (dateChange)="dateChanged(dateInput)" placeholder="{{title}}">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
