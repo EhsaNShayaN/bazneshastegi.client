@@ -10,7 +10,6 @@ import {InsertResponse} from '../../../core/models/InsertResponse';
 import {CustomConstants} from '../../../core/constants/custom.constants';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
-import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-pay-fraction-certificate',
@@ -79,21 +78,6 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
     this.restApiService.getLookupData('Bank', null).subscribe((a: LookUpDataResponse) => {
       this.lenders = a.data;
     });
-  }
-
-  onFileSelected(event: Event, index: number) {
-    const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      const file = input.files[0];
-      console.log('Selected file for', this.attachments.at(index).get('type')?.value, file);
-
-      // mark as uploaded
-      this.attachments.at(index).patchValue({uploaded: true});
-    }
-  }
-
-  get attachments(): FormArray {
-    return this.form.get('attachments') as FormArray;
   }
 
   get borrower() {

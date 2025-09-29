@@ -23,7 +23,7 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
     this.form = this.fb.group({
       organization: ['', Validators.required],
       payAmount: [{value: this.personInfo?.payAmount, disabled: true}, [Validators.required, Validators.min(1000)]],
-      retirementDate: [{value: this.personInfo?.retirementDate.substring(0, 10), disabled: true}],
+      retirementDate: [{value: this.convertToPersianDate(this.personInfo?.retirementDate?.split('T')[0] ?? ''), disabled: true}],
       retiredRealDuration: [{value: this.personInfo?.retiredRealDurationYEAR, disabled: true}],
       includeSalary: [false],
       includeHistory: [false],
@@ -72,6 +72,15 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
               this.form.reset();
               this.form.markAsPristine();
               this.form.markAsUntouched();
+              this.form = this.fb.group({
+                organization: ['', Validators.required],
+                payAmount: [{value: this.personInfo?.payAmount, disabled: true}, [Validators.required, Validators.min(1000)]],
+                retirementDate: [{value: this.convertToPersianDate(this.personInfo?.retirementDate?.split('T')[0] ?? ''), disabled: true}],
+                retiredRealDuration: [{value: this.personInfo?.retiredRealDurationYEAR, disabled: true}],
+                includeSalary: [false],
+                includeHistory: [false],
+                attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
+              });
             } else {
               this.toaster.error(c.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
             }

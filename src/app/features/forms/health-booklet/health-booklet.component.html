@@ -49,13 +49,26 @@
   </mat-form-field>
 
   <h3>آپلود عکس</h3>
-  <input type="file" (change)="onFileSelected($event)">
+  <input type="file" (change)="onFileSelected($event,-1)">
   <p *ngIf="uploadedFileName">📎 {{ uploadedFileName }}</p>
 
-  <h3>مدارک مورد نیاز</h3>
-  <div formArrayName="attachments">
-    <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
-      <mat-checkbox formControlName="uploaded">{{att.type}}</mat-checkbox>
+  <div class="control-row mb-2">
+    <h3>مدارک مورد نیاز</h3>
+    <div formArrayName="attachments">
+      <div *ngFor="let attachment of attachments.controls; let i = index" [formGroupName]="i"
+           class="attachment-row">
+
+        <!-- File type title -->
+        <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
+
+        <!-- File input -->
+        <input type="file" (change)="onFileSelected($event, i)"/>
+
+        <!-- Upload status -->
+        <!--<mat-icon *ngIf="attachment.get('uploaded')?.value" color="primary">check_circle</mat-icon>
+        <mat-icon *ngIf="!attachment.get('uploaded')?.value" color="warn">highlight_off</mat-icon>-->
+
+      </div>
     </div>
   </div>
 

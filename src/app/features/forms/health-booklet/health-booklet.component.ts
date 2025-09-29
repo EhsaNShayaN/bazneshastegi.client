@@ -33,14 +33,6 @@ export class HealthBookletComponent extends BaseFormComponent implements OnInit 
   ngOnInit() {
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.uploadedFileName = file.name;
-      this.form.patchValue({photo: file});
-    }
-  }
-
   submit() {
     if (this.form.valid) {
       const request: HealthBookletRequest = this.form.value;

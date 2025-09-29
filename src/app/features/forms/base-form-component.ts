@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {PersonInfo} from '../../core/models/PersonInfoResponse';
 import {RestApiService} from '../../core/rest-api.service';
 import {ToastrService} from 'ngx-toastr';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Helpers} from '../../core/helpers';
 import {RequestTypeAttachment, RequestTypeAttachmentResponse} from '../../core/models/RequestTypeAttachmentResponse';
 import * as moment from 'jalali-moment';
@@ -46,8 +46,29 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   createForm(): void {
   }
 
-  convertToGeorgianDate(date: string) {
+  convertToGeorgianDate(date: string): string {
     return moment.from(date, 'fa', 'YYYY/MM/DD').locale('en').format('YYYY-MM-DD');
+  }
+
+  convertToPersianDate(date: string) {
+    return moment.from(date, 'YYYY-MM-DD')
+      .locale('fa')          // switch to Persian locale
+      .format('jYYYY/jMM/jDD'); // use "j" for Jalali calendar
+  }
+
+  onFileSelected(event: Event, index: number) {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      const file = input.files[0];
+      console.log('Selected file for', this.attachments.at(index).get('type')?.value, file);
+
+      // mark as uploaded
+      this.attachments.at(index).patchValue({uploaded: true});
+    }
+  }
+
+  get attachments(): FormArray {
+    return this.form.get('attachments') as FormArray;
   }
 
   ngOnDestroy() {
