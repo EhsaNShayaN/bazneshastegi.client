@@ -14,7 +14,7 @@ import {InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from
 import {InsertResponse} from './models/InsertResponse';
 import {InsertComplementaryResponse} from './models/InsertComplementaryResponse';
 import {RelatedPersonsResponse} from './models/RelatedPersonsResponse';
-import {LoginForPortalResponse} from './models/LoginForPortalResponse';
+import {LoginForPortal, LoginForPortalResponse} from './models/LoginForPortalResponse';
 import {RequestTypeAttachmentResponse} from './models/RequestTypeAttachmentResponse';
 import {InsertRequestAttachmentResponse} from './models/InsertRequestAttachmentResponse';
 
@@ -22,6 +22,7 @@ import {InsertRequestAttachmentResponse} from './models/InsertRequestAttachmentR
   providedIn: 'root'
 })
 export class RestApiService {
+  loginSubject: BehaviorSubject<LoginForPortal | null> = new BehaviorSubject<LoginForPortal | null>(null);
   personInfoSubject: BehaviorSubject<PersonInfo | null> = new BehaviorSubject<PersonInfo | null>(null);
 
   constructor(private http: HttpClient,
@@ -30,7 +31,13 @@ export class RestApiService {
 
   loginForPortal(nationalCode: string, cellPhone: string): Observable<any> {
     return this.http.get<LoginForPortalResponse>(`${endpoint()}forms/loginForPortal?nationalCode=${nationalCode}&cellPhone=${cellPhone}`)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError),
+        map((d: LoginForPortalResponse) => {
+          if (d.isSuccess) {
+            this.loginSubject.next(d.data);
+          }
+          return d;
+        }));
   }
 
   getPersonInfo(): Observable<any> {
@@ -193,6 +200,7 @@ export class RestApiService {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
     } else {
+      console.log(error.error);
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);

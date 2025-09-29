@@ -1,10 +1,11 @@
 import {isPlatformBrowser} from '@angular/common';
-import {Component, HostListener, Inject, PLATFORM_ID, ViewChild} from '@angular/core';
+import {Component, HostListener, Inject, OnDestroy, PLATFORM_ID, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {AppSettings, Settings} from '../app.settings';
 import {PureComponent} from '../pure-component';
 import {PersonInfo, PersonInfoResponse} from '../core/models/PersonInfoResponse';
 import {RestApiService} from '../core/rest-api.service';
+import {AuthService} from '../core/services/auth.service';
 
 @Component({
   selector: 'app-pages',
@@ -12,7 +13,7 @@ import {RestApiService} from '../core/rest-api.service';
   styleUrl: './pages.scss',
   standalone: false
 })
-export class Pages extends PureComponent {
+export class Pages extends PureComponent implements OnDestroy {
   @ViewChild('sidenav') sidenav: any;
   public toolbarTypeOption: number;
   public headerTypeOption: string;
@@ -21,18 +22,24 @@ export class Pages extends PureComponent {
   public scrolledCount = 0;
   public settings: Settings;
   personInfo: PersonInfo | null = null;
+  sub3: any;
 
   constructor(public appSettings: AppSettings,
               public router: Router,
               private restApiService: RestApiService,
-              @Inject(PLATFORM_ID) private platformId: any) {
+              @Inject(PLATFORM_ID) private platformId: any,
+              private auth: AuthService) {
     super();
     this.settings = this.appSettings.settings;
     this.toolbarTypeOption = this.settings.toolbar;
     this.headerTypeOption = this.settings.header;
     this.searchPanelVariantOption = this.settings.searchPanelVariant;
-    this.restApiService.getPersonInfo().subscribe((b: PersonInfoResponse) => {
-      this.personInfo = b.data;
+    this.sub3 = this.restApiService.loginSubject.subscribe(loginForPortal => {
+      if (this.auth.isLoggedIn() || loginForPortal) {
+        this.restApiService.getPersonInfo().subscribe((b: PersonInfoResponse) => {
+          this.personInfo = b.data;
+        });
+      }
     });
   }
 
@@ -87,5 +94,9 @@ export class Pages extends PureComponent {
   }
 
   activateComponent(cmp: any) {
+  }
+
+  ngOnDestroy(): void {
+    this.sub3?.unsubscribe();
   }
 }

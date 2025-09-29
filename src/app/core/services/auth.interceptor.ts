@@ -24,12 +24,9 @@ export class AuthInterceptor implements HttpInterceptor {
       tap({
         next: (event) => {
           if (event instanceof HttpResponse) {
-            // 🎯 Here you get the API call result
             const responseBody = event.body;
             if (responseBody?.isSuccess) {
-              //console.log('✅ API Success:', cloned.url, responseBody);
             } else {
-              //console.warn('⚠️ API returned failure:', cloned.url, responseBody);
               if (responseBody.errors?.length > 0) {
                 for (const error of responseBody.errors) {
                   console.error('error', error);

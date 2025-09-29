@@ -22,8 +22,8 @@ export class Login extends PureComponent {
               private auth: AuthService) {
     super();
     this.form = this.fb.group({
-      nationalCode: ['0045723702', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
-      cellPhone: ['09121017503', Validators.compose([Validators.required, mobileValidator])],
+      nationalCode: ['004572370', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+      cellPhone: ['0912101750', Validators.compose([Validators.required, mobileValidator])],
     });
   }
 

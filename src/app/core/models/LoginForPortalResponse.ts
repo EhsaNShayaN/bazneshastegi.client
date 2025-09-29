@@ -1,5 +1,6 @@
-export interface LoginForPortalResponse {
-  data: LoginForPortal;
+import {BaseResult} from './BaseResult';
+
+export interface LoginForPortalResponse extends BaseResult<LoginForPortal> {
 }
 
 export class LoginForPortal {
