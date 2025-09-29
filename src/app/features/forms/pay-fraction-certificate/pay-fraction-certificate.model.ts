@@ -69,7 +69,7 @@ export interface InsertRequestComplementary {
   insertPayAmountInCertificate?: boolean;
   insertDurationInCertificate?: boolean;
   applicantNationalCode?: string;
-  applicantBirthDate: string;
+  applicantBirthDate?: string;
   applicantFirstName?: string;
   applicantLastName?: string;
   applicantRelationship?: string;

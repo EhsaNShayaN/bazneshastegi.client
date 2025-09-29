@@ -64,7 +64,7 @@ export class StationaryComponent extends BaseFormComponent implements OnInit {
             personID: this.personInfo!.personID,
             ceremonyDate: new Date(),
             facilityAmount: request.loanAmount,
-            prizeReceiverLookupID: request.prizeReceiver,
+            prizeReceiverLookupID: request.prizeReceiver
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((d: InsertComplementaryResponse) => {
             if (c.isSuccess) {
