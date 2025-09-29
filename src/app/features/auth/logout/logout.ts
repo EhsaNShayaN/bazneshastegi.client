@@ -14,7 +14,6 @@ export class Logout extends PureComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('logout');
     this.auth.logout();
   }
 }

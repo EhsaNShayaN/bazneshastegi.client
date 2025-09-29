@@ -14,8 +14,8 @@ export class PersonInfo {
   personBirthDate!: string;
   personAddress!: string;
   personPostalCode!: string;
-  personRegion!: string | null;
-  personArea!: number;
+  personRegion!: number | null;
+  personArea!: number | null;
   personPhone!: string;
   personCellPhone!: string;
   personCellPhone2!: string | null;

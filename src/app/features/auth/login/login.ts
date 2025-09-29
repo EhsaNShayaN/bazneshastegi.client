@@ -22,13 +22,12 @@ export class Login extends PureComponent {
               private auth: AuthService) {
     super();
     this.form = this.fb.group({
-      nationalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
-      cellPhone: [null, Validators.compose([Validators.required, mobileValidator])],
+      nationalCode: ['0045723702', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+      cellPhone: ['09121017503', Validators.compose([Validators.required, mobileValidator])],
     });
   }
 
   onSubmit() {
-    console.log('onSubmit');
     if (this.form.valid) {
       const {nationalCode, cellPhone} = this.form.value;
       // ارسال به سرویس ورود...

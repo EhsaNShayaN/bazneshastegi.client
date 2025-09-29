@@ -29,9 +29,8 @@ export class RestApiService {
   }
 
   loginForPortal(nationalCode: string, cellPhone: string): Observable<any> {
-    return this.http.get<LoginForPortalResponse>(`${endpoint()}forms/loginForPortal?nationalCode=${nationalCode}&cellPhone=${cellPhone}`,).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<LoginForPortalResponse>(`${endpoint()}forms/loginForPortal?nationalCode=${nationalCode}&cellPhone=${cellPhone}`)
+      .pipe(catchError(this.handleError));
   }
 
   getPersonInfo(): Observable<any> {
