@@ -1,3 +1,43 @@
+<div class="">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>انتخاب فرم</mat-label>
+    <mat-select (selectionChange)="selectForm($event)" [(value)]="selectedRequestTypeId">
+      @for (item of requestTypes; track item.requestTypeID) {
+        <mat-option [value]="item.requestTypeID">{{ item.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<mat-card class="theme-container mt-2 mb-3">
+  @if (personInfo) {
+    <mat-card-content class="bg-primary background-color">
+      <div fxFlex="row wrap">
+        <div fxFlex="100" fxFlex.gt-xs="20">
+          نام:
+          {{ personInfo.personFirstName }}
+        </div>
+        <div fxFlex="100" fxFlex.gt-xs="20">
+          نام خانوادگی:
+          {{ personInfo.personLastName }}
+        </div>
+        <div fxFlex="100" fxFlex.gt-xs="20">
+          شماره بازنشستگی:
+          {{ personInfo.retiredID }}
+        </div>
+        <div fxFlex="100" fxFlex.gt-xs="20">
+          کد ملی:
+          {{ personInfo.personNationalCode }}
+        </div>
+        <div fxFlex="100" fxFlex.gt-xs="20">
+          وضعیت اشتغال:
+          {{ personInfo.pensionaryStatusName }}
+        </div>
+      </div>
+    </mat-card-content>
+  }
+</mat-card>
+
 <mat-card>
   <mat-card-content>
     <router-outlet></router-outlet>

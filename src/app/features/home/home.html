@@ -1,5 +1,5 @@
-<div class="">
-  <mat-form-field appearance="outline">
+<div class="mt-4">
+  <mat-form-field appearance="outline" class="w-100">
     <mat-label>انتخاب فرم</mat-label>
     <mat-select (selectionChange)="selectForm($event)">
       @for (item of requestTypes; track item.requestTypeID) {
