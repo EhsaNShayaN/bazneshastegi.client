@@ -6,12 +6,21 @@
       <!-- حقوق ضامن -->
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
-          <app-currency-input formControlName="guarantorSalary" [placeholder]="'حقوق ضامن'"
-                              required></app-currency-input>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>حقوق ضامن</mat-label>
+            <app-currency-input formControlName="guarantorSalary" [placeholder]="'حقوق ضامن'"
+                                [required]="true"></app-currency-input>
+            <mat-error
+              *ngIf="form.get('guarantorSalary')?.touched && form.get('guarantorSalary')?.hasError('required')">
+              حقوق ضامن اجباری می باشد
+            </mat-error>
+          </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
-          <app-currency-input formControlName="amountRemain" [placeholder]="'مبلغ مانده کسر از حقوق'"
-                              [enable]="false"></app-currency-input>
+          <mat-form-field appearance="outline" class="w-100">
+            <app-currency-input formControlName="amountRemain" [placeholder]="'مبلغ مانده کسر از حقوق'"
+                                [enable]="false"></app-currency-input>
+          </mat-form-field>
         </div>
       </div>
 
@@ -170,8 +179,10 @@
 
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
-          <app-currency-input formControlName="loanAmount" [placeholder]="'مبلغ وام(ریال)'"
-                              [innerFormGroupName]="'lender'" required></app-currency-input>
+          <mat-form-field appearance="outline" class="w-100">
+            <app-currency-input formControlName="loanAmount" [placeholder]="'مبلغ وام(ریال)'"
+                                [innerFormGroupName]="'lender'" [required]="true"></app-currency-input>
+          </mat-form-field>
           <!--<mat-form-field appearance="outline" class="w-100">
             <mat-label>مبلغ وام(ریال)</mat-label>
             <input matInput formControlName="loanAmount" type="number" onlyNumber class="ltr">

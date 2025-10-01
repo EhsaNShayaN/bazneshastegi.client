@@ -1,32 +1,29 @@
-<mat-form-field appearance="outline" class="w-100">
-  <mat-label>
-    {{ placeholder }}
-    <span *ngIf="control?.hasError('required')" class="text-danger">*</span>
-  </mat-label>
-  <input
-    matInput
-    [placeholder]="placeholder"
-    [value]="value"
-    (input)="onInput($event)"
-    (keydown)="onKeyDown($event)"
-    (paste)="onPaste($event)"
-    (blur)="onTouched()"
-    class="ltr"
-    [disabled]="!enable"
-  />
-  <mat-error *ngIf="control?.hasError('required')">
-    مقدار اجباری است
-  </mat-error>
-  <!--<mat-error *ngIf="control?.hasError('minlength')">
-    حداقل طول مجاز {{ control?.getError('minlength')?.requiredLength }} رقم است
-  </mat-error>
-  <mat-error *ngIf="control?.hasError('maxlength')">
-    حداکثر طول مجاز {{ control?.getError('maxlength')?.requiredLength }} رقم است
-  </mat-error>
-  <mat-error *ngIf="control?.hasError('min')">
-    مقدار باید بزرگتر یا مساوی {{ control?.getError('min')?.min }} باشد
-  </mat-error>
-  <mat-error *ngIf="control?.hasError('max')">
-    مقدار باید کوچکتر یا مساوی {{ control?.getError('max')?.max }} باشد
-  </mat-error>-->
-</mat-form-field>
+<input
+  matInput
+  [placeholder]="placeholder"
+  [value]="value"
+  (input)="onInput($event)"
+  (keydown)="onKeyDown($event)"
+  (paste)="onPaste($event)"
+  (blur)="onTouched()"
+  class="ltr"
+  [disabled]="!enable"
+  [required]="required"
+/>
+<mat-error *ngIf="control?.hasError('required')">
+  مقدار اجباری است
+</mat-error>
+<!--
+<mat-error *ngIf="control?.hasError('minlength')">
+  حداقل طول مجاز {{ control?.getError('minlength')?.requiredLength }} رقم است
+</mat-error>
+<mat-error *ngIf="control?.hasError('maxlength')">
+  حداکثر طول مجاز {{ control?.getError('maxlength')?.requiredLength }} رقم است
+</mat-error>
+<mat-error *ngIf="control?.hasError('min')">
+  مقدار باید بزرگتر یا مساوی {{ control?.getError('min')?.min }} باشد
+</mat-error>
+<mat-error *ngIf="control?.hasError('max')">
+  مقدار باید کوچکتر یا مساوی {{ control?.getError('max')?.max }} باشد
+</mat-error>
+-->
