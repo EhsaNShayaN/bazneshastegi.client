@@ -8,18 +8,14 @@
         <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>حقوق ضامن</mat-label>
-            <app-currency-input formControlName="guarantorSalary" [placeholder]="'حقوق ضامن'"
-                                [required]="true"></app-currency-input>
-            <mat-error
-              *ngIf="form.get('guarantorSalary')?.touched && form.get('guarantorSalary')?.hasError('required')">
-              حقوق ضامن اجباری می باشد
-            </mat-error>
+            <input matInput formControlName="guarantorSalary" [(ngModel)]="this.personInfo!.payAmount | customCurrency"
+                   [placeholder]="'حقوق ضامن'" [required]="true">
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
           <mat-form-field appearance="outline" class="w-100">
-            <app-currency-input formControlName="amountRemain" [placeholder]="'مبلغ مانده کسر از حقوق'"
-                                [enable]="false"></app-currency-input>
+            <input matInput formControlName="amountRemain" [placeholder]="'مبلغ مانده کسر از حقوق'"
+                   [required]="true">
           </mat-form-field>
         </div>
       </div>
@@ -84,13 +80,6 @@
               تاریخ تولد اجباری می باشد
             </mat-error>
           </mat-form-field>
-          <!--<mat-form-field appearance="outline" class="w-100">
-            <mat-label>تاریخ تولد</mat-label>
-            <input matInput formControlName="birthDate" type="text" class="ltr">
-            <mat-error *ngIf="borrower.get('birthDate')?.touched && borrower.get('birthDate')?.hasError('required')">
-              تاریخ تولد اجباری می باشد
-            </mat-error>
-          </mat-form-field>-->
         </div>
 
       </div>
@@ -180,16 +169,12 @@
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
           <mat-form-field appearance="outline" class="w-100">
-            <app-currency-input formControlName="loanAmount" [placeholder]="'مبلغ وام(ریال)'"
-                                [innerFormGroupName]="'lender'" [required]="true"></app-currency-input>
-          </mat-form-field>
-          <!--<mat-form-field appearance="outline" class="w-100">
             <mat-label>مبلغ وام(ریال)</mat-label>
             <input matInput formControlName="loanAmount" type="number" onlyNumber class="ltr">
             <mat-error *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('required')">
               مبلغ وام الزامی است
             </mat-error>
-          </mat-form-field>-->
+          </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
           <mat-form-field appearance="outline" class="w-100">

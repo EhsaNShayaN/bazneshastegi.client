@@ -1,5 +1,5 @@
-import {forwardRef, NgModule} from '@angular/core';
-import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
 import {MatButton, MatButtonModule, MatIconButton} from '@angular/material/button';
 import {MatIcon, MatIconModule} from '@angular/material/icon';
@@ -29,7 +29,6 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
-import {CurrencyInputComponent} from './components/currency-input/currency-input.component';
 import {CommonModule} from '@angular/common';
 
 @NgModule({
@@ -41,7 +40,6 @@ import {CommonModule} from '@angular/common';
     ReplaceUrlSpacesPipe,
     LoadMoreComponent,
     Comments,
-    CurrencyInputComponent,
   ],
   imports: [
     CommonModule,
@@ -121,7 +119,6 @@ import {CommonModule} from '@angular/common';
     ReplaceUrlSpacesPipe,
     LoadMoreComponent,
     Comments,
-    CurrencyInputComponent,
     MatDatepickerModule,
     MatNativeDateModule,
     //////////////////////
@@ -181,7 +178,6 @@ import {CommonModule} from '@angular/common';
     {provide: MAT_DATE_LOCALE, useValue: 'fa-IR'},
     {provide: DateAdapter, useClass: JalaliMomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: PERSIAN_DATE_FORMATS},
-    {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => CurrencyInputComponent), multi: true}
   ],
 })
 export class SharedModule {
