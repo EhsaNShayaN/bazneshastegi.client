@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormGroup, Validators} from '@angular/forms';
+import {FormGroup, Validators} from '@angular/forms';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
@@ -41,7 +41,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
 
   override createForm(): void {
     this.form = this.fb.group({
-      guarantorSalary: [{value: this.personInfo!.payAmount, disabled: true}, Validators.required],
+      guarantorSalary: [this.personInfo!.payAmount, Validators.required],
       amountRemain: [{value: this.personInfo!.remainedAmountForCertificate, disabled: true}, Validators.required],
       includeSalary: [false],
       includeHistory: [false],
@@ -149,6 +149,8 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
       });
     } else {
       this.form.markAllAsTouched();
+      this.lender.markAllAsTouched();
+      this.borrower.markAllAsTouched();
       console.log(this.findInvalidControls(this.form));
       console.log(this.findInvalidControls(this.lender));
       console.log(this.findInvalidControls(this.borrower));

@@ -2,27 +2,16 @@
 @if (form) {
   <form [formGroup]="form" (ngSubmit)="submit()">
     <h2>ثبت درخواست</h2>
-    <div>
+    <div class="mt-2">
       <!-- حقوق ضامن -->
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>حقوق ضامن</mat-label>
-            <input matInput formControlName="guarantorSalary" type="number" onlyNumber class="ltr">
-            <mat-error
-              *ngIf="form.get('guarantorSalary')?.touched && form.get('guarantorSalary')?.hasError('required')">
-              حقوق ضامن اجباری می باشد
-            </mat-error>
-          </mat-form-field>
+          <app-currency-input formControlName="guarantorSalary" [placeholder]="'حقوق ضامن'"
+                              required></app-currency-input>
         </div>
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>مبلغ مانده کسر از حقوق</mat-label>
-            <input matInput formControlName="amountRemain" type="number" onlyNumber class="ltr">
-            <mat-error *ngIf="form.get('amountRemain')?.touched && form.get('amountRemain')?.hasError('required')">مبلغ
-              مانده کسر از حقوق اجباری می باشد
-            </mat-error>
-          </mat-form-field>
+          <app-currency-input formControlName="amountRemain" [placeholder]="'مبلغ مانده کسر از حقوق'"
+                              [enable]="false"></app-currency-input>
         </div>
       </div>
 
@@ -181,16 +170,15 @@
 
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
-          <mat-form-field appearance="outline" class="w-100">
+          <app-currency-input formControlName="loanAmount" [placeholder]="'مبلغ وام(ریال)'"
+                              [innerFormGroupName]="'lender'" required></app-currency-input>
+          <!--<mat-form-field appearance="outline" class="w-100">
             <mat-label>مبلغ وام(ریال)</mat-label>
             <input matInput formControlName="loanAmount" type="number" onlyNumber class="ltr">
             <mat-error *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('required')">
               مبلغ وام الزامی است
             </mat-error>
-            <mat-error *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('min')">
-              مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
-            </mat-error>
-          </mat-form-field>
+          </mat-form-field>-->
         </div>
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
           <mat-form-field appearance="outline" class="w-100">

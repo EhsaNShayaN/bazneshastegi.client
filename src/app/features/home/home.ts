@@ -25,7 +25,6 @@ export class Home implements OnInit {
 
   selectForm($event: MatSelectChange<RequestType>) {
     const requestType = $event.value;
-    console.log('requestType', requestType);
     this.router.navigate([`/forms/${requestType.page}/${requestType.requestTypeID}`]).then(() => {
     });
   }
