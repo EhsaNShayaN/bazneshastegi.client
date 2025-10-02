@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {InsertRequest, InsertRequestComplementary, PayFractionCertificate} from './pay-fraction-certificate.model';
 import {LookUpData, LookUpDataResponse} from '../../../core/models/LookUpResponse';
 import {MatSelectChange} from '@angular/material/select';
@@ -51,7 +51,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         name: ['', Validators.required],
         branchName: [''],
         branchCode: [''],
-        loanAmount: ['', Validators.required],
+        loanAmount: new FormControl(null, {nonNullable: true, validators: Validators.required}),
         installmentCount: [''],
       }),
 
@@ -78,8 +78,8 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   }
 
   submit() {
+    console.log(this.form.getRawValue());
     if (this.form.valid) {
-      console.log(this.form.getRawValue());
       const request: PayFractionCertificate = this.form.getRawValue();
       console.log('📌 فرم گواهی کسر از حقوق ثبت شد:');
       console.log(request);
@@ -154,7 +154,6 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
     });
   }
 
-
   branchChanged($event: MatSelectChange<LookUpData>) {
     this.facilityGiverLookupId = $event.value.lookUpID;
   }
@@ -166,6 +165,17 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
     console.log(date.toISOString().split('T')[0]);
     const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
     console.log(formattedDate); // "1985-04-04"
+  }
+
+  onLoanAmountChange($event: number) {
+
+  }
+
+  onLoanAmountKeyPress($event: KeyboardEvent) {
+
+  }
+
+  onLoanAmountKeyUp($event: KeyboardEvent) {
 
   }
 }

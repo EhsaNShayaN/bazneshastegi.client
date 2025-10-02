@@ -141,7 +141,7 @@
         <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>نام شعبه</mat-label>
-            <mat-select formControlName="branchName" required  (selectionChange)="branchChanged($event)">
+            <mat-select formControlName="branchName" required (selectionChange)="branchChanged($event)">
               @for (item of branches; track item.lookUpID) {
                 <mat-option [value]="item">
                   {{ item.lookUpTypeName }}
@@ -167,13 +167,22 @@
 
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
-          <mat-form-field appearance="outline" class="w-100">
+          <app-currency-input
+            label="مبلغ وام(ریال)"
+            placeholder="مبلغ وام(ریال)"
+            formControlName="loanAmount"
+            (changed)="onLoanAmountChange($event)"
+            (keyPressed)="onLoanAmountKeyPress($event)"
+            (keyUpEvent)="onLoanAmountKeyUp($event)"
+            [required]="true"
+          ></app-currency-input>
+          <!--<mat-form-field appearance="outline" class="w-100">
             <mat-label>مبلغ وام(ریال)</mat-label>
             <input matInput formControlName="loanAmount" onlyNumber class="ltr">
             <mat-error *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('required')">
               مبلغ وام الزامی است
             </mat-error>
-          </mat-form-field>
+          </mat-form-field>-->
         </div>
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
           <mat-form-field appearance="outline" class="w-100">

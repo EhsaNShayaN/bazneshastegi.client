@@ -30,6 +30,7 @@ import {MatCheckbox} from '@angular/material/checkbox';
 import {MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {CommonModule} from '@angular/common';
+import {CurrencyInputComponent} from './components/currency-input/currency-input.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {CommonModule} from '@angular/common';
     ReplaceUrlSpacesPipe,
     LoadMoreComponent,
     Comments,
+    CurrencyInputComponent,
   ],
   imports: [
     CommonModule,
@@ -171,6 +173,7 @@ import {CommonModule} from '@angular/common';
     MatTable,
     MatPaginator,
     MatError,
+    CurrencyInputComponent,
   ],
   providers: [
     CustomCurrencyPipe,

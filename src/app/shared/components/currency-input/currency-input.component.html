@@ -1,0 +1,19 @@
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    class="ltr"
+    [placeholder]="placeholder"
+    [required]="required"
+    [value]="value"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    onlyNumber
+  />
+
+  <mat-error *ngIf="ngControl?.invalid && ngControl?.touched">
+    <span *ngIf="ngControl?.errors?.['required']">این فیلد اجباری است</span>
+    <span *ngIf="ngControl?.errors?.['min']">مقدار خیلی کم است</span>
+    <span *ngIf="ngControl?.errors?.['max']">مقدار خیلی زیاد است</span>
+  </mat-error>
+</mat-form-field>
