@@ -42,3 +42,10 @@ input[type="file"] {
   margin-bottom: 8px;
   border-radius: 6px;
 }
+
+div.mat-mdc-form-field-error,
+.custom-error {
+  font-size: .75rem;
+  font-weight: normal;
+  margin: -1.5rem 1rem;
+}

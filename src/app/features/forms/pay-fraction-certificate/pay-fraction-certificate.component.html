@@ -176,13 +176,9 @@
             (keyUpEvent)="onLoanAmountKeyUp($event)"
             [required]="true"
           ></app-currency-input>
-          <!--<mat-form-field appearance="outline" class="w-100">
-            <mat-label>مبلغ وام(ریال)</mat-label>
-            <input matInput formControlName="loanAmount" onlyNumber class="ltr">
-            <mat-error *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('required')">
-              مبلغ وام الزامی است
-            </mat-error>
-          </mat-form-field>-->
+          <mat-error class="custom-error" *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('required')">
+            مبلغ وام الزامی است.
+          </mat-error>
         </div>
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
           <mat-form-field appearance="outline" class="w-100">
