@@ -1,4 +1,4 @@
-import {Directive, inject, OnDestroy} from '@angular/core';
+import {Directive, inject, OnDestroy, ViewChild} from '@angular/core';
 import {BaseComponent} from '../../base-component';
 import {ActivatedRoute} from '@angular/router';
 import {PersonInfo} from '../../core/models/PersonInfoResponse';
@@ -10,9 +10,19 @@ import {RequestTypeAttachment, RequestTypeAttachmentResponse} from '../../core/m
 import * as moment from 'jalali-moment';
 import {DatePipe} from '@angular/common';
 import {CustomCurrencyPipe} from '../../core/pipes/custom-currency.pipe';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
+import {RelatedPersons} from '../../core/models/RelatedPersonsResponse';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
+  dataSource: MatTableDataSource<any> | null = null;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
+  @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
+  totalCount = 0;
+
   private sub: any;
   private sub3: any;
   activatedRoute = inject(ActivatedRoute);
@@ -31,6 +41,9 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     super();
     this.sub = this.activatedRoute.params.subscribe(({id}) => {
       this.requestTypeID = id;
+      this.restApiService.getActiveFacilitiesOfPerson(this.requestTypeID).subscribe((a: ActiveFacilitiesOfPersonResponse) => {
+        this.initDataSource(a);
+      });
       this.sub3 = this.restApiService.personInfoSubject.subscribe(personInfo => {
         if (personInfo) {
           this.personInfo = personInfo;
@@ -42,10 +55,18 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
           });
         }
       });
+      this.helpers.setPaginationLang();
     });
   }
 
   createForm(): void {
+  }
+
+  public initDataSource(res: any) {
+    this.totalCount = res.data.length;
+    this.dataSource = new MatTableDataSource<any>(res.data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   convertToGeorgianDate(date: string): string {

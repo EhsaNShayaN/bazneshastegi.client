@@ -1,8 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
 import {InsertRequest, InsertRequestComplementary, PayFractionCertificate} from './pay-fraction-certificate.model';
 import {LookUpData, LookUpDataResponse} from '../../../core/models/LookUpResponse';
 import {MatSelectChange} from '@angular/material/select';
@@ -18,18 +15,12 @@ import {InsertComplementaryResponse} from '../../../core/models/InsertComplement
   standalone: false
 })
 export class PayFractionCertificateComponent extends BaseFormComponent implements OnInit {
-  dataSource: MatTableDataSource<any> | null = null;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | undefined;
-  @ViewChild(MatSort, {static: true}) sort: MatSort | undefined;
-  totalCount = 0;
   columnsToDisplay = [
-    {key: 'firstName', name: 'نام'},
-    {key: 'lastName', name: 'نام خانوادگی'},
-    {key: 'relation', name: 'نسبت'},
-    {key: 'lender', name: 'وام‌دهنده'},
-    {key: 'branch', name: 'شعبه'},
-    {key: 'remainingInstallmentsCount', name: 'تعداد اقساط باقی‌مانده'},
-    {key: 'loanAmount', name: 'مبلغ وام'}
+    {key: 'mainpersonFirstName', name: 'نام'},
+    {key: 'mainpersonLastName', name: 'نام خانوادگی'},
+    {key: 'facilityReceiverFullName', name: 'وام گیرنده'},
+    {key: 'facilityGiverDesc', name: 'وام‌دهنده'},
+    {key: 'facilityAmount', name: 'مبلغ وام'}
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
   lenders: LookUpData[] = [];
@@ -72,7 +63,6 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   }
 
   ngOnInit(): void {
-    this.helpers.setPaginationLang();
     this.restApiService.getLookupData('Bank', null).subscribe((a: LookUpDataResponse) => {
       this.lenders = a.data;
     });
@@ -108,6 +98,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
           console.log(a);
           const insertComplementary: InsertRequestComplementary = {
             requestID: a.data.requestID,
+            requestTypeID: this.requestTypeID,
             personID: this.personInfo!.personID,
             ceremonyDate: new Date(),
             insertPayAmountInCertificate: request.includeSalary,

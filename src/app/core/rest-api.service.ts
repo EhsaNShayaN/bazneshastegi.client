@@ -17,6 +17,7 @@ import {RelatedPersonsResponse} from './models/RelatedPersonsResponse';
 import {LoginForPortal, LoginForPortalResponse} from './models/LoginForPortalResponse';
 import {RequestTypeAttachmentResponse} from './models/RequestTypeAttachmentResponse';
 import {InsertRequestAttachmentResponse} from './models/InsertRequestAttachmentResponse';
+import {ActiveFacilitiesOfPersonResponse} from './models/ActiveFacilitiesOfPersonResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,13 @@ export class RestApiService {
           return d;
         }));
   }
+
+  getActiveFacilitiesOfPerson(requestTypeId:string): Observable<any> {
+    return this.http.get<ActiveFacilitiesOfPersonResponse>(`${endpoint()}forms/activeFacilitiesOfPerson?requestTypeId=${requestTypeId}`,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 
   getRelatedPersons(): Observable<any> {
     return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/relatedPersons`,).pipe(

@@ -5,6 +5,7 @@ import {RestApiService} from '../../core/rest-api.service';
 import {RequestType, RequestTypeResponse} from '../../core/models/RequestTypeResponse';
 import {MatSelectChange} from '@angular/material/select';
 import {Router} from '@angular/router';
+import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
 
 @Component({
   selector: 'app-forms',

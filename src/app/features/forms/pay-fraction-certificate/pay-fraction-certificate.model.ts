@@ -59,11 +59,12 @@ export class InsertCondition {
   buttonName!: string;
 }
 
-export interface InsertRequestComplementary {
+export class InsertRequestComplementary {
   //requestComplementaryID: string;
-  requestID: string;
-  personID: string;
-  ceremonyDate: Date;
+  requestID!: string;
+  requestTypeID!: string;
+  personID!: string;
+  ceremonyDate!: Date;
   insertPayAmountInCertificate?: boolean;
   insertDurationInCertificate?: boolean;
   applicantNationalCode?: string;

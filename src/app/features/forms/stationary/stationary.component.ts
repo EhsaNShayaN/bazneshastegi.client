@@ -60,6 +60,7 @@ export class StationaryComponent extends BaseFormComponent implements OnInit {
         if (c.isSuccess) {
           console.log(c);
           const insertComplementary: InsertRequestComplementary = {
+            requestTypeID: this.requestTypeID,
             requestID: c.data.requestID,
             personID: this.personInfo!.personID,
             ceremonyDate: new Date(),

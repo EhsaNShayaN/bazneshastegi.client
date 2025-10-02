@@ -14,17 +14,24 @@ import {BaseFormComponent} from '../base-form-component';
   standalone: false
 })
 export class SalaryCertificateComponent extends BaseFormComponent implements OnInit {
+  columnsToDisplay = [
+    {key: 'mainpersonFirstName', name: 'نام'},
+    {key: 'mainpersonLastName', name: 'نام خانوادگی'},
+    {key: 'facilityReceiverFullName', name: 'وام گیرنده'},
+    {key: 'facilityGiverDesc', name: 'وام‌دهنده'},
+    {key: 'facilityAmount', name: 'مبلغ وام'}
+  ];
+  columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  retirementDate: string = '';
 
   constructor() {
     super();
   }
 
   override createForm() {
+    this.retirementDate = this.convertToPersianDate(this.personInfo?.retirementDate?.split('T')[0] ?? '');
     this.form = this.fb.group({
       organization: ['', Validators.required],
-      payAmount: [{value: this.personInfo?.payAmount, disabled: true}, [Validators.required, Validators.min(1000)]],
-      retirementDate: [{value: this.convertToPersianDate(this.personInfo?.retirementDate?.split('T')[0] ?? ''), disabled: true}],
-      retiredRealDuration: [{value: this.personInfo?.retiredRealDurationYEAR, disabled: true}],
       includeSalary: [false],
       includeHistory: [false],
       attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
@@ -55,6 +62,7 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
           console.log(c);
           const insertComplementary: InsertRequestComplementary = {
             requestID: c.data.requestID,
+            requestTypeID: this.requestTypeID,
             personID: this.personInfo!.personID,
             ceremonyDate: new Date(),
             insertPayAmountInCertificate: request.includeSalary,
@@ -74,9 +82,6 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
               this.form.markAsUntouched();
               this.form = this.fb.group({
                 organization: ['', Validators.required],
-                payAmount: [{value: this.personInfo?.payAmount, disabled: true}, [Validators.required, Validators.min(1000)]],
-                retirementDate: [{value: this.convertToPersianDate(this.personInfo?.retirementDate?.split('T')[0] ?? ''), disabled: true}],
-                retiredRealDuration: [{value: this.personInfo?.retiredRealDurationYEAR, disabled: true}],
                 includeSalary: [false],
                 includeHistory: [false],
                 attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),

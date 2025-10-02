@@ -1,10 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
 import {CustomConstants} from '../../../core/constants/custom.constants';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {RelatedPersons, RelatedPersonsResponse} from '../../../core/models/RelatedPersonsResponse';
 
 @Component({
@@ -14,10 +12,6 @@ import {RelatedPersons, RelatedPersonsResponse} from '../../../core/models/Relat
   standalone: false
 })
 export class RelationsComponent extends BaseFormComponent implements OnInit {
-  dataSource: MatTableDataSource<RelatedPersons> | null = null;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
-  totalCount = 0;
   columnsToDisplay = [
     {key: 'personFirstName', name: 'نام'},
     {key: 'personLastName', name: 'نام خانوادگی'},
@@ -52,13 +46,6 @@ export class RelationsComponent extends BaseFormComponent implements OnInit {
 
   get dependents() {
     return this.form.get('dependents') as FormArray;
-  }
-
-  public initDataSource(res: any) {
-    this.totalCount = res.totalCount;
-    this.dataSource = new MatTableDataSource<RelatedPersons>(res.data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   addDependent() {

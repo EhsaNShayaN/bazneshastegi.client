@@ -6,25 +6,19 @@
       <div fxFlex="100" fxFlex.gt-xs="33.3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>حقوق دریافتی (ریال)</mat-label>
-          <input matInput formControlName="payAmount" class="ltr">
-          <mat-error *ngIf="form.get('payAmount')?.touched && form.get('payAmount')?.hasError('required')">
-            مبلغ حقوق الزامی است
-          </mat-error>
-          <mat-error *ngIf="form.get('payAmount')?.touched && form.get('payAmount')?.hasError('min')">
-            مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
-          </mat-error>
+          <input matInput class="ltr" [value]="this.personInfo?.payAmount | customCurrency" [disabled]="true">
         </mat-form-field>
       </div>
       <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>تاریخ بازنشستگی</mat-label>
-          <input matInput type="text" formControlName="retirementDate" class="ltr">
+          <input matInput class="ltr" [value]="retirementDate" [disabled]="true">
         </mat-form-field>
       </div>
       <div fxFlex="100" fxFlex.gt-xs="33.3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>سابقه سنوات خدمت(سال)</mat-label>
-          <input matInput type="number" formControlName="retiredRealDuration" class="ltr">
+          <input matInput class="ltr" [value]="this.personInfo?.retiredRealDurationYEAR" [disabled]="true">
         </mat-form-field>
       </div>
     </div>
@@ -69,4 +63,35 @@
       <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
     </div>
   </form>
+
+  <h3>لیست گواهی‌های فعال</h3>
+  <mat-divider class="mt-1"></mat-divider>
+
+  @if (dataSource) {
+    <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+      @for (column of columnsToDisplay; track column.key) {
+        <ng-container matColumnDef="{{column.key}}">
+          <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+          <td *matCellDef="let element; let i = index;" mat-cell>
+            @switch (column.key) {
+              @case ('facilityAmount') {
+                {{ element.facilityAmount | customCurrency }}
+                ريال
+              }
+              @default {
+                {{ element[column.key] }}
+              }
+            }
+          </td>
+        </ng-container>
+      }
+      <ng-container matColumnDef="expand">
+        <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+      </ng-container>
+      <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
+      <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+      </tr>
+    </table>
+    <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+  }
 }
