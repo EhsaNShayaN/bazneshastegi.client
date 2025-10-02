@@ -64,7 +64,6 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
             requestID: c.data.requestID,
             requestTypeID: this.requestTypeID,
             personID: this.personInfo!.personID,
-            ceremonyDate: new Date(),
             insertPayAmountInCertificate: request.includeSalary,
             insertDurationInCertificate: request.includeHistory,
             applicantNationalCode: this.personInfo!.personNationalCode,

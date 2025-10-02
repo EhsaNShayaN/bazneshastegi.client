@@ -141,7 +141,7 @@
         <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>نام شعبه</mat-label>
-            <mat-select formControlName="branchName" required>
+            <mat-select formControlName="branchName" required  (selectionChange)="branchChanged($event)">
               @for (item of branches; track item.lookUpID) {
                 <mat-option [value]="item">
                   {{ item.lookUpTypeName }}

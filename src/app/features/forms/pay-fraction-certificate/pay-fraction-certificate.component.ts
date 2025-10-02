@@ -25,6 +25,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
   lenders: LookUpData[] = [];
   branches: LookUpData[] = [];
+  facilityGiverLookupId: string = '';
 
   constructor() {
     super();
@@ -63,7 +64,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   }
 
   ngOnInit(): void {
-    this.restApiService.getLookupData('Bank', null).subscribe((a: LookUpDataResponse) => {
+    this.restApiService.getLookupData('Bank', '').subscribe((a: LookUpDataResponse) => {
       this.lenders = a.data;
     });
   }
@@ -100,7 +101,6 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
             requestID: a.data.requestID,
             requestTypeID: this.requestTypeID,
             personID: this.personInfo!.personID,
-            ceremonyDate: new Date(),
             insertPayAmountInCertificate: request.includeSalary,
             insertDurationInCertificate: request.includeHistory,
             applicantNationalCode: request.borrower.nationalCode,
@@ -110,6 +110,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
             applicantRelationship: request.borrower.relation,
             facilityAmount: request.lender.loanAmount,
             facilityInstalementCount: request.lender.installmentCount,
+            facilityGiverLookupID: this.facilityGiverLookupId
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             console.log(b);
@@ -147,9 +148,15 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   }
 
   lenderChanged($event: MatSelectChange<LookUpData>) {
+    this.facilityGiverLookupId = $event.value.lookUpID;
     this.restApiService.getLookupData('BankBranch', $event.value.lookUpID).subscribe((a: LookUpDataResponse) => {
       this.branches = a.data;
     });
+  }
+
+
+  branchChanged($event: MatSelectChange<LookUpData>) {
+    this.facilityGiverLookupId = $event.value.lookUpID;
   }
 
   dateChanged(dateInput: HTMLInputElement) {

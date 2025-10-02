@@ -64,7 +64,7 @@ export class InsertRequestComplementary {
   requestID!: string;
   requestTypeID!: string;
   personID!: string;
-  ceremonyDate!: Date;
+  ceremonyDate?: Date;
   insertPayAmountInCertificate?: boolean;
   insertDurationInCertificate?: boolean;
   applicantNationalCode?: string;
@@ -73,8 +73,8 @@ export class InsertRequestComplementary {
   applicantLastName?: string;
   applicantRelationship?: string;
   prizeReceiverLookupID?: string;
-  /*relatedPersonID: string;
-  facilityGiverLookupID: string;*/
+  //relatedPersonID: string;
+  facilityGiverLookupID?: string;
   facilityGiverDesc?: string;
   facilityAmount?: number;
   //facilityDiscountPercent: number;

@@ -52,7 +52,7 @@ export class RestApiService {
         }));
   }
 
-  getActiveFacilitiesOfPerson(requestTypeId:string): Observable<any> {
+  getActiveFacilitiesOfPerson(requestTypeId: string): Observable<any> {
     return this.http.get<ActiveFacilitiesOfPersonResponse>(`${endpoint()}forms/activeFacilitiesOfPerson?requestTypeId=${requestTypeId}`,).pipe(
       catchError(this.handleError)
     );
@@ -77,9 +77,9 @@ export class RestApiService {
     );
   }
 
-  getLookupData(lookupType: string, lookUpParentID: number | null): Observable<any> {
+  getLookupData(lookupType: string, lookUpParentID: string): Observable<any> {
     let url = `${endpoint()}forms/lookupData?lookupType=${lookupType}`;
-    if ((lookUpParentID ?? 0) > 0) {
+    if (lookUpParentID) {
       url += `&lookUpParentID=${lookUpParentID}`;
     }
     return this.http.get<LookUpDataResponse>(url,).pipe(

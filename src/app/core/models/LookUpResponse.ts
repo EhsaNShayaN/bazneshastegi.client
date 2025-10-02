@@ -3,7 +3,7 @@ export interface LookUpDataResponse {
 }
 
 export interface LookUpData {
-  lookUpID: number;
+  lookUpID: string;
   lookUpType: string;
   lookUpTypeName: string;
   lookUpName: string;
