@@ -88,8 +88,8 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>نام</mat-label>
             <input matInput formControlName="firstName">
-            <mat-error *ngIf="borrower.get('firstName')?.touched && borrower.get('firstName')?.hasError('required')">نام
-              اجباری می باشد
+            <mat-error *ngIf="borrower.get('firstName')?.touched && borrower.get('firstName')?.hasError('required')">
+              نام اجباری می باشد
             </mat-error>
           </mat-form-field>
         </div>
