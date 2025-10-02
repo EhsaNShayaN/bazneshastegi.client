@@ -25,6 +25,7 @@ import {ActiveFacilitiesOfPersonResponse} from './models/ActiveFacilitiesOfPerso
 export class RestApiService {
   loginSubject: BehaviorSubject<LoginForPortal | null> = new BehaviorSubject<LoginForPortal | null>(null);
   personInfoSubject: BehaviorSubject<PersonInfo | null> = new BehaviorSubject<PersonInfo | null>(null);
+  formSubmittedSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient,
               private authService: AuthService) {

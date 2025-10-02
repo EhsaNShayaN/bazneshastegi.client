@@ -16,9 +16,11 @@ import {MatSort} from '@angular/material/sort';
 import {ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
 import {InsertRequestAttachment} from './pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
+import {CustomConstants} from '../../core/constants/custom.constants';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
+  message: string = '';
   dataSource: MatTableDataSource<any> | null = null;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
@@ -97,6 +99,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   }
 
   insertAttachments(requestID: string) {
+    const lastIndex = this.attachments.controls.length - 1;
     for (let i = 0; i < this.attachments.controls.length; i++) {
       const attachment = this.attachments.at(i).getRawValue();
       if (attachment.file) {
@@ -112,6 +115,14 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
         };
         this.restApiService.insertRequestAttachment(insertRequestAttachment, attachment.file).subscribe((c: InsertRequestAttachmentResponse) => {
           console.log(c);
+          if (i === lastIndex) {
+            this.message = 'متقاضی گرامی درخواست شما با شماره پیگیری ... در سامانه ثبت گردید. جهت مشاهده مراحل بررسی درخواست از طریق منوی پیگیری درخواست اقدام فرمایید.';
+            this.restApiService.formSubmittedSubject.next(this.message);
+            this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
+            this.form.reset();
+            this.form.markAsPristine();
+            this.form.markAsUntouched();
+          }
         });
       }
     }

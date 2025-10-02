@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {InsertRequest, InsertRequestComplementary, PayFractionCertificate} from './pay-fraction-certificate.model';
 import {LookUpDataResponse} from '../../../core/models/LookUpResponse';
 import {InsertResponse} from '../../../core/models/InsertResponse';
-import {CustomConstants} from '../../../core/constants/custom.constants';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
 import {SelectItem} from '../../../shared/components/custom-select/custom-select.component';
@@ -79,6 +78,9 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         name: s.lookUpName,
       }));
     });
+
+    this.message = 'متقاضی گرامی درخواست شما با شماره پیگیری ... در سامانه ثبت گردید. جهت مشاهده مراحل بررسی درخواست از طریق منوی پیگیری درخواست اقدام فرمایید.';
+    this.restApiService.formSubmittedSubject.next(this.message);
   }
 
   get borrower() {
@@ -107,7 +109,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         requestFrom: 2,
       };
       this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
-        if (a.isSuccess && a.data) {
+        if (a.isSuccess) {
           console.log(a);
           const insertComplementary: InsertRequestComplementary = {
             requestID: a.data.requestID,
@@ -126,12 +128,8 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             console.log(b);
-            this.insertAttachments(a.data.requestID);
-            if (b.isSuccess && b.data) {
-              this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
-              this.form.reset();
-              this.form.markAsPristine();
-              this.form.markAsUntouched();
+            if (b.isSuccess) {
+              this.insertAttachments(a.data.requestID);
             } else {
               this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
             }
