@@ -1,5 +1,5 @@
-import {Component, forwardRef, Input, ViewChild, ElementRef, HostListener, Output, EventEmitter, Optional, Self} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR, Validator, NgControl} from '@angular/forms';
+import {Component, Input, ViewChild, HostListener, Output, EventEmitter, Optional, Self} from '@angular/core';
+import {ControlValueAccessor, Validator, NgControl} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
 import {CustomCurrencyPipe} from '../../../core/pipes/custom-currency.pipe';
 
