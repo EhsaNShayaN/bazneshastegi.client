@@ -34,7 +34,16 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
       organization: ['', Validators.required],
       includeSalary: [false],
       includeHistory: [false],
-      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
+      attachments: this.fb.array(
+        this.requestTypes.map(s =>
+          this.fb.group({
+            obj: [s],
+            type: [s.lookupName],
+            file: [null, s.mandantory ? Validators.required : null],
+            uploaded: [false]
+          })
+        )
+      ),
     });
   }
 
@@ -83,7 +92,16 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
                 organization: ['', Validators.required],
                 includeSalary: [false],
                 includeHistory: [false],
-                attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
+                attachments: this.fb.array(
+        this.requestTypes.map(s =>
+          this.fb.group({
+            obj: [s],
+            type: [s.lookupName],
+            file: [null, s.mandantory ? Validators.required : null],
+            uploaded: [false]
+          })
+        )
+      ),
               });
             } else {
               this.toaster.error(c.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});

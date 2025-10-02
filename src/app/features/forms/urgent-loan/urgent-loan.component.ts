@@ -24,7 +24,16 @@ export class UrgentLoanComponent extends BaseFormComponent {
       lastInstallmentDate: [''],
       installmentAmount: [null],
       description: [''],
-      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
+      attachments: this.fb.array(
+        this.requestTypes.map(s =>
+          this.fb.group({
+            obj: [s],
+            type: [s.lookupName],
+            file: [null, s.mandantory ? Validators.required : null],
+            uploaded: [false]
+          })
+        )
+      ),
     });
   }
 

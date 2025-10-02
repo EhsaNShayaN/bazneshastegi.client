@@ -13,8 +13,9 @@ import {CustomCurrencyPipe} from '../../core/pipes/custom-currency.pipe';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
-import {RelatedPersons} from '../../core/models/RelatedPersonsResponse';
+import {ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
+import {InsertRequestAttachment} from './pay-fraction-certificate/pay-fraction-certificate.model';
+import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -86,12 +87,34 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
       console.log('Selected file for', this.attachments.at(index).get('type')?.value, file);
 
       // mark as uploaded
-      this.attachments.at(index).patchValue({uploaded: true});
+      this.attachments.at(index).patchValue({uploaded: true, file: file});
+      this.attachments.at(index).get('file')?.markAsTouched();
     }
   }
 
   get attachments(): FormArray {
     return this.form.get('attachments') as FormArray;
+  }
+
+  insertAttachments(requestID: string) {
+    for (let i = 0; i < this.attachments.controls.length; i++) {
+      const attachment = this.attachments.at(i).getRawValue();
+      if (attachment.file) {
+        const requestTypeAttachment = attachment.obj as RequestTypeAttachment;
+        const insertRequestAttachment: InsertRequestAttachment = {
+          requestID: requestID,
+          attachementTypeID: requestTypeAttachment.requestTypeAttachmentID,
+          attachementTypeName: requestTypeAttachment.lookupName,
+          insertUserID: requestTypeAttachment.insertUserID,
+          insertTime: requestTypeAttachment.insertTime,
+          updateUserID: requestTypeAttachment.updateUserID,
+          updateTime: requestTypeAttachment.updateTime,
+        };
+        this.restApiService.insertRequestAttachment(insertRequestAttachment, attachment.file).subscribe((c: InsertRequestAttachmentResponse) => {
+          console.log(c);
+        });
+      }
+    }
   }
 
   ngOnDestroy() {

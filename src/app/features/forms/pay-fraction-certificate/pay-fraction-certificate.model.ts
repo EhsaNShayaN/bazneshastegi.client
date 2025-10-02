@@ -100,7 +100,7 @@ export interface InsertRequestAttachment {
   //attachment: string;
   //contentType: string;
   insertUserID: string;
-  insertTime: string;   // ISO datetime string
-  updateUserID: string;
-  updateTime: string;   // ISO datetime string
+  insertTime: string;
+  updateUserID?: string;
+  updateTime?: string;
 }

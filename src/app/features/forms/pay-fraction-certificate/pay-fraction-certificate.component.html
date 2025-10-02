@@ -31,9 +31,10 @@
             <!-- File input -->
             <input type="file" (change)="onFileSelected($event, i)"/>
 
-            <!-- Upload status -->
-            <!--<mat-icon *ngIf="attachment.get('uploaded')?.value" color="primary">check_circle</mat-icon>
-            <mat-icon *ngIf="!attachment.get('uploaded')?.value" color="warn">highlight_off</mat-icon>-->
+            <div *ngIf="attachment.get('file')?.invalid && attachment.get('file')?.touched" class="error">
+              {{ attachment.get('type')?.value }}
+              اجباری می باشد
+            </div>
 
           </div>
         </div>

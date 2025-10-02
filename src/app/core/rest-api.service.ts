@@ -58,7 +58,6 @@ export class RestApiService {
     );
   }
 
-
   getRelatedPersons(): Observable<any> {
     return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/relatedPersons`,).pipe(
       catchError(this.handleError)
@@ -93,87 +92,18 @@ export class RestApiService {
     );
   }
 
-  insert0(model: InsertRequest, files: any[] = []): Observable<any> {
-    const formData: FormData = this.toFormData(model);
-    for (const file of files) {
-      formData.append(file.name, file.file);
-    }
-    return this.http.post<BaseResult<AddResult>>(`${endpoint()}forms/insert`, formData).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  insertComplementary0(model: InsertRequestComplementary, files: any[] = []): Observable<any> {
-    const formData: FormData = this.toFormData(model);
-    for (const file of files) {
-      formData.append(file.name, file.file);
-    }
-    return this.http.post<BaseResult<AddResult>>(`${endpoint()}forms/insertComplementary`, formData).pipe(
-      catchError(this.handleError)
-    );
-  }
-
   insertComplementary(model: InsertRequestComplementary): Observable<any> {
     return this.http.post<InsertComplementaryResponse>(`${endpoint()}forms/insertComplementary`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  insertRequestAttachment(model: InsertRequestAttachment): Observable<any> {
-    return this.http.post<InsertRequestAttachmentResponse>(`${endpoint()}forms/insertRequestAttachment`, model).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  getResourceCategories(tableId: number): Observable<any> {
-    return this.http.get<ResourceCategoriesResponse>(`${endpoint()}resource/category/list?tableId=${tableId}`,).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  getResource(model: ResourceRequest): Observable<any> {
-    const query = this.modelToQuery(model);
-    return this.http.get<BaseResult<Resource>>(`${endpoint()}resource/details?${query}`).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  getResources(model: ResourcesRequest): Observable<any> {
-    const query = this.modelToQuery(model);
-    return this.http.get<ResourceResponse>(`${endpoint()}resource/list?${query}`).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  addResourceCategory(model: any): Observable<any> {
-    return this.http.post<BaseResult<boolean>>(`${endpoint()}resource/category/${model.id ? 'edit' : 'add'}`, model).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  addResource(model: AddResourceRequest, image: any = null, file: any = null): Observable<any> {
+  insertRequestAttachment(model: InsertRequestAttachment, file: File): Observable<any> {
     const formData: FormData = this.toFormData(model);
-    //const formData: FormData = new FormData();
-    formData.append('image', image);
     formData.append('file', file);
-    //formData.append('model', JSON.stringify(model));
-    return this.http.post<BaseResult<boolean>>(`${endpoint()}resource/${model.id ? 'edit' : 'add'}`, formData).pipe(
+    return this.http.post<InsertRequestAttachmentResponse>(`${endpoint()}forms/insertRequestAttachment`, formData).pipe(
       catchError(this.handleError)
     );
-  }
-
-  modelToQuery(model: any) {
-    let params = new URLSearchParams(model);
-    let keysForDel: string[] = [];
-    params.forEach((value, key) => {
-      if (!value || value === 'null' || value === 'undefined') {
-        keysForDel.push(key);
-      }
-    });
-    keysForDel.forEach(key => {
-      params.delete(key);
-    });
-    return params.toString();
   }
 
   toFormData<T extends Record<string, any>>(obj: T): FormData {

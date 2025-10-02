@@ -35,7 +35,16 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
     this.form = this.fb.group({
       includeSalary: [false],
       includeHistory: [false],
-      attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
+      attachments: this.fb.array(
+        this.requestTypes.map(s =>
+          this.fb.group({
+            obj: [s],
+            type: [s.lookupName],
+            file: [null, s.mandantory ? Validators.required : null],
+            uploaded: [false]
+          })
+        )
+      ),
 
       // مشخصات وام گیرنده
       borrower: this.fb.group({
@@ -98,7 +107,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         requestFrom: 2,
       };
       this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
-        if (a.isSuccess) {
+        if (a.isSuccess && a.data) {
           console.log(a);
           const insertComplementary: InsertRequestComplementary = {
             requestID: a.data.requestID,
@@ -117,17 +126,8 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             console.log(b);
-
-            /*const insertRequestAttachment: InsertRequestAttachment = {
-              requestID: a.data.requestID,
-              attachementTypeID: this.attachementTypeID,
-              attachementTypeName: this.attachementTypeName,
-              insertUserID: this.insertUserID,
-              insertTime: this.insertTime,
-              updateUserID: this.updateUserID,
-              updateTime: this.updateTime,
-            };*/
-            if (b.isSuccess) {
+            this.insertAttachments(a.data.requestID);
+            if (b.isSuccess && b.data) {
               this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
               this.form.reset();
               this.form.markAsPristine();
