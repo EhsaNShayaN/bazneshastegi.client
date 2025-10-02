@@ -1,6 +1,4 @@
 export interface PayFractionCertificate {
-  guarantorSalary?: number;
-  amountRemain?: number;
   includeSalary: boolean;
   includeHistory: boolean;
   attachments: Attachment[];

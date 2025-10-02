@@ -41,8 +41,6 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
 
   override createForm(): void {
     this.form = this.fb.group({
-      guarantorSalary: [{value: '', disabled: true}, Validators.required],
-      amountRemain: [{value: this.personInfo!.remainedAmountForCertificate, disabled: true}, Validators.required],
       includeSalary: [false],
       includeHistory: [false],
       attachments: this.fb.array(this.requestTypes.map(s => this.fb.group({obj: s, type: s.lookupName, uploaded: [false]}))),
@@ -170,10 +168,6 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
     console.log(date.toISOString().split('T')[0]);
     const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
     console.log(formattedDate); // "1985-04-04"
-
-  }
-
-  onChangeSalary(target: EventTarget | null) {
 
   }
 }

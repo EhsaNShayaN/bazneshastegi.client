@@ -9,6 +9,7 @@ import {Helpers} from '../../core/helpers';
 import {RequestTypeAttachment, RequestTypeAttachmentResponse} from '../../core/models/RequestTypeAttachmentResponse';
 import * as moment from 'jalali-moment';
 import {DatePipe} from '@angular/common';
+import {CustomCurrencyPipe} from '../../core/pipes/custom-currency.pipe';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -20,6 +21,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   toaster = inject(ToastrService);
   datePipe = inject(DatePipe);
   fb = inject(FormBuilder);
+  customCurrency = inject(CustomCurrencyPipe);
   form!: FormGroup;
   personInfo: PersonInfo | null = null;
   requestTypeID: string = '';
