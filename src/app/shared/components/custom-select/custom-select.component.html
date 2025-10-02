@@ -1,0 +1,30 @@
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>{{ placeholder }}</mat-label>
+
+  <mat-select
+    [value]="value"
+    (selectionChange)="onSelectionChange($event)"
+    (openedChange)="onOpenedChange($event)"
+    (blur)="onTouched()"
+    [required]="required"
+  >
+    <!-- Search input inside dropdown -->
+    <mat-option>
+      <input
+        matInput
+        placeholder="جستجو..."
+        [(ngModel)]="searchTerm"
+        (input)="filterItems()"
+        autocomplete="off"
+        (click)="$event.stopPropagation()"
+      />
+    </mat-option>
+
+    <!-- List of filtered items -->
+    <mat-option *ngFor="let item of filteredItems" [value]="item.id">
+      {{ item.name }}
+    </mat-option>
+  </mat-select>
+
+  <mat-error *ngIf="required && !value">This field is required</mat-error>
+</mat-form-field>

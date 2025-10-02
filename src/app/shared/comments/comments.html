@@ -19,7 +19,7 @@
           <mat-label>موبایل</mat-label>
           <input matInput placeholder="موبایل" formControlName="mobile" required>
           <mat-error *ngIf="commentForm?.controls['mobile'].errors?.['required']">
-            موبایل الزامی است.
+            موبایل اجباری می باشد
           </mat-error>
           <mat-error *ngIf="commentForm.controls.mobile.hasError('invalidMobile')">
             موبایل نامعتبر است.
@@ -31,7 +31,7 @@
           <mat-label>متن نظر</mat-label>
           <textarea matInput placeholder="متن نظر" formControlName="description" required rows="5"></textarea>
           <mat-error *ngIf="commentForm.controls['description'].errors?.['required']">
-            متن نظر الزامی است.
+            متن نظر اجباری می باشد
           </mat-error>
         </mat-form-field>
       </div>

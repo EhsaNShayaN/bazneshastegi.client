@@ -6,7 +6,7 @@
     <mat-label>نام</mat-label>
     <input matInput formControlName="firstName">
     <mat-error *ngIf="form.get('firstName')?.touched && form.get('firstName')?.hasError('required')">
-      نام الزامی است
+      نام اجباری می باشد
     </mat-error>
   </mat-form-field>
 
@@ -15,7 +15,7 @@
     <input matInput formControlName="lastName">
     @if (form.get('lastName')?.touched && form.get('lastName')?.hasError('required')) {
       <mat-error>
-        نام خانوادگی الزامی است
+        نام خانوادگی اجباری می باشد
       </mat-error>
     }
   </mat-form-field>
@@ -24,7 +24,7 @@
     <mat-label>نسبت</mat-label>
     <input matInput formControlName="relation">
     <mat-error *ngIf="form.get('relation')?.touched && form.get('relation')?.hasError('required')">
-      نسبت الزامی است
+      نسبت اجباری می باشد
     </mat-error>
   </mat-form-field>
 
@@ -32,7 +32,7 @@
     <mat-label>مقطع تحصیلی</mat-label>
     <input matInput formControlName="grade">
     <mat-error *ngIf="form.get('grade')?.touched && form.get('grade')?.hasError('required')">
-      مقطع تحصیلی الزامی است
+      مقطع تحصیلی اجباری می باشد
     </mat-error>
   </mat-form-field>
 
@@ -40,7 +40,7 @@
     <mat-label>مبلغ تسهیلات (ریال)</mat-label>
     <input matInput type="number" formControlName="loanAmount">
     <mat-error *ngIf="form.get('loanAmount')?.touched && form.get('loanAmount')?.hasError('required')">
-      مبلغ الزامی است
+      مبلغ اجباری می باشد
     </mat-error>
     <mat-error *ngIf="form.get('loanAmount')?.touched && form.get('loanAmount')?.hasError('min')">
       مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
@@ -54,7 +54,7 @@
       <mat-option value="pupil">محصل</mat-option>
     </mat-select>
     <mat-error *ngIf="form.get('requestType')?.touched && form.get('requestType')?.hasError('required')">
-      انتخاب نوع درخواست الزامی است
+      انتخاب نوع درخواست اجباری می باشد
     </mat-error>
   </mat-form-field>
 
@@ -71,7 +71,7 @@
       <mat-form-field appearance="outline">
         <mat-label>نام</mat-label>
         <input matInput formControlName="firstName">
-        <mat-error *ngIf="dep.get('firstName')?.touched && dep.get('firstName')?.hasError('required')">نام الزامی است
+        <mat-error *ngIf="dep.get('firstName')?.touched && dep.get('firstName')?.hasError('required')">نام اجباری می باشد
         </mat-error>
       </mat-form-field>
 
@@ -86,14 +86,14 @@
       <mat-form-field appearance="outline">
         <mat-label>نسبت</mat-label>
         <input matInput formControlName="relation">
-        <mat-error *ngIf="dep.get('relation')?.touched && dep.get('relation')?.hasError('required')">نسبت الزامی است
+        <mat-error *ngIf="dep.get('relation')?.touched && dep.get('relation')?.hasError('required')">نسبت اجباری می باشد
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>مقطع تحصیلی</mat-label>
         <input matInput formControlName="grade">
-        <mat-error *ngIf="dep.get('grade')?.touched && dep.get('grade')?.hasError('required')">مقطع تحصیلی الزامی است
+        <mat-error *ngIf="dep.get('grade')?.touched && dep.get('grade')?.hasError('required')">مقطع تحصیلی اجباری می باشد
         </mat-error>
       </mat-form-field>
 

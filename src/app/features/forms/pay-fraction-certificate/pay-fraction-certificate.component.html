@@ -60,10 +60,10 @@
 
         <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>شماره ملی</mat-label>
+            <mat-label>کد ملی</mat-label>
             <input matInput formControlName="nationalCode" required onlyNumber maxlength="10" class="ltr">
-            <mat-error *ngIf="borrower.get('nationalCode')?.touched && borrower.get('nationalCode')?.invalid">شماره ملی
-              معتبر نیست
+            <mat-error *ngIf="borrower.get('nationalCode')?.touched && borrower.get('nationalCode')?.invalid">
+              کد ملی نا معتبر است
             </mat-error>
           </mat-form-field>
         </div>
@@ -97,8 +97,8 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>نام خانوادگی</mat-label>
             <input matInput formControlName="lastName">
-            <mat-error *ngIf="borrower.get('lastName')?.touched && borrower.get('lastName')?.hasError('required')">ضروری
-              است
+            <mat-error *ngIf="borrower.get('lastName')?.touched && borrower.get('lastName')?.hasError('required')">
+              نام خانوادگی اجباری می باشد
             </mat-error>
           </mat-form-field>
         </div>
@@ -107,7 +107,7 @@
             <mat-label>نسبت</mat-label>
             <input matInput formControlName="relation">
             <mat-error *ngIf="borrower.get('relation')?.touched && borrower.get('relation')?.hasError('required')">
-              نسبت الزامی است
+              نسبت اجباری می باشد
             </mat-error>
           </mat-form-field>
         </div>
@@ -123,43 +123,52 @@
 
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-xs="33.3">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>نام وام دهنده</mat-label>
-            <mat-select formControlName="name" required (selectionChange)="lenderChanged($event)">
-              @for (item of lenders; track item.lookUpID) {
-                <mat-option [value]="item">
-                  {{ item.lookUpTypeName }}
-                  {{ item.lookUpName }}
-                </mat-option>
-              }
-            </mat-select>
-            <mat-error *ngIf="lender.get('name')?.touched && lender.get('name')?.hasError('required')">
-              نام وام دهنده را انتخاب نمایید.
-            </mat-error>
-          </mat-form-field>
+          <app-custom-select
+            formControlName="name"
+            [items]="lenders"
+            placeholder="نام وام دهنده"
+            [required]="true"
+            (selectionChange)="lenderChanged($event)"
+          ></app-custom-select>
+          <mat-error class="custom-error" *ngIf="lender.get('name')?.touched && lender.get('name')?.hasError('required')">
+            نام وام دهنده را انتخاب نمایید.
+          </mat-error>
         </div>
         <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>نام شعبه</mat-label>
-            <mat-select formControlName="branchName" required (selectionChange)="branchChanged($event)">
-              @for (item of branches; track item.lookUpID) {
-                <mat-option [value]="item">
-                  {{ item.lookUpTypeName }}
-                  {{ item.lookUpName }}
-                </mat-option>
-              }
-            </mat-select>
-            <mat-error *ngIf="lender.get('branchName')?.touched && lender.get('branchName')?.hasError('required')">
+          @if ((branches?.length ?? 0) > 0) {
+            <app-custom-select
+              formControlName="branchName"
+              [items]="branches"
+              placeholder="نام شعبه"
+              [required]="true"
+              (selectionChange)="branchChanged($event)"
+            ></app-custom-select>
+            <mat-error class="custom-error" *ngIf="lender.get('branchName')?.touched && lender.get('branchName')?.hasError('required')">
               نام شعبه را انتخاب نمایید.
             </mat-error>
-          </mat-form-field>
+          } @else {
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>نام شعبه</mat-label>
+              <mat-select formControlName="branchName" required (selectionChange)="branchChanged($event)">
+                <!--@for (item of branches; track item.lookUpID) {
+                  <mat-option [value]="item">
+                    {{ item.lookUpTypeName }}
+                    {{ item.lookUpName }}
+                  </mat-option>
+                }-->
+              </mat-select>
+              <mat-error *ngIf="lender.get('branchName')?.touched && lender.get('branchName')?.hasError('required')">
+                نام شعبه را انتخاب نمایید.
+              </mat-error>
+            </mat-form-field>
+          }
         </div>
         <div fxFlex="100" fxFlex.gt-xs="33.3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>کد شعبه</mat-label>
             <input matInput formControlName="branchCode">
             <mat-error *ngIf="lender.get('branchCode')?.touched && lender.get('branchCode')?.hasError('required')">
-              کد شعبه الزامی است
+              کد شعبه اجباری می باشد
             </mat-error>
           </mat-form-field>
         </div>
@@ -177,7 +186,7 @@
             [required]="true"
           ></app-currency-input>
           <mat-error class="custom-error" *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('required')">
-            مبلغ وام الزامی است.
+            مبلغ وام اجباری می باشد
           </mat-error>
         </div>
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
@@ -186,7 +195,7 @@
             <input matInput formControlName="installmentCount" min="1" type="number" onlyNumber class="ltr">
             <mat-error
               *ngIf="lender.get('installmentCount')?.touched && lender.get('installmentCount')?.hasError('required')">
-              تعداد اقساط الزامی است
+              تعداد اقساط اجباری می باشد
             </mat-error>
             <mat-error
               *ngIf="lender.get('installmentCount')?.touched && lender.get('installmentCount')?.hasError('min')">

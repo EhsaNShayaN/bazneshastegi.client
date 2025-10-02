@@ -5,6 +5,7 @@ import {Directive, HostListener} from '@angular/core';
   standalone: false
 })
 export class OnlyNumberDirective {
+  private persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
 
   constructor() {
   }

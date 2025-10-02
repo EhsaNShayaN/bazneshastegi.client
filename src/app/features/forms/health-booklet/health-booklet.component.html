@@ -3,19 +3,19 @@
   <mat-form-field appearance="outline">
     <mat-label>نام</mat-label>
     <input matInput formControlName="firstName">
-    <mat-error *ngIf="form.get('firstName')?.hasError('required')">نام الزامی است</mat-error>
+    <mat-error *ngIf="form.get('firstName')?.hasError('required')">نام اجباری می باشد</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>نام خانوادگی</mat-label>
     <input matInput formControlName="lastName">
-    <mat-error *ngIf="form.get('lastName')?.hasError('required')">نام خانوادگی الزامی است</mat-error>
+    <mat-error *ngIf="form.get('lastName')?.hasError('required')">نام خانوادگی اجباری می باشد</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>نسبت</mat-label>
     <input matInput formControlName="relation">
-    <mat-error *ngIf="form.get('relation')?.hasError('required')">نسبت الزامی است</mat-error>
+    <mat-error *ngIf="form.get('relation')?.hasError('required')">نسبت اجباری می باشد</mat-error>
   </mat-form-field>
 
   <mat-checkbox formControlName="underSupport">تحت تکفل</mat-checkbox>
@@ -28,7 +28,7 @@
       <mat-option value="replace">تعویض</mat-option>
     </mat-select>
     <mat-error *ngIf="form.get('requestType')?.hasError('required')">
-      انتخاب نوع درخواست الزامی است
+      انتخاب نوع درخواست اجباری می باشد
     </mat-error>
   </mat-form-field>
 
@@ -39,7 +39,7 @@
       <mat-option value="inPerson">حضوری</mat-option>
     </mat-select>
     <mat-error *ngIf="form.get('deliveryMethod')?.hasError('required')">
-      انتخاب نحوه تحویل الزامی است
+      انتخاب نحوه تحویل اجباری می باشد
     </mat-error>
   </mat-form-field>
 

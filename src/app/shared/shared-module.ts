@@ -31,6 +31,7 @@ import {MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatH
 import {MatPaginator} from '@angular/material/paginator';
 import {CommonModule} from '@angular/common';
 import {CurrencyInputComponent} from './components/currency-input/currency-input.component';
+import {CustomSelectComponent} from './components/custom-select/custom-select.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {CurrencyInputComponent} from './components/currency-input/currency-input
     LoadMoreComponent,
     Comments,
     CurrencyInputComponent,
+    CustomSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -174,6 +176,7 @@ import {CurrencyInputComponent} from './components/currency-input/currency-input
     MatPaginator,
     MatError,
     CurrencyInputComponent,
+    CustomSelectComponent,
   ],
   providers: [
     CustomCurrencyPipe,

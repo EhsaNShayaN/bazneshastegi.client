@@ -13,7 +13,7 @@
       <mat-option value="fix">رفع نقص</mat-option>
     </mat-select>
     <mat-error *ngIf="form.get('issueType')?.hasError('required')">
-      انتخاب نوع صدور الزامی است
+      انتخاب نوع صدور اجباری می باشد
     </mat-error>
   </mat-form-field>
 
@@ -40,7 +40,7 @@
       <mat-option value="representative">نماینده</mat-option>
     </mat-select>
     <mat-error *ngIf="form.get('deliveryMethod')?.hasError('required')">
-      انتخاب نحوه دریافت الزامی است
+      انتخاب نحوه دریافت اجباری می باشد
     </mat-error>
   </mat-form-field>
 

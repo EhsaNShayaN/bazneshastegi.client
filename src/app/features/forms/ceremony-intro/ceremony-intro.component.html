@@ -4,7 +4,7 @@
     <mat-label>نوع مراسم</mat-label>
     <input matInput formControlName="ceremonyType">
     <mat-error *ngIf="form.get('ceremonyType')?.hasError('required')">
-      نوع مراسم الزامی است
+      نوع مراسم اجباری می باشد
     </mat-error>
   </mat-form-field>
 
@@ -12,7 +12,7 @@
     <mat-label>معرفی به</mat-label>
     <input matInput formControlName="introduceTo">
     <mat-error *ngIf="form.get('introduceTo')?.hasError('required')">
-      معرفی به الزامی است
+      معرفی به اجباری می باشد
     </mat-error>
   </mat-form-field>
 
@@ -25,7 +25,7 @@
     <mat-label>تاریخ مراسم</mat-label>
     <input matInput type="date" formControlName="ceremonyDate">
     <mat-error *ngIf="form.get('ceremonyDate')?.hasError('required')">
-      تاریخ مراسم الزامی است
+      تاریخ مراسم اجباری می باشد
     </mat-error>
   </mat-form-field>
 
@@ -46,19 +46,19 @@
       <mat-form-field appearance="outline">
         <mat-label>نام</mat-label>
         <input matInput formControlName="firstName">
-        <mat-error *ngIf="dep.get('firstName')?.hasError('required')">نام الزامی است</mat-error>
+        <mat-error *ngIf="dep.get('firstName')?.hasError('required')">نام اجباری می باشد</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>نام خانوادگی</mat-label>
         <input matInput formControlName="lastName">
-        <mat-error *ngIf="dep.get('lastName')?.hasError('required')">نام خانوادگی الزامی است</mat-error>
+        <mat-error *ngIf="dep.get('lastName')?.hasError('required')">نام خانوادگی اجباری می باشد</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>نسبت</mat-label>
         <input matInput formControlName="relation">
-        <mat-error *ngIf="dep.get('relation')?.hasError('required')">نسبت الزامی است</mat-error>
+        <mat-error *ngIf="dep.get('relation')?.hasError('required')">نسبت اجباری می باشد</mat-error>
       </mat-form-field>
 
       <mat-checkbox formControlName="underSupport">تحت تکفل</mat-checkbox>

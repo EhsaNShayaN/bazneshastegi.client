@@ -11,7 +11,7 @@
         </mat-form-field>
         @if (form.get('nationalCode')?.touched) {
           <mat-error *ngIf="form.get('nationalCode')?.hasError('required')">
-            کدملی الزامی است.
+            کدملی اجباری می باشد
           </mat-error>
           <mat-error *ngIf="form.get('nationalCode')?.hasError('minlength')">
             کدملی باید 10 کاراکتر باشد.
@@ -28,7 +28,7 @@
         </mat-form-field>
         @if (form.get('cellPhone')?.touched) {
           <mat-error *ngIf="form.get('cellPhone')?.hasError('required')">
-            موبایل الزامی است.
+            موبایل اجباری می باشد
           </mat-error>
           <mat-error *ngIf="form.get('cellPhone')?.hasError('invalidMobile')">
             موبایل نامعتبر است.

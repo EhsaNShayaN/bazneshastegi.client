@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {InsertRequest, InsertRequestComplementary, PayFractionCertificate} from './pay-fraction-certificate.model';
-import {LookUpData, LookUpDataResponse} from '../../../core/models/LookUpResponse';
-import {MatSelectChange} from '@angular/material/select';
+import {LookUpDataResponse} from '../../../core/models/LookUpResponse';
 import {InsertResponse} from '../../../core/models/InsertResponse';
 import {CustomConstants} from '../../../core/constants/custom.constants';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
+import {SelectItem} from '../../../shared/components/custom-select/custom-select.component';
 
 @Component({
   selector: 'app-pay-fraction-certificate',
@@ -23,8 +23,8 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
     {key: 'facilityAmount', name: 'مبلغ وام'}
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
-  lenders: LookUpData[] = [];
-  branches: LookUpData[] = [];
+  lenders: SelectItem[] = [];
+  branches: SelectItem[] = [];
   facilityGiverLookupId: string = '';
 
   constructor() {
@@ -65,7 +65,10 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
 
   ngOnInit(): void {
     this.restApiService.getLookupData('Bank', '').subscribe((a: LookUpDataResponse) => {
-      this.lenders = a.data;
+      this.lenders = a.data.map(s => ({
+        id: s.lookUpID,
+        name: s.lookUpName,
+      }));
     });
   }
 
@@ -147,24 +150,27 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
     }
   }
 
-  lenderChanged($event: MatSelectChange<LookUpData>) {
-    this.facilityGiverLookupId = $event.value.lookUpID;
-    this.restApiService.getLookupData('BankBranch', $event.value.lookUpID).subscribe((a: LookUpDataResponse) => {
-      this.branches = a.data;
-    });
+  lenderChanged($event: any) {
+    if ($event) {
+      this.facilityGiverLookupId = $event;
+      this.restApiService.getLookupData('BankBranch', this.facilityGiverLookupId).subscribe((a: LookUpDataResponse) => {
+        this.branches = a.data.map(s => ({
+          id: s.lookUpID,
+          name: s.lookUpName,
+        }));
+      });
+    }
   }
 
-  branchChanged($event: MatSelectChange<LookUpData>) {
-    this.facilityGiverLookupId = $event.value.lookUpID;
+  branchChanged($event: any): void {
+    if ($event) {
+      this.facilityGiverLookupId = $event;
+    }
   }
 
   dateChanged(dateInput: HTMLInputElement) {
-    console.log(dateInput.value);
     const date = this.borrower.get('birthDate')?.value;
-    console.log(date);
-    console.log(date.toISOString().split('T')[0]);
     const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
-    console.log(formattedDate); // "1985-04-04"
   }
 
   onLoanAmountChange($event: number) {
