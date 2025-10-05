@@ -98,7 +98,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     return this.form.get('attachments') as FormArray;
   }
 
-  insertAttachments(requestID: string) {
+  insertAttachments(requestID: string, requestNO: string) {
     const lastIndex = this.attachments.controls.length - 1;
     for (let i = 0; i < this.attachments.controls.length; i++) {
       const attachment = this.attachments.at(i).getRawValue();
@@ -116,7 +116,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
         this.restApiService.insertRequestAttachment(insertRequestAttachment, attachment.file).subscribe((c: InsertRequestAttachmentResponse) => {
           console.log(c);
           if (i === lastIndex) {
-            this.message = 'متقاضی گرامی درخواست شما با شماره پیگیری ... در سامانه ثبت گردید. جهت مشاهده مراحل بررسی درخواست از طریق منوی پیگیری درخواست اقدام فرمایید.';
+            this.message = `متقاضی گرامی درخواست شما با شماره پیگیری ${requestNO} در سامانه ثبت گردید. جهت مشاهده مراحل بررسی درخواست از طریق منوی پیگیری درخواست اقدام فرمایید.`;
             this.restApiService.formSubmittedSubject.next(this.message);
             this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
             this.form.reset();

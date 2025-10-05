@@ -2,7 +2,7 @@ export interface CeremonyIntroRequest {
   ceremonyType: string;
   introduceTo: string;
   discountPercent?: number;
-  ceremonyDate: string;
+  ceremonyDate?: string | null;
   inviteesCount?: number;
   forWhom: string; // خودم / وابستگان
   dependents: Dependent[];

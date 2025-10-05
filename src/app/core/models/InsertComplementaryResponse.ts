@@ -26,7 +26,7 @@ export class InsertComplementaryInfo {
   facilityReceiverFullName!: string | null;
   facilityReceiveTypeLookupID!: string | null;
   ceremonyTypeLookupID!: string | null;
-  ceremonyDate!: string; // ISO date string e.g. "2025-09-19T07:55:35.467Z"
+  ceremonyDate?: string | null;
   ceremonyGuestCount!: number;
   introducedToLookupID!: string | null;
   requestDescription!: string | null;

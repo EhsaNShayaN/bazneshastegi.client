@@ -78,9 +78,6 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         name: s.lookUpName,
       }));
     });
-
-    this.message = 'متقاضی گرامی درخواست شما با شماره پیگیری ... در سامانه ثبت گردید. جهت مشاهده مراحل بررسی درخواست از طریق منوی پیگیری درخواست اقدام فرمایید.';
-    this.restApiService.formSubmittedSubject.next(this.message);
   }
 
   get borrower() {
@@ -129,7 +126,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             console.log(b);
             if (b.isSuccess) {
-              this.insertAttachments(a.data.requestID);
+              this.insertAttachments(a.data.requestID, a.data.requestNO);
             } else {
               this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
             }
