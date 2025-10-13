@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
-import {StationaryRequest} from './stationary.model';
+import {EducationRewardRequest} from './education-reward.model';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertResponse} from '../../../core/models/InsertResponse';
@@ -10,12 +10,12 @@ import {MatSelectChange} from '@angular/material/select';
 import {GetRequestTypeConfigResponse} from '../../../core/models/GetRequestTypeConfigResponse';
 
 @Component({
-  selector: 'app-stationary',
-  templateUrl: './stationary.component.html',
+  selector: 'app-education-reward',
+  templateUrl: './education-reward.component.html',
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class StationaryComponent extends BaseFormComponent implements OnInit {
+export class EducationRewardComponent extends BaseFormComponent implements OnInit {
   columnsToDisplay = [
     {key: 'mainpersonFirstName', name: 'نام'},
     {key: 'mainpersonLastName', name: 'نام خانوادگی'},
@@ -56,7 +56,7 @@ export class StationaryComponent extends BaseFormComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      const request: StationaryRequest = this.form.value;
+      const request: EducationRewardRequest = this.form.value;
       console.log('📌 فرم لوازم تحریر ثبت شد:', request);
       console.log(request);
       const insert: InsertRequest = {

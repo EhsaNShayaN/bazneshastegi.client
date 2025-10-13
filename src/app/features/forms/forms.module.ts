@@ -11,7 +11,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {PayFractionCertificateComponent} from './pay-fraction-certificate/pay-fraction-certificate.component';
 import {SalaryCertificateComponent} from './salary-certificate/salary-certificate.component';
 import {StationaryComponent} from './stationary/stationary.component';
-import {ScholarshipComponent} from './scholarship/scholarship.component';
+import {EducationRewardComponent} from './education-reward/education-reward.component';
 import {CityBankLoanComponent} from './city-bank-loan/city-bank-loan.component';
 import {UrgentLoanComponent} from './urgent-loan/urgent-loan.component';
 import {HealthBookletComponent} from './health-booklet/health-booklet.component';
@@ -26,7 +26,7 @@ import {RelationsComponent} from './relations/relations.component';
     PayFractionCertificateComponent,
     SalaryCertificateComponent,
     StationaryComponent,
-    ScholarshipComponent,
+    EducationRewardComponent,
     CityBankLoanComponent,
     UrgentLoanComponent,
     HealthBookletComponent,
@@ -51,7 +51,7 @@ import {RelationsComponent} from './relations/relations.component';
     PayFractionCertificateComponent,
     SalaryCertificateComponent,
     StationaryComponent,
-    ScholarshipComponent,
+    EducationRewardComponent,
     CityBankLoanComponent,
     UrgentLoanComponent,
     HealthBookletComponent,

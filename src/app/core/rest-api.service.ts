@@ -18,6 +18,7 @@ import {LoginForPortal, LoginForPortalResponse} from './models/LoginForPortalRes
 import {RequestTypeAttachmentResponse} from './models/RequestTypeAttachmentResponse';
 import {InsertRequestAttachmentResponse} from './models/InsertRequestAttachmentResponse';
 import {ActiveFacilitiesOfPersonResponse} from './models/ActiveFacilitiesOfPersonResponse';
+import {GetRequestTypeConfigResponse} from './models/GetRequestTypeConfigResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,12 @@ export class RestApiService {
 
   getActiveFacilitiesOfPerson(requestTypeId: string): Observable<any> {
     return this.http.get<ActiveFacilitiesOfPersonResponse>(`${endpoint()}forms/activeFacilitiesOfPerson?requestTypeId=${requestTypeId}`,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getRequestTypeConfig(requestTypeId: string, lookupID: string): Observable<any> {
+    return this.http.get<GetRequestTypeConfigResponse>(`${endpoint()}forms/getRequestTypeConfig?requestTypeId=${requestTypeId}&lookupID=${lookupID}`,).pipe(
       catchError(this.handleError)
     );
   }
