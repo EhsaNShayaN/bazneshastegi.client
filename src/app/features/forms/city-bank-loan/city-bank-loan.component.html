@@ -1,63 +1,119 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+<h2 class="text-center mb-2">وام بانک شهر</h2>
 
-  <mat-form-field appearance="outline">
-    <mat-label>نام شعبه وام‌دهنده</mat-label>
-    <input matInput formControlName="branchName">
-    <mat-error *ngIf="form.get('branchName')?.hasError('required')">
-      نام شعبه اجباری می باشد
-    </mat-error>
-  </mat-form-field>
+@if (form) {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-1">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>نام شعبه وام‌دهنده</mat-label>
+          <input matInput formControlName="branchName">
+          <mat-error *ngIf="form.get('branchName')?.hasError('required')">
+            نام شعبه اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>کد شعبه</mat-label>
+          <input matInput formControlName="branchCode">
+          <mat-error *ngIf="form.get('branchCode')?.hasError('required')">
+            کد شعبه اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-1">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>مبلغ وام درخواستی (ریال)</mat-label>
+          <input matInput type="number" formControlName="requestedAmount">
+          <mat-error *ngIf="form.get('requestedAmount')?.hasError('required')">
+            مبلغ وام اجباری می باشد
+          </mat-error>
+          <mat-error *ngIf="form.get('requestedAmount')?.hasError('min')">
+            مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>تعداد اقساط</mat-label>
+          <input matInput type="number" formControlName="installmentCount">
+          <mat-error *ngIf="form.get('installmentCount')?.hasError('required')">
+            تعداد اقساط اجباری می باشد
+          </mat-error>
+          <mat-error *ngIf="form.get('installmentCount')?.hasError('min')">
+            حداقل باید یک قسط انتخاب شود
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-1">
+        <app-currency-input
+          label="مبلغ قسط(ریال)"
+          placeholder="مبلغ قسط(ریال)"
+          formControlName="installmentAmount">
+        </app-currency-input>
+      </div>
 
-  <mat-form-field appearance="outline">
-    <mat-label>مبلغ وام درخواستی (ریال)</mat-label>
-    <input matInput type="number" formControlName="requestedAmount">
-    <mat-error *ngIf="form.get('requestedAmount')?.hasError('required')">
-      مبلغ وام اجباری می باشد
-    </mat-error>
-    <mat-error *ngIf="form.get('requestedAmount')?.hasError('min')">
-      مبلغ باید بیشتر از ۱۰۰۰ ریال باشد
-    </mat-error>
-  </mat-form-field>
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>سود وام(%)</mat-label>
+          <input matInput type="number" formControlName="profit" onlyNumber class="ltr">
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50">
+        مبلغ
+        <app-currency-input
+          label="مبلغ(ریال)"
+          placeholder="مبلغ(ریال)"
+          formControlName="guaranty"
+          [class]="''">
+        </app-currency-input>
+        ريال بابت ضمانت سازمان از وام شما کسر گردید.
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50">
+        <mat-checkbox formControlName="needGuarantor">نیاز به ضامن</mat-checkbox>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>توضیحات</mat-label>
+          <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>تعداد اقساط</mat-label>
-    <input matInput type="number" formControlName="installmentCount">
-    <mat-error *ngIf="form.get('installmentCount')?.hasError('required')">
-      تعداد اقساط اجباری می باشد
-    </mat-error>
-    <mat-error *ngIf="form.get('installmentCount')?.hasError('min')">
-      حداقل باید یک قسط انتخاب شود
-    </mat-error>
-  </mat-form-field>
+      </div>
+    </div>
 
-  <mat-form-field appearance="outline">
-    <mat-label>تاریخ آخرین قسط</mat-label>
-    <input matInput type="date" formControlName="lastInstallmentDate">
-  </mat-form-field>
+    <div fxLayout="row wrap" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
+    </div>
+  </form>
+}
 
-  <mat-form-field appearance="outline">
-    <mat-label>تاریخ دریافت</mat-label>
-    <input matInput type="date" formControlName="receivedDate">
-  </mat-form-field>
+<h3>وام بانک شهر قبلی شما</h3>
+<mat-divider class="mt-1"></mat-divider>
 
-  <mat-form-field appearance="outline">
-    <mat-label>مبلغ دریافتی</mat-label>
-    <input matInput type="number" formControlName="receivedAmount">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>مانده</mat-label>
-    <input matInput type="number" formControlName="remainingAmount">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>توضیحات</mat-label>
-    <textarea matInput formControlName="description" rows="3"></textarea>
-  </mat-form-field>
-
-  <mat-checkbox formControlName="needGuarantor">نیاز به ضامن</mat-checkbox>
-
-  <div class="submit-btn">
-    <button mat-raised-button color="accent" type="submit">ثبت درخواست</button>
-  </div>
-</form>
+@if (dataSource) {
+  <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+    @for (column of columnsToDisplay; track column.key) {
+      <ng-container matColumnDef="{{column.key}}">
+        <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+        <td *matCellDef="let element; let i = index;" mat-cell>
+          @switch (column.key) {
+            @case ('facilityAmount') {
+              {{ element.facilityAmount | customCurrency }}
+              ريال
+            }
+            @default {
+              {{ element[column.key] }}
+            }
+          }
+        </td>
+      </ng-container>
+    }
+    <ng-container matColumnDef="expand">
+      <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+    </ng-container>
+    <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
+    <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+    </tr>
+  </table>
+  <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+}

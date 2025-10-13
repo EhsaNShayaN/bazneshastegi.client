@@ -12,6 +12,7 @@ export class CurrencyInputComponent implements ControlValueAccessor, Validator {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() required: boolean = false;
+  @Input() class: string = 'w-100';
 
   @Output() changed = new EventEmitter<number>();
   @Output() keyPressed = new EventEmitter<KeyboardEvent>();
