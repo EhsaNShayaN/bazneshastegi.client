@@ -25,6 +25,16 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
   totalCount = 0;
+  relationColumnsToDisplay = [
+    //{key: 'pensionaryID', name: 'شناسه'},
+    //{key: 'personFatherName', name: 'نام پدر'},
+    //{key: 'personLastName', name: 'نام خانوادگی'},
+    {key: 'personID', name: 'شماره پرسنلی'},
+    {key: 'personFirstName', name: 'نام و نام خانوادگی'},
+    {key: 'personNationalCode', name: 'کدملی'},
+    {key: 'check', name: 'انتخاب'},
+  ];
+  relationColumnsToDisplay0: string[] = this.relationColumnsToDisplay.map(s => s.key);
   relationDataSource: MatTableDataSource<any> | null = null;
 
   private sub: any;

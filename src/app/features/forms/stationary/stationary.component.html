@@ -62,6 +62,10 @@
                   {{ element.personFirstName }}
                   {{ element.personLastName }}
                 }
+                @case ('check') {
+                  <mat-checkbox [value]="element.pensionaryID">انتخاب</mat-checkbox>
+                  11111
+                }
                 @default {
                   {{ element[column.key] }}
                 }

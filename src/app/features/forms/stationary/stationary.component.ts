@@ -24,15 +24,6 @@ export class StationaryComponent extends BaseFormComponent implements OnInit {
     {key: 'facilityAmount', name: 'مبلغ وام'}
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
-  relationColumnsToDisplay = [
-    //{key: 'pensionaryID', name: 'شناسه'},
-    //{key: 'personFatherName', name: 'نام پدر'},
-    //{key: 'personLastName', name: 'نام خانوادگی'},
-    {key: 'personID', name: 'شماره پرسنلی'},
-    {key: 'personFirstName', name: 'نام و نام خانوادگی'},
-    {key: 'personNationalCode', name: 'کدملی'},
-  ];
-  relationColumnsToDisplay0: string[] = this.relationColumnsToDisplay.map(s => s.key);
   prizeReceivers: LookUpData[] = [];
   loanAmount: number | null = null;
 

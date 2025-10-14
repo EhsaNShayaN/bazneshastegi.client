@@ -118,13 +118,14 @@
 
 @if (dataSource) {
   <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
-    @for (column of columnsToDisplay; track column.key) {
+    @for (column of relationColumnsToDisplay; track column.key) {
       <ng-container matColumnDef="{{column.key}}">
         <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
         <td *matCellDef="let element; let i = index;" mat-cell>
           @switch (column.key) {
-            @case ('parentId') {
-              {{ element.parentTitle }}
+            @case ('personFirstName') {
+              {{ element.personFirstName }}
+              {{ element.personLastName }}
             }
             @default {
               {{ element[column.key] }}
@@ -136,8 +137,8 @@
     <ng-container matColumnDef="expand">
       <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
     </ng-container>
-    <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
-    <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+    <tr *matHeaderRowDef="relationColumnsToDisplay0" mat-header-row></tr>
+    <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
     </tr>
   </table>
   <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
