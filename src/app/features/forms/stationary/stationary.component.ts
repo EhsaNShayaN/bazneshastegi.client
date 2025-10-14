@@ -8,6 +8,7 @@ import {InsertComplementaryResponse} from '../../../core/models/InsertComplement
 import {LookUpData, LookUpDataResponse} from '../../../core/models/LookUpResponse';
 import {MatSelectChange} from '@angular/material/select';
 import {GetRequestTypeConfigResponse} from '../../../core/models/GetRequestTypeConfigResponse';
+import {RelatedPersonsResponse} from '../../../core/models/RelatedPersonsResponse';
 
 @Component({
   selector: 'app-stationary',
@@ -25,11 +26,22 @@ export class StationaryComponent extends BaseFormComponent implements OnInit {
     {key: 'facilityDate', name: 'تاریخ دریافت'},
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  relationColumnsToDisplay = [
+    {key: 'mainpersonFirstName', name: 'نام'},
+    {key: 'mainpersonLastName', name: 'نام خانوادگی'},
+    {key: 'relation', name: 'نسبت'},
+    {key: 'grade', name: 'مقطع تحصیلی'},
+    {key: 'facilityAmount', name: 'مبلغ تسهیلات دریافتی'},
+    {key: 'facilityDate', name: 'تاریخ دریافت'},
+  ];
+  relationsColumnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
   prizeReceivers: LookUpData[] = [];
   loanAmount: number | null = null;
 
   constructor() {
     super();
+    this.restApiService.getRelatedPersons().subscribe((b: RelatedPersonsResponse) => {
+    });
   }
 
   override createForm() {
