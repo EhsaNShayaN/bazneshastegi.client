@@ -2,11 +2,11 @@ export interface RelatedPersonsResponse {
   data: RelatedPersons[];
 }
 
-export class RelatedPersons {
-  personID!: string;
-  pensionaryID!: string | null;
-  personNationalCode!: string;
-  personFirstName!: string;
-  personLastName!: string;
-  personFatherName!: string;
+export interface RelatedPersons {
+  pensionaryID: string;
+  personFatherName: string;
+  personFirstName: string;
+  personID: string;
+  personLastName: string;
+  personNationalCode: string;
 }

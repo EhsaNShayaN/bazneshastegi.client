@@ -25,11 +25,21 @@ export class EducationRewardComponent extends BaseFormComponent implements OnIni
     {key: 'facilityDate', name: 'تاریخ دریافت'},
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  relationColumnsToDisplay = [
+    //{key: 'pensionaryID', name: 'شناسه'},
+    //{key: 'personFatherName', name: 'نام پدر'},
+    //{key: 'personLastName', name: 'نام خانوادگی'},
+    {key: 'personID', name: 'شماره پرسنلی'},
+    {key: 'personFirstName', name: 'نام و نام خانوادگی'},
+    {key: 'personNationalCode', name: 'کدملی'},
+  ];
+  relationColumnsToDisplay0: string[] = this.relationColumnsToDisplay.map(s => s.key);
   prizeReceivers: LookUpData[] = [];
   loanAmount: number | null = null;
 
   constructor() {
     super();
+    this.getRelations();
   }
 
   override createForm() {

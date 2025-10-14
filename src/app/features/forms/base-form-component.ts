@@ -9,7 +9,6 @@ import {Helpers} from '../../core/helpers';
 import {RequestTypeAttachment, RequestTypeAttachmentResponse} from '../../core/models/RequestTypeAttachmentResponse';
 import * as moment from 'jalali-moment';
 import {DatePipe} from '@angular/common';
-import {CustomCurrencyPipe} from '../../core/pipes/custom-currency.pipe';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -17,6 +16,7 @@ import {ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFaciliti
 import {InsertRequestAttachment} from './pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 import {CustomConstants} from '../../core/constants/custom.constants';
+import {RelatedPersonsResponse} from '../../core/models/RelatedPersonsResponse';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -25,6 +25,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
   totalCount = 0;
+  relationDataSource: MatTableDataSource<any> | null = null;
 
   private sub: any;
   private sub3: any;
@@ -34,7 +35,6 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   toaster = inject(ToastrService);
   datePipe = inject(DatePipe);
   fb = inject(FormBuilder);
-  customCurrency = inject(CustomCurrencyPipe);
   form!: FormGroup;
   personInfo: PersonInfo | null = null;
   requestTypeID: string = '';
@@ -65,11 +65,17 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   createForm(): void {
   }
 
-  public initDataSource(res: any) {
+  initDataSource(res: any) {
     this.totalCount = res.data.length;
     this.dataSource = new MatTableDataSource<any>(res.data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  getRelations() {
+    this.restApiService.getRelatedPersons().subscribe((res: RelatedPersonsResponse) => {
+      this.relationDataSource = new MatTableDataSource<any>(res.data);
+    });
   }
 
   convertToGeorgianDate(date: string): string {

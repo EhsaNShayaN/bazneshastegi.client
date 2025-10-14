@@ -47,6 +47,37 @@
         </div>
       </div>
     }
+
+    <h3>وابستگان</h3>
+    <mat-divider class="mt-1"></mat-divider>
+
+    @if (relationDataSource) {
+      <table [dataSource]="relationDataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+        @for (column of relationColumnsToDisplay; track column.key) {
+          <ng-container matColumnDef="{{column.key}}">
+            <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+            <td *matCellDef="let element; let i = index;" mat-cell>
+              @switch (column.key) {
+                @case ('personFirstName') {
+                  {{ element.personFirstName }}
+                  {{ element.personLastName }}
+                }
+                @default {
+                  {{ element[column.key] }}
+                }
+              }
+            </td>
+          </ng-container>
+        }
+        <ng-container matColumnDef="expand">
+          <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+        </ng-container>
+        <tr *matHeaderRowDef="relationColumnsToDisplay0" mat-header-row></tr>
+        <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
+        </tr>
+      </table>
+    }
+
     <div fxLayout="row wrap" fxLayoutAlign="end center">
       <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
     </div>
