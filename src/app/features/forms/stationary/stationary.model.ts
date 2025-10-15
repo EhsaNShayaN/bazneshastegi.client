@@ -1,5 +1,4 @@
 export interface StationaryRequest {
-  loanAmount: number;
   prizeReceiver: string;
   attachments: Attachment[];
 }

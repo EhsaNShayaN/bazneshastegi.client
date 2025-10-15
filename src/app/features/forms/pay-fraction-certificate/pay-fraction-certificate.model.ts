@@ -73,7 +73,7 @@ export class InsertRequestComplementary {
   applicantLastName?: string;
   applicantRelationship?: string;
   prizeReceiverLookupID?: string;
-  //relatedPersonID: string;
+  relatedPersonID?: string;
   facilityGiverLookupID?: string;
   facilityGiverDesc?: string;
   facilityAmount?: number;

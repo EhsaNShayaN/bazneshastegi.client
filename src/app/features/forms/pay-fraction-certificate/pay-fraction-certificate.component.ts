@@ -126,7 +126,11 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             console.log(b);
             if (b.isSuccess) {
-              this.insertAttachments(a.data.requestID, a.data.requestNO);
+              if ((this.attachments.controls?.length ?? 0) > 0) {
+                this.insertAttachments(a.data.requestID, a.data.requestNO);
+              } else {
+                this.showResult(a.data.requestNO);
+              }
             } else {
               this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
             }

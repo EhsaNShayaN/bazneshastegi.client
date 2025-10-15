@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
-import {CityBankLoanRequest} from './city-bank-loan.model';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest, InsertRequestComplementary, PayFractionCertificate} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertResponse} from '../../../core/models/InsertResponse';
@@ -92,7 +91,11 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             console.log(b);
             if (b.isSuccess) {
-              this.insertAttachments(a.data.requestID, a.data.requestNO);
+              if ((this.attachments.controls?.length ?? 0) > 0) {
+                this.insertAttachments(a.data.requestID, a.data.requestNO);
+              } else {
+                this.showResult(a.data.requestNO);
+              }
             } else {
               this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
             }

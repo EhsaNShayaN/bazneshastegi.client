@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {SalaryCertificate} from './salary-certificate.model';
 import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
-import {CustomConstants} from '../../../core/constants/custom.constants';
-import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
+import {InsertRequest, InsertRequestComplementary, PayFractionCertificate} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertResponse} from '../../../core/models/InsertResponse';
 import {BaseFormComponent} from '../base-form-component';
 
@@ -51,64 +50,44 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
   }
 
   submit() {
+    console.log(this.form.getRawValue());
     if (this.form.valid) {
-      const request: SalaryCertificate = this.form.value;
-      console.log('📌 فرم گواهی حقوق ثبت شد:');
+      const request: SalaryCertificate = this.form.getRawValue();
+      console.log('📌 فرم گواهی کسر از حقوق ثبت شد:');
       console.log(request);
       const insert: InsertRequest = {
+        nationalCode: '', personFirstName: '', personLastName: '',
         personID: this.personInfo!.personID,
-        nationalCode: this.personInfo!.personNationalCode,
-        personFirstName: this.personInfo!.personFirstName,
-        personLastName: this.personInfo!.personLastName,
         requestDate: new Date(),
         requestTypeID: this.requestTypeID,
-        requestText: 'گواهی حقوق از طرف بازنشسته',
+        requestText: 'گواهی کسر از حقوق از طرف بازنشسته',
         insertUserID: 'baz-1',
-        requestFrom: 2,
+        requestFrom: 2
       };
-      this.restApiService.insert(insert).subscribe((c: InsertResponse) => {
-        if (c.isSuccess) {
-          console.log(c);
+      this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
+        if (a.isSuccess) {
+          console.log(a);
           const insertComplementary: InsertRequestComplementary = {
-            requestID: c.data.requestID,
+            requestID: a.data.requestID,
             requestTypeID: this.requestTypeID,
             personID: this.personInfo!.personID,
             insertPayAmountInCertificate: request.includeSalary,
             insertDurationInCertificate: request.includeHistory,
-            applicantNationalCode: this.personInfo!.personNationalCode,
-            applicantFirstName: this.personInfo!.personFirstName,
-            applicantLastName: this.personInfo!.personLastName,
-            applicantBirthDate: this.datePipe.transform(this.personInfo!.personBirthDate, 'yyyy-MM-dd') ?? '',
-            facilityGiverDesc: request.organization
           };
-          this.restApiService.insertComplementary(insertComplementary).subscribe((d: InsertComplementaryResponse) => {
-            console.log(d);
-            if (d.isSuccess) {
-              this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
-              this.form.reset();
-              this.form.markAsPristine();
-              this.form.markAsUntouched();
-              this.form = this.fb.group({
-                organization: ['', Validators.required],
-                includeSalary: [false],
-                includeHistory: [false],
-                attachments: this.fb.array(
-        this.requestTypes.map(s =>
-          this.fb.group({
-            obj: [s],
-            type: [s.lookupName],
-            file: [null, s.mandantory ? Validators.required : null],
-            uploaded: [false]
-          })
-        )
-      ),
-              });
+          this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
+            console.log(b);
+            if (b.isSuccess) {
+              if ((this.attachments.controls?.length ?? 0) > 0) {
+                this.insertAttachments(a.data.requestID, a.data.requestNO);
+              } else {
+                this.showResult(a.data.requestNO);
+              }
             } else {
-              this.toaster.error(c.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+              this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
             }
           });
         } else {
-          this.toaster.error(c.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+          this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
         }
       });
     } else {

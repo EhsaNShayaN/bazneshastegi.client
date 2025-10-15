@@ -17,6 +17,7 @@ import {InsertRequestAttachment} from './pay-fraction-certificate/pay-fraction-c
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 import {CustomConstants} from '../../core/constants/custom.constants';
 import {RelatedPersonsResponse} from '../../core/models/RelatedPersonsResponse';
+import {MatRadioChange} from '@angular/material/radio';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -36,6 +37,8 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   ];
   relationColumnsToDisplay0: string[] = this.relationColumnsToDisplay.map(s => s.key);
   relationDataSource: MatTableDataSource<any> | null = null;
+  relatedPersonIDError: boolean = false;
+  relatedPersonID: string = '';
 
   private sub: any;
   private sub3: any;
@@ -132,20 +135,29 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
         this.restApiService.insertRequestAttachment(insertRequestAttachment, attachment.file).subscribe((c: InsertRequestAttachmentResponse) => {
           console.log(c);
           if (i === lastIndex) {
-            this.message = `متقاضی گرامی درخواست شما با شماره پیگیری ${requestNO} در سامانه ثبت گردید. جهت مشاهده مراحل بررسی درخواست از طریق منوی پیگیری درخواست اقدام فرمایید.`;
-            this.restApiService.formSubmittedSubject.next(this.message);
-            this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
-            this.form.reset();
-            this.form.markAsPristine();
-            this.form.markAsUntouched();
+            this.showResult(requestNO);
           }
         });
       }
     }
   }
 
+  checkRelatedUser($event: MatRadioChange) {
+    this.relatedPersonID = $event.source.value;
+    this.relatedPersonIDError = !this.relatedPersonID;
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
     this.sub3.unsubscribe();
+  }
+
+  showResult(requestNO: string) {
+    this.message = `متقاضی گرامی درخواست شما با شماره پیگیری ${requestNO} در سامانه ثبت گردید. جهت مشاهده مراحل بررسی درخواست از طریق منوی پیگیری درخواست اقدام فرمایید.`;
+    this.restApiService.formSubmittedSubject.next(this.message);
+    this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL, '', {});
+    this.form.reset();
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
   }
 }

@@ -26,7 +26,7 @@ export class EducationRewardComponent extends BaseFormComponent implements OnIni
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
   prizeReceivers: LookUpData[] = [];
-  loanAmount: number | null = null;
+  facilityAmount?: number;
 
   constructor() {
     super();
@@ -57,8 +57,12 @@ export class EducationRewardComponent extends BaseFormComponent implements OnIni
 
   submit() {
     if (this.form.valid) {
-      const request: EducationRewardRequest = this.form.value;
-      console.log('📌 فرم لوازم تحریر ثبت شد:', request);
+      if (!this.relatedPersonID) {
+        this.relatedPersonIDError = true;
+        return;
+      }
+      const request: EducationRewardRequest = this.form.getRawValue();
+      console.log('📌 فرم جایزه تحصیلی ثبت شد:', request);
       console.log(request);
       const insert: InsertRequest = {
         personID: this.personInfo!.personID,
@@ -79,12 +83,17 @@ export class EducationRewardComponent extends BaseFormComponent implements OnIni
             requestID: a.data.requestID,
             personID: this.personInfo!.personID,
             ceremonyDate: new Date(),
-            facilityAmount: request.loanAmount,
-            prizeReceiverLookupID: request.prizeReceiver
+            facilityAmount: this.facilityAmount,
+            prizeReceiverLookupID: request.prizeReceiver,
+            relatedPersonID: this.relatedPersonID,
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             if (b.isSuccess) {
-              this.insertAttachments(a.data.requestID, a.data.requestNO);
+              if ((this.attachments.controls?.length ?? 0) > 0) {
+                this.insertAttachments(a.data.requestID, a.data.requestNO);
+              } else {
+                this.showResult(a.data.requestNO);
+              }
             } else {
               this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
             }
@@ -101,7 +110,7 @@ export class EducationRewardComponent extends BaseFormComponent implements OnIni
 
   prizeChanged($event: MatSelectChange<string>) {
     this.restApiService.getRequestTypeConfig(this.requestTypeID, $event.value).subscribe((a: GetRequestTypeConfigResponse) => {
-      this.loanAmount = a.data[0].defaultAmount;
+      this.facilityAmount = a.data[0].defaultAmount;
     });
   }
 }

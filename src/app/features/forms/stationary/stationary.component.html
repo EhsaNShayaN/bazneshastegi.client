@@ -19,11 +19,8 @@
       <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>مبلغ تسهیلات (ریال)</mat-label>
-          <input matInput [value]="loanAmount | customCurrency" class="ltr" [disabled]="true">
+          <input matInput [value]="facilityAmount | customCurrency" class="ltr" [disabled]="true">
         </mat-form-field>
-        <mat-error *ngIf="form.get('loanAmount')?.touched && form.get('loanAmount')?.hasError('required')">
-          مبلغ اجباری می باشد
-        </mat-error>
       </div>
     </div>
 
@@ -63,8 +60,8 @@
                   {{ element.personLastName }}
                 }
                 @case ('check') {
-                  <mat-checkbox [value]="element.pensionaryID">انتخاب</mat-checkbox>
-                  11111
+                  <mat-radio-button name="check" [value]="element.pensionaryID"
+                                    (change)="checkRelatedUser($event)"></mat-radio-button>
                 }
                 @default {
                   {{ element[column.key] }}
@@ -80,6 +77,11 @@
         <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
         </tr>
       </table>
+      @if (relatedPersonIDError) {
+        <mat-error>
+          انتخاب وابسته اجباری می باشد.
+        </mat-error>
+      }
     }
 
     <div fxLayout="row wrap" fxLayoutAlign="end center">

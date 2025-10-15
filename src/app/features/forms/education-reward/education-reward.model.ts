@@ -1,5 +1,4 @@
 export interface EducationRewardRequest {
-  loanAmount: number;
   prizeReceiver: string;
   attachments: Attachment[];
 }
