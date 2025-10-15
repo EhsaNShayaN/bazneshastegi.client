@@ -3,9 +3,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, map, Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {endpoint} from './services/cookie-utils';
-import {AddResourceRequest, Resource, ResourceRequest, ResourceResponse, ResourcesRequest} from './models/ResourceResponse';
-import {AddResult, BaseResult} from './models/BaseResult';
-import {ResourceCategoriesResponse} from './models/ResourceCategoryResponse';
+import {BaseResult} from './models/BaseResult';
 import {AuthService} from './services/auth.service';
 import {RequestTypeResponse} from './models/RequestTypeResponse';
 import {LookUpDataResponse} from './models/LookUpResponse';
@@ -60,8 +58,25 @@ export class RestApiService {
     );
   }
 
-  getRequestTypeConfig(requestTypeId: string, lookupID: string): Observable<any> {
-    return this.http.get<GetRequestTypeConfigResponse>(`${endpoint()}forms/getRequestTypeConfig?requestTypeId=${requestTypeId}&lookupID=${lookupID}`,).pipe(
+  getRequestTypeConfig(requestTypeId: string,
+                       lookupID: string | null = null,
+                       facilityReceiverRelationshipID: string | null = null,
+                       pensionaryStatusCategory: string | null = null,
+                       genderLookupID: string | null = null): Observable<any> {
+    let query = `${endpoint()}forms/getRequestTypeConfig?requestTypeId=${requestTypeId}`;
+    if (lookupID) {
+      query += "&lookupID=${lookupID}";
+    }
+    if (facilityReceiverRelationshipID) {
+      query += `&facilityReceiverRelationshipID=${facilityReceiverRelationshipID}`;
+    }
+    if (pensionaryStatusCategory) {
+      query += `&pensionaryStatusCategory=${pensionaryStatusCategory}`;
+    }
+    if (genderLookupID) {
+      query += `&genderLookupID=${genderLookupID}`;
+    }
+    return this.http.get<GetRequestTypeConfigResponse>(query).pipe(
       catchError(this.handleError)
     );
   }

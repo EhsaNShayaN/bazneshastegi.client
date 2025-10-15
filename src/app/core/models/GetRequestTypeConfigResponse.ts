@@ -13,7 +13,7 @@ export interface GetRequestTypeConfig {
   guarantorCost: number | null;
   validationStartDate: string;
   facilityReceiverRelationshipID: number | null;
-  pensionaryStatusCategory: number | null;
+  pensionaryStatusCategory: string | null;
   genderLookupID: number | null;
   isActive: boolean;
   requestTypeName: string;

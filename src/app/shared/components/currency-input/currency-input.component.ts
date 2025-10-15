@@ -1,5 +1,5 @@
-import {Component, Input, ViewChild, HostListener, Output, EventEmitter, Optional, Self} from '@angular/core';
-import {ControlValueAccessor, Validator, NgControl} from '@angular/forms';
+import {Component, EventEmitter, HostListener, Input, Optional, Output, Self, ViewChild} from '@angular/core';
+import {ControlValueAccessor, NgControl, Validator} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
 import {CustomCurrencyPipe} from '../../../core/pipes/custom-currency.pipe';
 
@@ -13,6 +13,7 @@ export class CurrencyInputComponent implements ControlValueAccessor, Validator {
   @Input() placeholder: string = '';
   @Input() required: boolean = false;
   @Input() class: string = 'w-100';
+  @Input() disabled: boolean = false;
 
   @Output() changed = new EventEmitter<number>();
   @Output() keyPressed = new EventEmitter<KeyboardEvent>();

@@ -12,7 +12,7 @@ import {DatePipe} from '@angular/common';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
+import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
 import {InsertRequestAttachment} from './pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 import {CustomConstants} from '../../core/constants/custom.constants';
@@ -22,7 +22,7 @@ import {MatRadioChange} from '@angular/material/radio';
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
   message: string = '';
-  dataSource: MatTableDataSource<any> | null = null;
+  dataSource: MatTableDataSource<ActiveFacilitiesOfPerson> | null = null;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
   totalCount = 0;
@@ -59,17 +59,17 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
       this.requestTypeID = id;
       this.restApiService.getActiveFacilitiesOfPerson(this.requestTypeID).subscribe((a: ActiveFacilitiesOfPersonResponse) => {
         this.initDataSource(a);
-      });
-      this.sub3 = this.restApiService.personInfoSubject.subscribe(personInfo => {
-        if (personInfo) {
-          this.personInfo = personInfo;
-          this.restApiService.getRequestTypeAttachment(this.requestTypeID).subscribe((b: RequestTypeAttachmentResponse) => {
-            if (b.isSuccess) {
-              this.requestTypes = b.data;
-              this.createForm();
-            }
-          });
-        }
+        this.sub3 = this.restApiService.personInfoSubject.subscribe(personInfo => {
+          if (personInfo) {
+            this.personInfo = personInfo;
+            this.restApiService.getRequestTypeAttachment(this.requestTypeID).subscribe((b: RequestTypeAttachmentResponse) => {
+              if (b.isSuccess) {
+                this.requestTypes = b.data;
+                this.createForm();
+              }
+            });
+          }
+        });
       });
       this.helpers.setPaginationLang();
     });
@@ -80,7 +80,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
 
   initDataSource(res: any) {
     this.totalCount = res.data.length;
-    this.dataSource = new MatTableDataSource<any>(res.data);
+    this.dataSource = new MatTableDataSource<ActiveFacilitiesOfPerson>(res.data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -159,5 +159,6 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     this.form.reset();
     this.form.markAsPristine();
     this.form.markAsUntouched();
+    window.scrollTo({top: 0, behavior: 'smooth'});
   }
 }
