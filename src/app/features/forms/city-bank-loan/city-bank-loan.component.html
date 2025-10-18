@@ -60,13 +60,10 @@
         <app-currency-input
           label="مبلغ وام درخواستی(ریال)"
           placeholder="مبلغ وام درخواستی(ریال)"
-          formControlName="requestedAmount"
-          (changed)="installmentChanged($event)"
-          (keyPressed)="installmentKeyPressed($event)"
-          (keyUpEvent)="installmentKeyUpEvent($event)"
-        >
+          formControlName="facilityAmount"
+          (keyUpEvent)="installmentKeyUpEvent($event)">
         </app-currency-input>
-        <mat-error *ngIf="form.get('requestedAmount')?.hasError('required')">
+        <mat-error *ngIf="form.get('facilityAmount')?.hasError('required')">
           مبلغ وام اجباری می باشد
         </mat-error>
       </div>
@@ -123,7 +120,7 @@
           </p>
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>توضیحات</mat-label>
-            <textarea matInput formControlName="description" rows="3"></textarea>
+            <textarea matInput formControlName="requestDescription" rows="3"></textarea>
           </mat-form-field>
 
         </div>

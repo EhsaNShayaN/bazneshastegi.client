@@ -28,7 +28,7 @@ export class CityBankLoanComponent extends BaseFormComponent {
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
   requestTypeConfig?: GetRequestTypeConfig;
   totalRemainedAmount: number = 0;
-  showDescription: boolean = true;
+  showDescription: boolean = false;
 
   constructor() {
     super();
@@ -41,10 +41,10 @@ export class CityBankLoanComponent extends BaseFormComponent {
         this.form = this.fb.group({
           branchName: ['', Validators.required],
           branchCode: ['', Validators.required],
-          requestedAmount: [this.requestTypeConfig!.defaultAmount, [Validators.required]],
+          facilityAmount: [this.requestTypeConfig!.defaultAmount, [Validators.required]],
           installmentAmount: [{value: '', disabled: true}, Validators.required],
           guarantorCost: [{value: this.requestTypeConfig.guarantorCost, disabled: true}, Validators.required],
-          description: [''],
+          requestDescription: [''],
           needGuarantor: [false, Validators.required],
           attachments: this.fb.array(
             this.requestTypes.map(s =>
@@ -78,7 +78,7 @@ export class CityBankLoanComponent extends BaseFormComponent {
       totalInterest: Math.round(totalInterest)
     };
     this.form.get('installmentAmount')?.setValue(result.installment);
-    this.showDescription = ((this.form.get('requestedAmount')?.value ?? 0) + this.totalRemainedAmount) > this.requestTypeConfig!.defaultAmount;
+    this.showDescription = ((this.form.get('facilityAmount')?.value ?? 0) + this.totalRemainedAmount) > this.requestTypeConfig!.defaultAmount;
     return result;
   }
 
@@ -86,6 +86,8 @@ export class CityBankLoanComponent extends BaseFormComponent {
     console.log(this.form.getRawValue());
     if (this.form.valid) {
       const request: CityBankLoanRequest = this.form.getRawValue();
+      request.facilityInstalementCount = this.requestTypeConfig?.defaultInstalementCount ?? 0;
+      request.referralToCommittee = this.showDescription;
       console.log('📌 فرم وام بانک شهر ثبت شد:');
       console.log(request);
       const insert: InsertRequest = {
@@ -106,16 +108,12 @@ export class CityBankLoanComponent extends BaseFormComponent {
             requestID: a.data.requestID,
             requestTypeID: this.requestTypeID,
             personID: this.personInfo!.personID,
-            /*insertPayAmountInCertificate: request.includeSalary,
-            insertDurationInCertificate: request.includeHistory,
-            applicantNationalCode: request.borrower.nationalCode,
-            applicantBirthDate: this.datePipe.transform(request.borrower.birthDate, 'yyyy-MM-dd') ?? '',
-            applicantFirstName: request.borrower.firstName,
-            applicantLastName: request.borrower.lastName,
-            applicantRelationship: request.borrower.relation,
-            facilityAmount: request.lender.loanAmount,
-            facilityInstalementCount: request.lender.installmentCount,*/
-            //facilityGiverLookupID: this.facilityGiverLookupId
+            facilityGiverDesc: request.facilityGiverDesc,
+            facilityAmount: request.facilityAmount,
+            facilityInstalementCount: request.facilityInstalementCount,
+            needGuarantor: request.needGuarantor,
+            referralToCommittee: request.referralToCommittee,
+            requestDescription: request.requestDescription,
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             console.log(b);
@@ -139,13 +137,7 @@ export class CityBankLoanComponent extends BaseFormComponent {
     }
   }
 
-  installmentChanged($event: number) {
-  }
-
-  installmentKeyPressed($event: KeyboardEvent) {
-  }
-
   installmentKeyUpEvent($event: KeyboardEvent) {
-    this.calculateLoanInstallment(this.form.get('requestedAmount')?.value);
+    this.calculateLoanInstallment(this.form.get('facilityAmount')?.value);
   }
 }
