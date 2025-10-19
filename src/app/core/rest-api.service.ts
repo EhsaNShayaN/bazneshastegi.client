@@ -65,7 +65,7 @@ export class RestApiService {
                        genderLookupID: string | null = null): Observable<any> {
     let query = `${endpoint()}forms/getRequestTypeConfig?requestTypeId=${requestTypeId}`;
     if (lookupID) {
-      query += "&lookupID=${lookupID}";
+      query += `&lookupID=${lookupID}`;
     }
     if (facilityReceiverRelationshipID) {
       query += `&facilityReceiverRelationshipID=${facilityReceiverRelationshipID}`;
