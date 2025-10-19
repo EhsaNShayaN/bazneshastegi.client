@@ -1,40 +1,5 @@
 <h2 class="text-center mb-2">وام بانک شهر</h2>
 
-<h3>وام بانک شهر قبلی شما</h3>
-<mat-divider class="mt-1"></mat-divider>
-
-@if (dataSource) {
-  <table [dataSource]="dataSource" class="w-100 my-3" mat-table multiTemplateDataRows>
-    @for (column of columnsToDisplay; track column.key) {
-      <ng-container matColumnDef="{{column.key}}">
-        <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
-        <td *matCellDef="let element; let i = index;" mat-cell>
-          @switch (column.key) {
-            @case ('facilityAmount') {
-              {{ element.facilityAmount | customCurrency }}
-              ريال
-            }
-            @case ('remainedAmount') {
-              {{ (element.remainedAmount ?? 0) | customCurrency }}
-              ريال
-            }
-            @default {
-              {{ element[column.key] }}
-            }
-          }
-        </td>
-      </ng-container>
-    }
-    <ng-container matColumnDef="expand">
-      <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
-    </ng-container>
-    <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
-    <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
-    </tr>
-  </table>
-  <!--<mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>-->
-}
-
 @if (form) {
   <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
     <div fxLayout="row wrap">
@@ -122,7 +87,6 @@
             <mat-label>توضیحات</mat-label>
             <textarea matInput formControlName="requestDescription" rows="3"></textarea>
           </mat-form-field>
-
         </div>
       }
     </div>
@@ -131,4 +95,39 @@
       <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
     </div>
   </form>
+}
+
+<h3>وام بانک شهر قبلی شما</h3>
+<mat-divider class="mt-1"></mat-divider>
+
+@if (dataSource) {
+  <table [dataSource]="dataSource" class="w-100 my-3" mat-table multiTemplateDataRows>
+    @for (column of columnsToDisplay; track column.key) {
+      <ng-container matColumnDef="{{column.key}}">
+        <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+        <td *matCellDef="let element; let i = index;" mat-cell>
+          @switch (column.key) {
+            @case ('facilityAmount') {
+              {{ element.facilityAmount | customCurrency }}
+              ريال
+            }
+            @case ('remainedAmount') {
+              {{ (element.remainedAmount ?? 0) | customCurrency }}
+              ريال
+            }
+            @default {
+              {{ element[column.key] }}
+            }
+          }
+        </td>
+      </ng-container>
+    }
+    <ng-container matColumnDef="expand">
+      <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+    </ng-container>
+    <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
+    <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+    </tr>
+  </table>
+  <!--<mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>-->
 }
