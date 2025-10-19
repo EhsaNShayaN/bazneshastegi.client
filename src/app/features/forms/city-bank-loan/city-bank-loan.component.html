@@ -3,7 +3,52 @@
 @if (form) {
   <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
     <div fxLayout="row wrap">
-      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-1">
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <app-custom-select
+          formControlName="lenderName"
+          [items]="lenders"
+          placeholder="نام وام دهنده"
+          [required]="true"
+          (selectionChange)="lenderChanged($event)"
+        ></app-custom-select>
+        <mat-error class="custom-error" *ngIf="form.get('lenderName')?.touched && form.get('lenderName')?.hasError('required')">
+          نام وام دهنده را انتخاب نمایید.
+        </mat-error>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+        @if ((branches?.length ?? 0) > 0) {
+          <app-custom-select
+            formControlName="branchName"
+            [items]="branches"
+            placeholder="نام شعبه"
+            [required]="true"
+            (selectionChange)="branchChanged($event)"
+          ></app-custom-select>
+          <mat-error class="custom-error"
+                     *ngIf="form.get('branchName')?.touched && form.get('branchName')?.hasError('required')">
+            نام شعبه را انتخاب نمایید.
+          </mat-error>
+        } @else {
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>نام شعبه</mat-label>
+            <mat-select formControlName="branchName" required (selectionChange)="branchChanged($event)">
+            </mat-select>
+            <mat-error *ngIf="form.get('branchName')?.touched && form.get('branchName')?.hasError('required')">
+              نام شعبه را انتخاب نمایید.
+            </mat-error>
+          </mat-form-field>
+        }
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>کد شعبه</mat-label>
+          <input matInput formControlName="branchCode">
+          <mat-error *ngIf="form.get('branchCode')?.touched && form.get('branchCode')?.hasError('required')">
+            کد شعبه اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!--<div fxFlex="100" fxFlex.gt-xs="50" class="pl-1">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>نام شعبه وام‌دهنده</mat-label>
           <input matInput formControlName="branchName">
@@ -20,7 +65,7 @@
             کد شعبه اجباری می باشد
           </mat-error>
         </mat-form-field>
-      </div>
+      </div>-->
       <div fxFlex="100" fxFlex.gt-xs="33.3">
         <app-currency-input
           label="مبلغ وام درخواستی(ریال)"

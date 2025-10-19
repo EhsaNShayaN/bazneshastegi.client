@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
@@ -6,6 +6,8 @@ import {InsertResponse} from '../../../core/models/InsertResponse';
 import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
 import {GetRequestTypeConfig, GetRequestTypeConfigResponse} from '../../../core/models/GetRequestTypeConfigResponse';
 import {CityBankLoanRequest} from './city-bank-loan.model';
+import {SelectItem} from '../../../shared/components/custom-select/custom-select.component';
+import {LookUpDataResponse} from '../../../core/models/LookUpResponse';
 
 @Component({
   selector: 'app-city-bank-loan',
@@ -13,7 +15,7 @@ import {CityBankLoanRequest} from './city-bank-loan.model';
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class CityBankLoanComponent extends BaseFormComponent {
+export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
   columnsToDisplay = [
     {key: 'confirmDate', name: 'تاریخ دریافت'},
     {key: 'facilityAmount', name: 'مبلغ دریافتی'},
@@ -29,9 +31,21 @@ export class CityBankLoanComponent extends BaseFormComponent {
   requestTypeConfig?: GetRequestTypeConfig;
   totalRemainedAmount: number = 0;
   showDescription: boolean = false;
+  lenders: SelectItem[] = [];
+  branches: SelectItem[] = [];
+  facilityGiverLookupId: string = '';
 
   constructor() {
     super();
+  }
+
+  ngOnInit() {
+    this.restApiService.getLookupData('Bank', '').subscribe((a: LookUpDataResponse) => {
+      this.lenders = a.data.map(s => ({
+        id: s.lookUpID,
+        name: s.lookUpName,
+      }));
+    });
   }
 
   override createForm() {
@@ -39,6 +53,7 @@ export class CityBankLoanComponent extends BaseFormComponent {
       .subscribe((a: GetRequestTypeConfigResponse) => {
         this.requestTypeConfig = a.data[0];
         this.form = this.fb.group({
+          lenderName: ['', Validators.required],
           branchName: ['', Validators.required],
           branchCode: ['', Validators.required],
           facilityAmount: [this.requestTypeConfig!.defaultAmount, [Validators.required]],
@@ -82,6 +97,24 @@ export class CityBankLoanComponent extends BaseFormComponent {
     return result;
   }
 
+  lenderChanged($event: any) {
+    if ($event) {
+      this.facilityGiverLookupId = $event;
+      this.restApiService.getLookupData('BankBranch', this.facilityGiverLookupId).subscribe((a: LookUpDataResponse) => {
+        this.branches = a.data.map(s => ({
+          id: s.lookUpID,
+          name: s.lookUpName,
+        }));
+      });
+    }
+  }
+
+  branchChanged($event: any): void {
+    if ($event) {
+      this.facilityGiverLookupId = $event;
+    }
+  }
+
   submit() {
     console.log(this.form.getRawValue());
     if (this.form.valid) {
@@ -108,12 +141,13 @@ export class CityBankLoanComponent extends BaseFormComponent {
             requestID: a.data.requestID,
             requestTypeID: this.requestTypeID,
             personID: this.personInfo!.personID,
-            facilityGiverDesc: request.facilityGiverDesc,
+            facilityGiverDesc: request.branchCode,
             facilityAmount: request.facilityAmount,
             facilityInstalementCount: request.facilityInstalementCount,
             needGuarantor: request.needGuarantor,
             referralToCommittee: request.referralToCommittee,
             requestDescription: request.requestDescription,
+            facilityGiverLookupID: this.facilityGiverLookupId
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             console.log(b);
