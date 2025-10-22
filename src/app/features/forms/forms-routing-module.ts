@@ -6,7 +6,7 @@ import {HealthBookletComponent} from './health-booklet/health-booklet.component'
 import {SalaryCertificateComponent} from './salary-certificate/salary-certificate.component';
 import {EducationRewardComponent} from './education-reward/education-reward.component';
 import {StationaryComponent} from './stationary/stationary.component';
-import {UrgentLoanComponent} from './urgent-loan/urgent-loan.component';
+import {EssentialLoanComponent} from './essential-loan/essential-loan.component';
 import {WelfareCardComponent} from './welfare-card/welfare-card.component';
 import {PayFractionCertificateComponent} from './pay-fraction-certificate/pay-fraction-certificate.component';
 
@@ -18,7 +18,7 @@ const routes: Routes = [
   {path: 'pay-fraction-certificate/:id', component: PayFractionCertificateComponent},
   {path: 'education-reward/:id', component: EducationRewardComponent},
   {path: 'stationary/:id', component: StationaryComponent},
-  {path: 'urgent-loan/:id', component: UrgentLoanComponent},
+  {path: 'essential-loan/:id', component: EssentialLoanComponent},
   {path: 'welfare-card/:id', component: WelfareCardComponent},
 ];
 

@@ -13,7 +13,7 @@ import {SalaryCertificateComponent} from './salary-certificate/salary-certificat
 import {StationaryComponent} from './stationary/stationary.component';
 import {EducationRewardComponent} from './education-reward/education-reward.component';
 import {CityBankLoanComponent} from './city-bank-loan/city-bank-loan.component';
-import {UrgentLoanComponent} from './urgent-loan/urgent-loan.component';
+import {EssentialLoanComponent} from './essential-loan/essential-loan.component';
 import {HealthBookletComponent} from './health-booklet/health-booklet.component';
 import {WelfareCardComponent} from './welfare-card/welfare-card.component';
 import {CeremonyIntroductionComponent} from './ceremony-introduction/ceremony-introduction.component';
@@ -28,7 +28,7 @@ import {RelationsComponent} from './relations/relations.component';
     StationaryComponent,
     EducationRewardComponent,
     CityBankLoanComponent,
-    UrgentLoanComponent,
+    EssentialLoanComponent,
     HealthBookletComponent,
     WelfareCardComponent,
     CeremonyIntroductionComponent,
@@ -53,7 +53,7 @@ import {RelationsComponent} from './relations/relations.component';
     StationaryComponent,
     EducationRewardComponent,
     CityBankLoanComponent,
-    UrgentLoanComponent,
+    EssentialLoanComponent,
     HealthBookletComponent,
     WelfareCardComponent,
     CeremonyIntroductionComponent,

@@ -1,12 +1,8 @@
-export interface UrgentLoanRequest {
-  requestedAmount: number;
-  installmentCount: number;
-  receivedDate?: string;
-  receivedAmount?: number;
-  remainingAmount?: number;
-  lastInstallmentDate?: string;
-  installmentAmount?: number;
-  description?: string;
+export interface EssentialLoanRequest {
+  facilityAmount: number;
+  defaultInstalementCount: number;
+  facilityInstalementAmount: number;
+  description: string;
   attachments: Attachment[];
 }
 
