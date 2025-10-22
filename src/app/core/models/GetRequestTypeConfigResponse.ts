@@ -8,6 +8,7 @@ export interface GetRequestTypeConfig {
   requestTypeID: string;
   lookupID: number;
   defaultAmount: number;
+  deliveryCost?: number;
   defaultInstalementCount: number | null;
   defaultDiscountPercent: number | null;
   guarantorCost: number | null;

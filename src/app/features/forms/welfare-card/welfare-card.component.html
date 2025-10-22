@@ -1,72 +1,111 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+@if (form) {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>نوع صدور</mat-label>
+          <mat-select formControlName="issueTypeLookupID" (selectionChange)="issueTypeChanged($event)">
+            @for (item of issueTypes; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="form.get('issueTypeLookupID')?.hasError('required')">
+            انتخاب نوع صدور اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>شماره کارت قبلی</mat-label>
+          <input matInput formControlName="previousCardNumber" onlyNumber class="ltr text-left">
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>هزینه صدور (ریال)</mat-label>
+          <input matInput [disabled]="true" class="ltr text-left" [value]="defaultAmount | customCurrency">
+        </mat-form-field>
+      </div>
 
-  <mat-form-field appearance="outline">
-    <mat-label>شماره کارت</mat-label>
-    <input matInput formControlName="cardNumber">
-  </mat-form-field>
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>نحوه دریافت</mat-label>
+          <mat-select formControlName="facilityReceiveTypeLookupID">
+            @for (item of facilityReceiveTypes; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="form.get('facilityReceiveTypeLookupID')?.hasError('required')">
+            انتخاب نحوه دریافت اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50">
+        @if (form.get('facilityReceiveTypeLookupID')?.value == 14003) {
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>هزینه پست (ریال)</mat-label>
+            <input matInput [value]="deliveryCost | customCurrency" [disabled]="true"
+                   placeholder="هزینه پست (ریال)" class="ltr text-left">
+          </mat-form-field>
+        }
+        @if (form.get('facilityReceiveTypeLookupID')?.value == 14002) {
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>نام و نام خانوادگی گیرنده</mat-label>
+            <input matInput formControlName="facilityReceiverFullName" placeholder="نام و نام خانوادگی گیرنده">
+          </mat-form-field>
+        }
+      </div>
 
-  <mat-form-field appearance="outline">
-    <mat-label>نوع صدور</mat-label>
-    <mat-select formControlName="issueType">
-      <mat-option value="first">اولین بار</mat-option>
-      <mat-option value="duplicate">المثنی</mat-option>
-      <mat-option value="fix">رفع نقص</mat-option>
-    </mat-select>
-    <mat-error *ngIf="form.get('issueType')?.hasError('required')">
-      انتخاب نوع صدور اجباری می باشد
-    </mat-error>
-  </mat-form-field>
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>توضیحات تقاضا</mat-label>
+          <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
+      </div>
 
-  <mat-form-field appearance="outline">
-    <mat-label>تاریخ صدور</mat-label>
-    <input matInput type="date" formControlName="issueDate">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" *ngIf="form.get('issueType')?.value === 'duplicate'">
-    <mat-label>شماره کارت قبلی</mat-label>
-    <input matInput formControlName="previousCardNumber">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>توضیحات تقاضا</mat-label>
-    <textarea matInput formControlName="description" rows="3"></textarea>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>نحوه دریافت</mat-label>
-    <mat-select formControlName="deliveryMethod">
-      <mat-option value="post">پست</mat-option>
-      <mat-option value="inPerson">حضوری</mat-option>
-      <mat-option value="representative">نماینده</mat-option>
-    </mat-select>
-    <mat-error *ngIf="form.get('deliveryMethod')?.hasError('required')">
-      انتخاب نحوه دریافت اجباری می باشد
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" *ngIf="form.get('deliveryMethod')?.value === 'representative'">
-    <mat-label>نام و نام خانوادگی گیرنده</mat-label>
-    <input matInput formControlName="receiverName">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>هزینه صدور (ریال)</mat-label>
-    <input matInput type="number" formControlName="issueCost" readonly>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" *ngIf="form.get('deliveryMethod')?.value === 'post'">
-    <mat-label>هزینه پست (ریال)</mat-label>
-    <input matInput type="number" formControlName="postCost" readonly>
-  </mat-form-field>
-
-  <h3>مدارک مورد نیاز</h3>
-  <div formArrayName="attachments">
-    <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
-      <mat-checkbox formControlName="uploaded">{{att.type}}</mat-checkbox>
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <h3>مدارک مورد نیاز</h3>
+        <div formArrayName="attachments">
+          <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
+            <mat-checkbox formControlName="uploaded">{{ att.type }}</mat-checkbox>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="submit-btn">
-    <button mat-raised-button color="accent" type="submit">ثبت درخواست</button>
-  </div>
-</form>
+    <div fxLayout="row wrap" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
+    </div>
+  </form>
+}
+
+<h3>کارت رفاهی های صادر شده قبلی</h3>
+<mat-divider class="mt-1"></mat-divider>
+
+@if (dataSource) {
+  <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+    @for (column of columnsToDisplay; track column.key) {
+      <ng-container matColumnDef="{{column.key}}">
+        <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+        <td *matCellDef="let element; let i = index;" mat-cell>
+          @switch (column.key) {
+            @case ('facilityAmount') {
+              {{ element.facilityAmount | customCurrency }}
+              ريال
+            }
+            @default {
+              {{ element[column.key] }}
+            }
+          }
+        </td>
+      </ng-container>
+    }
+    <ng-container matColumnDef="expand">
+      <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+    </ng-container>
+    <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
+    <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+    </tr>
+  </table>
+  <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+}

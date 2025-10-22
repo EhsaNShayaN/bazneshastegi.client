@@ -82,10 +82,11 @@ export class InsertRequestComplementary {
   needGuarantor?: boolean;
   referralToCommittee?: boolean;
   requestDescription?: string;
-  /*issueTypeLookupID: string;
-  previousCardNumber: string;
-  facilityReceiverFullName: string;
-  facilityReceiveTypeLookupID: string;
+  issueTypeLookupID?: string;
+  facilityReceiveTypeLookupID?: string;
+  facilityReceiverFullName?: string;
+  previousCardNumber?: string;
+  /*
   ceremonyTypeLookupID: string;
   ceremonyGuestCount: number;
   introducedToLookupID: string;*/
