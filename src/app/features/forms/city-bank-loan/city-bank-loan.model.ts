@@ -7,6 +7,7 @@ export class CityBankLoanRequest {
   needGuarantor?: boolean;
   referralToCommittee?: boolean;
   requestDescription?: string;
+  facilityInstalementAmount?: number;
 
   constructor() {
     this.facilityGiverDesc = `${this.branchName}-${this.branchCode}`;

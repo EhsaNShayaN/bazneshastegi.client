@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import {AuthService} from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-admin-header',
@@ -8,12 +8,10 @@ import {Router} from '@angular/router';
   standalone: false
 })
 export class AdminHeader {
-  constructor(private router: Router) {
+  constructor(private auth: AuthService) {
   }
 
   logout() {
-    // TODO: حذف توکن از localStorage یا سرویس Auth
-    localStorage.removeItem('token');
-    this.router.navigate(['/auth/login']);
+    this.auth.logout();
   }
 }

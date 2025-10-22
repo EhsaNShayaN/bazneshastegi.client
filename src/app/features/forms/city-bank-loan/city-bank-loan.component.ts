@@ -57,7 +57,7 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
           branchName: ['', Validators.required],
           branchCode: ['', Validators.required],
           facilityAmount: [this.requestTypeConfig!.defaultAmount, [Validators.required]],
-          installmentAmount: [{value: '', disabled: true}, Validators.required],
+          facilityInstalementAmount: [{value: '', disabled: true}, Validators.required],
           guarantorCost: [{value: this.requestTypeConfig.guarantorCost, disabled: true}, Validators.required],
           requestDescription: [''],
           needGuarantor: [false, Validators.required],
@@ -92,7 +92,7 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
       totalPayment: Math.round(totalPayment),
       totalInterest: Math.round(totalInterest)
     };
-    this.form.get('installmentAmount')?.setValue(result.installment);
+    this.form.get('facilityInstalementAmount')?.setValue(result.installment);
     this.showDescription = ((this.form.get('facilityAmount')?.value ?? 0) + this.totalRemainedAmount) > this.requestTypeConfig!.defaultAmount;
     return result;
   }

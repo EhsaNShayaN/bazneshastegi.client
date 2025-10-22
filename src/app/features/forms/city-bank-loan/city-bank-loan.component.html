@@ -96,10 +96,10 @@
         <app-currency-input
           label="مبلغ قسط(ریال)"
           placeholder="مبلغ قسط(ریال)"
-          formControlName="installmentAmount"
+          formControlName="facilityInstalementAmount"
           [disabled]="true">
         </app-currency-input>
-        <mat-error *ngIf="form.get('installmentAmount')?.hasError('required')">
+        <mat-error *ngIf="form.get('facilityInstalementAmount')?.hasError('required')">
           مبلغ قسط اجباری می باشد
         </mat-error>
       </div>

@@ -81,7 +81,6 @@ export class StationaryComponent extends BaseFormComponent implements OnInit {
             requestTypeID: this.requestTypeID,
             requestID: a.data.requestID,
             personID: this.personInfo!.personID,
-            ceremonyDate: new Date(),
             facilityAmount: this.facilityAmount,
             prizeReceiverLookupID: request.prizeReceiver,
             relatedPersonID: this.relatedPersonID,

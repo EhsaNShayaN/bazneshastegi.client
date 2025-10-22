@@ -5,18 +5,19 @@ import {Router} from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+  tokenName: string = 'bazneshastegi';
 
   constructor(private router: Router) {
   }
 
   // ورود کاربر و ذخیره JWT
   login(token: string): void {
-    localStorage.setItem('token', token);
+    localStorage.setItem(this.tokenName, token);
   }
 
   // دریافت توکن
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return localStorage.getItem(this.tokenName);
   }
 
   // بررسی ورود کاربر
@@ -27,7 +28,7 @@ export class AuthService {
 
   // خروج کاربر
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem(this.tokenName);
     this.router.navigate(['/']);
   }
 }
