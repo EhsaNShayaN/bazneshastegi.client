@@ -9,7 +9,8 @@
               <mat-option [value]="item.id">{{ item.name }}</mat-option>
             }
           </mat-select>
-          <mat-error *ngIf="form.get('issueTypeLookupID')?.hasError('required')">
+          <mat-error *ngIf="form.get('issueTypeLookupID')?.touched &&
+                    form.get('issueTypeLookupID')?.hasError('required')">
             انتخاب نوع صدور اجباری می باشد
           </mat-error>
         </mat-form-field>
@@ -35,7 +36,8 @@
               <mat-option [value]="item.id">{{ item.name }}</mat-option>
             }
           </mat-select>
-          <mat-error *ngIf="form.get('facilityReceiveTypeLookupID')?.hasError('required')">
+          <mat-error *ngIf="form.get('facilityReceiveTypeLookupID')?.touched &&
+                    form.get('facilityReceiveTypeLookupID')?.hasError('required')">
             انتخاب نحوه دریافت اجباری می باشد
           </mat-error>
         </mat-form-field>

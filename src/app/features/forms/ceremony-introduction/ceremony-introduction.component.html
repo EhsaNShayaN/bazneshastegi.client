@@ -1,79 +1,88 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
-
-  <mat-form-field appearance="outline">
-    <mat-label>نوع مراسم</mat-label>
-    <input matInput formControlName="ceremonyType">
-    <mat-error *ngIf="form.get('ceremonyType')?.hasError('required')">
-      نوع مراسم اجباری می باشد
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>معرفی به</mat-label>
-    <input matInput formControlName="introduceTo">
-    <mat-error *ngIf="form.get('introduceTo')?.hasError('required')">
-      معرفی به اجباری می باشد
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>درصد تخفیف</mat-label>
-    <input matInput type="number" formControlName="discountPercent">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>تاریخ مراسم</mat-label>
-    <input matInput type="date" formControlName="ceremonyDate">
-    <mat-error *ngIf="form.get('ceremonyDate')?.hasError('required')">
-      تاریخ مراسم اجباری می باشد
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>تعداد مدعوین</mat-label>
-    <input matInput type="number" formControlName="inviteesCount">
-  </mat-form-field>
-
-  <h3>معرفی‌نامه برای</h3>
-  <mat-radio-group formControlName="forWhom">
-    <mat-radio-button value="self">خودم</mat-radio-button>
-    <mat-radio-button value="dependents">وابستگانم</mat-radio-button>
-  </mat-radio-group>
-
-  <h3>وابستگان</h3>
-  <div formArrayName="dependents" class="dependents">
-    <div *ngFor="let dep of dependents.controls; let i=index" [formGroupName]="i" class="dependent-item">
-      <mat-form-field appearance="outline">
-        <mat-label>نام</mat-label>
-        <input matInput formControlName="firstName">
-        <mat-error *ngIf="dep.get('firstName')?.hasError('required')">نام اجباری می باشد</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>نام خانوادگی</mat-label>
-        <input matInput formControlName="lastName">
-        <mat-error *ngIf="dep.get('lastName')?.hasError('required')">نام خانوادگی اجباری می باشد</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>نسبت</mat-label>
-        <input matInput formControlName="relation">
-        <mat-error *ngIf="dep.get('relation')?.hasError('required')">نسبت اجباری می باشد</mat-error>
-      </mat-form-field>
-
-      <mat-checkbox formControlName="underSupport">تحت تکفل</mat-checkbox>
+@if (form) {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>نوع مراسم</mat-label>
+          <mat-select formControlName="ceremonyTypeLookupID" (selectionChange)="ceremonyTypeChanged($event)">
+            @for (item of ceremonyTypes; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="form.get('ceremonyTypeLookupID')?.touched &&
+            form.get('ceremonyTypeLookupID')?.hasError('required')">
+            انتخاب نوع مراسم اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+        <app-currency-input
+          class="w-100"
+          label="درصد تخفیف"
+          placeholder="درصد تخفیف"
+          formControlName="facilityDiscountPercent"
+          [disabled]="true">
+        </app-currency-input>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>معرفی به</mat-label>
+          <mat-select formControlName="introducedToLookupID">
+            @for (item of places; track item.id) {
+              <mat-option [value]="item.id">{{ item.name }}</mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="form.get('introducedToLookupID')?.touched &&
+                    form.get('introducedToLookupID')?.hasError('required')">
+            انتخاب محل معرفی اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>تاریخ مراسم</mat-label>
+          <input #dateInput matInput [matDatepicker]="picker" formControlName="ceremonyDate" class="ltr" onlyNumber
+                 (dateChange)="dateChanged(dateInput)" placeholder="تاریخ مراسم">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="form.get('ceremonyDate')?.touched &&
+                    form.get('ceremonyDate')?.hasError('required')">
+            تاریخ مراسم اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>تعداد مدعوین</mat-label>
+          <input matInput type="number" formControlName="ceremonyGuestCount" class="ltr text-left">
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>توضیحات</mat-label>
+          <textarea matInput formControlName="requestDescription" rows="3"></textarea>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <div fxLayout="row wrap" fxLayoutAlign="start center" class="mt-2">
+          <h3>معرفی نامه برای</h3>
+          <mat-radio-group formControlName="applicantRelationship">
+            <mat-radio-button value="خودم">خودم</mat-radio-button>
+            <mat-radio-button value="وابستگانم">وابستگانم</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <h3>مدارک مورد نیاز</h3>
+        <div formArrayName="attachments">
+          <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
+            <mat-checkbox formControlName="uploaded">{{ att.type }}</mat-checkbox>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <button mat-raised-button color="primary" type="button" (click)="addDependent()">➕ افزودن وابسته</button>
-
-  <h3>مدارک مورد نیاز</h3>
-  <div formArrayName="attachments">
-    <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
-      <mat-checkbox formControlName="uploaded">{{ att.type }}</mat-checkbox>
+    <div fxLayout="row wrap" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
     </div>
-  </div>
-
-  <div class="submit-btn">
-    <button mat-raised-button color="accent" type="submit">ثبت درخواست</button>
-  </div>
-</form>
+  </form>
+}

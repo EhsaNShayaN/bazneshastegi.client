@@ -77,7 +77,7 @@ export class InsertRequestComplementary {
   facilityGiverLookupID?: string;
   facilityGiverDesc?: string;
   facilityAmount?: number;
-  //facilityDiscountPercent: number;
+  facilityDiscountPercent?: number;
   facilityInstalementCount?: number;
   needGuarantor?: boolean;
   referralToCommittee?: boolean;
@@ -86,10 +86,9 @@ export class InsertRequestComplementary {
   facilityReceiveTypeLookupID?: string;
   facilityReceiverFullName?: string;
   previousCardNumber?: string;
-  /*
-  ceremonyTypeLookupID: string;
-  ceremonyGuestCount: number;
-  introducedToLookupID: string;*/
+  ceremonyTypeLookupID?: string;
+  ceremonyGuestCount?: number;
+  introducedToLookupID?: string;
 }
 
 export interface InsertRequestAttachment {

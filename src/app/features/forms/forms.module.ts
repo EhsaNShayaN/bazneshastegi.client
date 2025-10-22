@@ -16,7 +16,7 @@ import {CityBankLoanComponent} from './city-bank-loan/city-bank-loan.component';
 import {UrgentLoanComponent} from './urgent-loan/urgent-loan.component';
 import {HealthBookletComponent} from './health-booklet/health-booklet.component';
 import {WelfareCardComponent} from './welfare-card/welfare-card.component';
-import {CeremonyIntroComponent} from './ceremony-intro/ceremony-intro.component';
+import {CeremonyIntroductionComponent} from './ceremony-introduction/ceremony-introduction.component';
 import {FormsRoutingModule} from './forms-routing-module';
 import {SharedModule} from '../../shared/shared-module';
 import {RelationsComponent} from './relations/relations.component';
@@ -31,7 +31,7 @@ import {RelationsComponent} from './relations/relations.component';
     UrgentLoanComponent,
     HealthBookletComponent,
     WelfareCardComponent,
-    CeremonyIntroComponent,
+    CeremonyIntroductionComponent,
     RelationsComponent,
   ],
   imports: [
@@ -56,7 +56,7 @@ import {RelationsComponent} from './relations/relations.component';
     UrgentLoanComponent,
     HealthBookletComponent,
     WelfareCardComponent,
-    CeremonyIntroComponent,
+    CeremonyIntroductionComponent,
     RelationsComponent,
   ]
 })
