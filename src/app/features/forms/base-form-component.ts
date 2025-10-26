@@ -56,6 +56,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   constructor() {
     super();
     this.sub = this.activatedRoute.params.subscribe(({id}) => {
+      this.restApiService.formSubmittedSubject.next('');
       this.requestTypeID = id;
       this.restApiService.getActiveFacilitiesOfPerson(this.requestTypeID).subscribe((a: ActiveFacilitiesOfPersonResponse) => {
         this.initDataSource(a);

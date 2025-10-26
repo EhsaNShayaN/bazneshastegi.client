@@ -8,7 +8,8 @@
           placeholder="میزان وام درخواستی (ریال)"
           formControlName="facilityAmount"
           [required]="true"
-        ></app-currency-input>
+          (keyUpEvent)="installmentKeyUpEvent($event)">
+        </app-currency-input>
         <mat-error *ngIf="form.get('facilityAmount')?.touched &&
                     form.get('facilityAmount')?.hasError('required')">
           مبلغ وام اجباری می باشد
@@ -41,9 +42,16 @@
 
       @if (showDescription) {
         <div fxFlex="100" fxFlex.gt-xs="100">
+          <p class="error">
+            *درخواست شما در کمیته مطرح می گردد و در صورت تائید وام مورد نظر پرداخت خواهد شد.
+            <br>
+            مبلغ وام شما از سقف تعیین شده بیشتر است.
+            <br>
+            لطفاً دلایل درخواست وام را در قسمت توضیحات درج نمایید.
+          </p>
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>توضیحات</mat-label>
-            <textarea matInput formControlName="description" rows="3"></textarea>
+            <textarea matInput formControlName="requestDescription" rows="3"></textarea>
           </mat-form-field>
         </div>
       }

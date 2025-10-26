@@ -1,6 +1,57 @@
 @if (form) {
   <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
     <div fxLayout="row wrap">
+
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <div fxLayout="row wrap" fxLayoutAlign="start center" class="mb-2">
+          <h3>معرفی نامه برای</h3>
+          <mat-radio-group formControlName="applicantRelationship">
+            <mat-radio-button value="خودم">خودم</mat-radio-button>
+            <mat-radio-button value="وابستگانم">وابستگانم</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="100" *ngIf="form.get('applicantRelationship')?.value === 'وابستگانم'">
+        <h3>وابستگان</h3>
+        <mat-divider class="mt-1"></mat-divider>
+
+        @if (relationDataSource) {
+          <table [dataSource]="relationDataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+            @for (column of relationColumnsToDisplay; track column.key) {
+              <ng-container matColumnDef="{{column.key}}">
+                <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+                <td *matCellDef="let element; let i = index;" mat-cell>
+                  @switch (column.key) {
+                    @case ('personFirstName') {
+                      {{ element.personFirstName }}
+                      {{ element.personLastName }}
+                    }
+                    @case ('check') {
+                      <mat-radio-button name="check" [value]="element.pensionaryID"
+                                        (change)="checkRelatedUser($event)"></mat-radio-button>
+                    }
+                    @default {
+                      {{ element[column.key] }}
+                    }
+                  }
+                </td>
+              </ng-container>
+            }
+            <ng-container matColumnDef="expand">
+              <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+            </ng-container>
+            <tr *matHeaderRowDef="relationColumnsToDisplay0" mat-header-row></tr>
+            <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
+            </tr>
+          </table>
+          @if (relatedPersonIDError) {
+            <mat-error class="mb-2">
+              انتخاب وابسته اجباری می باشد.
+            </mat-error>
+          }
+        }
+      </div>
+
       <div fxFlex="100" fxFlex.gt-xs="33.3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>نوع مراسم</mat-label>
@@ -38,7 +89,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div fxFlex="100" fxFlex.gt-xs="33.3">
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pl-1">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>تاریخ مراسم</mat-label>
           <input #dateInput matInput [matDatepicker]="picker" formControlName="ceremonyDate" class="ltr" onlyNumber
@@ -51,7 +102,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>تعداد مدعوین</mat-label>
           <input matInput type="number" formControlName="ceremonyGuestCount" class="ltr text-left">
@@ -62,15 +113,6 @@
           <mat-label>توضیحات</mat-label>
           <textarea matInput formControlName="requestDescription" rows="3"></textarea>
         </mat-form-field>
-      </div>
-      <div fxFlex="100" fxFlex.gt-xs="33.3">
-        <div fxLayout="row wrap" fxLayoutAlign="start center" class="mt-2">
-          <h3>معرفی نامه برای</h3>
-          <mat-radio-group formControlName="applicantRelationship">
-            <mat-radio-button value="خودم">خودم</mat-radio-button>
-            <mat-radio-button value="وابستگانم">وابستگانم</mat-radio-button>
-          </mat-radio-group>
-        </div>
       </div>
       <div fxFlex="100" fxFlex.gt-xs="100">
         <h3>مدارک مورد نیاز</h3>

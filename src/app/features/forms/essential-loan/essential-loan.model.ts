@@ -2,7 +2,8 @@ export interface EssentialLoanRequest {
   facilityAmount: number;
   defaultInstalementCount: number;
   facilityInstalementAmount: number;
-  description: string;
+  requestDescription: string;
+  referralToCommittee?: boolean;
   attachments: Attachment[];
 }
 

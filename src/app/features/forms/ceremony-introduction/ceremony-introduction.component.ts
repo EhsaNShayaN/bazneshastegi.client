@@ -22,6 +22,7 @@ export class CeremonyIntroductionComponent extends BaseFormComponent implements 
 
   constructor() {
     super();
+    this.getRelations();
   }
 
   ngOnInit() {
@@ -67,8 +68,9 @@ export class CeremonyIntroductionComponent extends BaseFormComponent implements 
   }
 
   submit() {
+    this.relatedPersonIDError = this.form.get('applicantRelationship')?.value === 'وابستگانم' && !this.relatedPersonID;
     console.log(this.form.getRawValue());
-    if (this.form.valid) {
+    if (this.form.valid && !this.relatedPersonIDError) {
       const request: CeremonyIntroRequest = this.form.getRawValue();
       console.log('📌 فرم مراسم معرفی‌نامه ثبت شد:', request);
       const insert: InsertRequest = {
@@ -90,11 +92,11 @@ export class CeremonyIntroductionComponent extends BaseFormComponent implements 
             requestTypeID: this.requestTypeID,
             personID: this.personInfo!.personID,
             applicantRelationship: request.applicantRelationship,
-            relatedPersonID: request.relatedPersonID,
+            relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
             facilityDiscountPercent: request.facilityDiscountPercent,
             ceremonyTypeLookupID: request.ceremonyTypeLookupID,
             ceremonyDate: request.ceremonyDate,
-            ceremonyGuestCount: request.ceremonyGuestCount,
+            ceremonyGuestCount: request.ceremonyGuestCount ?? 0,
             introducedToLookupID: request.introducedToLookupID,
             requestDescription: request.requestDescription,
           };

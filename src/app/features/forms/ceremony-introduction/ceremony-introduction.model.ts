@@ -1,10 +1,9 @@
 export interface CeremonyIntroRequest {
   applicantRelationship: string;
-  relatedPersonID: string;
   facilityDiscountPercent?: number;
   ceremonyTypeLookupID: string;
   ceremonyDate: Date;
-  ceremonyGuestCount?: number;
+  ceremonyGuestCount: number;
   introducedToLookupID: string;
   requestDescription: string;
 
