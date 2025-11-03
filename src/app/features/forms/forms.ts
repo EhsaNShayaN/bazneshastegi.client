@@ -5,6 +5,7 @@ import {RestApiService} from '../../core/rest-api.service';
 import {RequestType, RequestTypeResponse} from '../../core/models/RequestTypeResponse';
 import {MatSelectChange} from '@angular/material/select';
 import {Router} from '@angular/router';
+import {GetRequestTypeGuide, GetRequestTypeGuideResponse} from '../../core/models/GetRequestTypeGuideResponse';
 
 @Component({
   selector: 'app-forms',
@@ -17,6 +18,7 @@ export class Forms extends PureComponent implements OnInit, OnDestroy {
   personInfo: PersonInfo | null = null;
   requestTypes: RequestType[] = [];
   selectedRequestTypeId: string = '';
+  requestTypeGuide?: GetRequestTypeGuide;
 
   constructor(private router: Router,
               private restApiService: RestApiService) {
@@ -27,6 +29,11 @@ export class Forms extends PureComponent implements OnInit, OnDestroy {
     const pathArray = window.location.pathname.split('/');
     if (pathArray.length === 4) {
       this.selectedRequestTypeId = pathArray[3];
+      this.restApiService.getRequestTypeGuide(this.selectedRequestTypeId).subscribe((g: GetRequestTypeGuideResponse) => {
+        if (g.data.length > 0) {
+          this.requestTypeGuide = g.data[0];
+        }
+      });
     }
     this.sub = this.restApiService.formSubmittedSubject.subscribe(msg => {
       this.message = msg;
@@ -51,5 +58,9 @@ export class Forms extends PureComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+  }
+
+  help() {
+    alert(this.requestTypeGuide?.guideText)
   }
 }

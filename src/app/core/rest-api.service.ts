@@ -17,6 +17,7 @@ import {RequestTypeAttachmentResponse} from './models/RequestTypeAttachmentRespo
 import {InsertRequestAttachmentResponse} from './models/InsertRequestAttachmentResponse';
 import {ActiveFacilitiesOfPersonResponse} from './models/ActiveFacilitiesOfPersonResponse';
 import {GetRequestTypeConfigResponse} from './models/GetRequestTypeConfigResponse';
+import {GetRequestTypeGuideResponse} from './models/GetRequestTypeGuideResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +78,12 @@ export class RestApiService {
       query += `&genderLookupID=${genderLookupID}`;
     }
     return this.http.get<GetRequestTypeConfigResponse>(query).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getRequestTypeGuide(requestTypeId: string): Observable<any> {
+    return this.http.get<GetRequestTypeGuideResponse>(`${endpoint()}forms/getRequestTypeGuide?requestTypeId=${requestTypeId}`).pipe(
       catchError(this.handleError)
     );
   }

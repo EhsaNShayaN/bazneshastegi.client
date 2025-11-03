@@ -18,6 +18,7 @@ import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAt
 import {CustomConstants} from '../../core/constants/custom.constants';
 import {RelatedPersonsResponse} from '../../core/models/RelatedPersonsResponse';
 import {MatRadioChange} from '@angular/material/radio';
+import {GetRequestTypeGuide, GetRequestTypeGuideResponse} from '../../core/models/GetRequestTypeGuideResponse';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -52,12 +53,18 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   personInfo: PersonInfo | null = null;
   requestTypeID: string = '';
   requestTypes: RequestTypeAttachment[] = [];
+  //requestTypeGuide?: GetRequestTypeGuide;
 
   constructor() {
     super();
     this.sub = this.activatedRoute.params.subscribe(({id}) => {
       this.restApiService.formSubmittedSubject.next('');
       this.requestTypeID = id;
+      /*this.restApiService.getRequestTypeGuide(this.requestTypeID).subscribe((g: GetRequestTypeGuideResponse) => {
+        if (g.data.length > 0) {
+          this.requestTypeGuide = g.data[0];
+        }
+      });*/
       this.restApiService.getActiveFacilitiesOfPerson(this.requestTypeID).subscribe((a: ActiveFacilitiesOfPersonResponse) => {
         this.initDataSource(a);
         this.sub3 = this.restApiService.personInfoSubject.subscribe(personInfo => {
