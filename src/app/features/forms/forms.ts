@@ -6,6 +6,8 @@ import {RequestType, RequestTypeResponse} from '../../core/models/RequestTypeRes
 import {MatSelectChange} from '@angular/material/select';
 import {Router} from '@angular/router';
 import {GetRequestTypeGuide, GetRequestTypeGuideResponse} from '../../core/models/GetRequestTypeGuideResponse';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogContentComponent} from '../dialog-content/dialog-content.component';
 
 @Component({
   selector: 'app-forms',
@@ -21,7 +23,8 @@ export class Forms extends PureComponent implements OnInit, OnDestroy {
   requestTypeGuide?: GetRequestTypeGuide;
 
   constructor(private router: Router,
-              private restApiService: RestApiService) {
+              private restApiService: RestApiService,
+              private dialog: MatDialog) {
     super();
     this.restApiService.getPersonInfo().subscribe((b: PersonInfoResponse) => {
       this.personInfo = b.data;
@@ -56,11 +59,14 @@ export class Forms extends PureComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
+  openHelpDialog() {
+    this.dialog.open(DialogContentComponent, {
+      width: '400px',
+      data: {title: this.requestTypeGuide?.requestTypeName, content: this.requestTypeGuide?.guideText}
+    });
   }
 
-  help() {
-    alert(this.requestTypeGuide?.guideText)
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }

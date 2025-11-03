@@ -29,6 +29,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Forms} from './features/forms/forms';
 import {AuthGuard} from './core/guards/auth.guard';
 import {DatePipe} from '@angular/common';
+import {MatDialogModule} from '@angular/material/dialog';
+import {DialogContentComponent} from './features/dialog-content/dialog-content.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -50,6 +52,7 @@ export function tokenGetter() {
     UserSidebar,
     AdminHeader,
     UserHeader,
+    DialogContentComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +71,7 @@ export function tokenGetter() {
     MatCardAvatar,
     MatCardHeader,
     MatLine,
+    MatDialogModule,
   ],
   providers: [
     DatePipe,
