@@ -1,5 +1,5 @@
 export interface SalaryCertificate {
-  organization: string;
+  facilityGiverDesc: string;
   payAmount: number;
   requestType: string;
   retirementDate?: string;

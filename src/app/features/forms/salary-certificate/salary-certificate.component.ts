@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {SalaryCertificate} from './salary-certificate.model';
 import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
-import {InsertRequest, InsertRequestComplementary, PayFractionCertificate} from '../pay-fraction-certificate/pay-fraction-certificate.model';
+import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertResponse} from '../../../core/models/InsertResponse';
 import {BaseFormComponent} from '../base-form-component';
 
@@ -30,7 +30,7 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
   override createForm() {
     this.retirementDate = this.convertToPersianDate(this.personInfo?.retirementDate?.split('T')[0] ?? '');
     this.form = this.fb.group({
-      organization: ['', Validators.required],
+      facilityGiverDesc: ['', Validators.required],
       includeSalary: [false],
       includeHistory: [false],
       attachments: this.fb.array(
@@ -73,6 +73,7 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
             personID: this.personInfo!.personID,
             insertPayAmountInCertificate: request.includeSalary,
             insertDurationInCertificate: request.includeHistory,
+            facilityGiverDesc: request.facilityGiverDesc,
           };
           this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
             console.log(b);

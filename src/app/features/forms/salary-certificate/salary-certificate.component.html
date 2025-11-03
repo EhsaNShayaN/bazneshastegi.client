@@ -21,43 +21,38 @@
           <input matInput class="ltr" [value]="this.personInfo?.retiredRealDurationYEAR" [disabled]="true">
         </mat-form-field>
       </div>
+
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>معرفی به</mat-label>
+          <input matInput formControlName="facilityGiverDesc">
+          <mat-error
+            *ngIf="form.get('facilityGiverDesc')?.touched && form.get('facilityGiverDesc')?.hasError('required')">
+            معرفی به اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
 
-    <div fxLayout="row wrap">
-
-      <div fxFlex="100" fxFlex.gt-xs="100" class="mb-2">
+    @if ((attachments.controls?.length ?? 0) > 0) {
+      <div class="control-row mb-2">
         <h3>مدارک مورد نیاز</h3>
         <div formArrayName="attachments">
-          <div *ngFor="let attachment of attachments.controls; let i = index" [formGroupName]="i"
-               class="attachment-row">
-
-            <!-- File type title -->
-            <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
-
-            <!-- File input -->
-            <input type="file" (change)="onFileSelected($event, i)"/>
-
-            <!-- Upload status -->
-            <!--<mat-icon *ngIf="attachment.get('uploaded')?.value" color="primary">check_circle</mat-icon>
-            <mat-icon *ngIf="!attachment.get('uploaded')?.value" color="warn">highlight_off</mat-icon>-->
-
-          </div>
+          @for (attachment of attachments.controls; track attachment; let i = $index) {
+            <div [formGroupName]="i" class="attachment-row">
+              <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
+              <input type="file" (change)="onFileSelected($event, i)"/>
+              @if (attachment.get('file')?.invalid && attachment.get('file')?.touched) {
+                <div class="error">
+                  {{ attachment.get('type')?.value }}
+                  اجباری می باشد
+                </div>
+              }
+            </div>
+          }
         </div>
       </div>
-
-      <mat-checkbox formControlName="includeSalary">درج حقوق در گواهی</mat-checkbox>
-      <mat-checkbox formControlName="includeHistory">درج سابقه در گواهی</mat-checkbox>
-    </div>
-
-    <div class="control-row">
-      <mat-form-field appearance="outline">
-        <mat-label>معرفی به</mat-label>
-        <input matInput formControlName="organization">
-        <mat-error *ngIf="form.get('organization')?.touched && form.get('organization')?.hasError('required')">
-          معرفی به اجباری می باشد
-        </mat-error>
-      </mat-form-field>
-    </div>
+    }
 
     <div fxLayout="row wrap" fxLayoutAlign="end center">
       <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
