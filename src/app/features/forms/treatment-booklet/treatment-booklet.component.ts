@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
-import {HealthBookletRequest} from './health-booklet.model';
+import {HealthBookletRequest} from './treatment-booklet.model';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {GetRequestTypeConfigResponse, RequestTypeConfigInfo} from '../../../core/models/GetRequestTypeConfigResponse';
 
 @Component({
-  selector: 'app-health-booklet',
-  templateUrl: './health-booklet.component.html',
+  selector: 'app-treatment-booklet',
+  templateUrl: './treatment-booklet.component.html',
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class HealthBookletComponent extends BaseFormComponent implements OnInit {
+export class TreatmentBookletComponent extends BaseFormComponent implements OnInit {
   requestTypeConfig?: RequestTypeConfigInfo;
 
   constructor() {

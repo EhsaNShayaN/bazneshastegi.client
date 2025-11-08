@@ -14,7 +14,7 @@ import {StationaryComponent} from './stationary/stationary.component';
 import {EducationRewardComponent} from './education-reward/education-reward.component';
 import {CityBankLoanComponent} from './city-bank-loan/city-bank-loan.component';
 import {EssentialLoanComponent} from './essential-loan/essential-loan.component';
-import {HealthBookletComponent} from './health-booklet/health-booklet.component';
+import {TreatmentBookletComponent} from './treatment-booklet/treatment-booklet.component';
 import {WelfareCardComponent} from './welfare-card/welfare-card.component';
 import {CeremonyIntroductionComponent} from './ceremony-introduction/ceremony-introduction.component';
 import {FormsRoutingModule} from './forms-routing-module';
@@ -29,7 +29,7 @@ import {RelationsComponent} from './relations/relations.component';
     EducationRewardComponent,
     CityBankLoanComponent,
     EssentialLoanComponent,
-    HealthBookletComponent,
+    TreatmentBookletComponent,
     WelfareCardComponent,
     CeremonyIntroductionComponent,
     RelationsComponent,
@@ -54,7 +54,7 @@ import {RelationsComponent} from './relations/relations.component';
     EducationRewardComponent,
     CityBankLoanComponent,
     EssentialLoanComponent,
-    HealthBookletComponent,
+    TreatmentBookletComponent,
     WelfareCardComponent,
     CeremonyIntroductionComponent,
     RelationsComponent,
