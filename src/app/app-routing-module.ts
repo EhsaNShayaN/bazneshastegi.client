@@ -21,7 +21,7 @@ const pagesChildren: Routes = [
         component: Forms, children: [{path: '', loadChildren: () => import('./features/forms/forms.module').then(m => m.FormsSharedModule)}],
       },
     ],
-    canActivate: [AuthGuard]
+    //canActivate: [AuthGuard]
   },
   // پنل کاربر
   {

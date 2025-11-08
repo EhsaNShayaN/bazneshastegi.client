@@ -13,12 +13,13 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
-import {InsertRequestAttachment} from './pay-fraction-certificate/pay-fraction-certificate.model';
+import {InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from './pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 import {CustomConstants} from '../../core/constants/custom.constants';
 import {RelatedPersonsResponse} from '../../core/models/RelatedPersonsResponse';
 import {MatRadioChange} from '@angular/material/radio';
-import {GetRequestTypeGuide, GetRequestTypeGuideResponse} from '../../core/models/GetRequestTypeGuideResponse';
+import {InsertResponse} from '../../core/models/InsertResponse';
+import {InsertComplementaryResponse} from '../../core/models/InsertComplementaryResponse';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -53,6 +54,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   personInfo: PersonInfo | null = null;
   requestTypeID: string = '';
   requestTypes: RequestTypeAttachment[] = [];
+
   //requestTypeGuide?: GetRequestTypeGuide;
 
   constructor() {
@@ -109,18 +111,6 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
       .format('jYYYY/jMM/jDD'); // use "j" for Jalali calendar
   }
 
-  onFileSelected(event: Event, index: number) {
-    const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      const file = input.files[0];
-      console.log('Selected file for', this.attachments.at(index).get('type')?.value, file);
-
-      // mark as uploaded
-      this.attachments.at(index).patchValue({uploaded: true, file: file});
-      this.attachments.at(index).get('file')?.markAsTouched();
-    }
-  }
-
   get attachments(): FormArray {
     return this.form.get('attachments') as FormArray;
   }
@@ -155,11 +145,6 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     this.relatedPersonIDError = !this.relatedPersonID;
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-    this.sub3.unsubscribe();
-  }
-
   showResult(requestNO: string) {
     this.message = `متقاضی گرامی درخواست شما با شماره پیگیری ${requestNO} در سامانه ثبت گردید. جهت مشاهده مراحل بررسی درخواست از طریق منوی پیگیری درخواست اقدام فرمایید.`;
     this.restApiService.formSubmittedSubject.next(this.message);
@@ -168,5 +153,33 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     this.form.markAsPristine();
     this.form.markAsUntouched();
     window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  send(insert: InsertRequest, insertComplementary: InsertRequestComplementary) {
+    this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
+      if (a.isSuccess) {
+        console.log(a);
+        insertComplementary.requestID = a.data.requestID;
+        this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
+          console.log(b);
+          if (b.isSuccess) {
+            if ((this.attachments.controls?.length ?? 0) > 0) {
+              this.insertAttachments(a.data.requestID, a.data.requestNO);
+            } else {
+              this.showResult(a.data.requestNO);
+            }
+          } else {
+            this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+          }
+        });
+      } else {
+        this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+    this.sub3.unsubscribe();
   }
 }

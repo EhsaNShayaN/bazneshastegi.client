@@ -1,9 +1,9 @@
 import {BaseResult} from './BaseResult';
 
-export interface GetRequestTypeConfigResponse extends BaseResult<GetRequestTypeConfig[]> {
+export interface GetRequestTypeConfigResponse extends BaseResult<RequestTypeConfigInfo[]> {
 }
 
-export interface GetRequestTypeConfig {
+export interface RequestTypeConfigInfo {
   requestTypeConfigID: string | null;
   requestTypeID: string;
   lookupID: number;

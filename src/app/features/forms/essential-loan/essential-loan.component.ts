@@ -2,11 +2,8 @@ import {Component} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {EssentialLoanRequest} from './essential-loan.model';
 import {BaseFormComponent} from '../base-form-component';
-import {GetRequestTypeConfig, GetRequestTypeConfigResponse} from '../../../core/models/GetRequestTypeConfigResponse';
-import {CityBankLoanRequest} from '../city-bank-loan/city-bank-loan.model';
+import {GetRequestTypeConfigResponse, RequestTypeConfigInfo} from '../../../core/models/GetRequestTypeConfigResponse';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
-import {InsertResponse} from '../../../core/models/InsertResponse';
-import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
 
 @Component({
   selector: 'app-essential-loan',
@@ -23,7 +20,7 @@ export class EssentialLoanComponent extends BaseFormComponent {
     {key: 'facilityAmount', name: 'مبلغ وام'}
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
-  requestTypeConfig?: GetRequestTypeConfig;
+  requestTypeConfig?: RequestTypeConfigInfo;
   totalRemainedAmount: number = 0;
   showDescription: boolean = false;
 
@@ -82,34 +79,15 @@ export class EssentialLoanComponent extends BaseFormComponent {
         insertUserID: 'baz-1',
         requestFrom: 2,
       };
-      this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
-        if (a.isSuccess) {
-          console.log(a);
-          const insertComplementary: InsertRequestComplementary = {
-            requestID: a.data.requestID,
-            requestTypeID: this.requestTypeID,
-            personID: this.personInfo!.personID,
-            facilityAmount: request.facilityAmount,
-            referralToCommittee: request.referralToCommittee,
-            requestDescription: request.requestDescription,
-          };
-          this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
-            console.log(b);
-            if (b.isSuccess) {
-              this.showDescription = false;
-              if ((this.attachments.controls?.length ?? 0) > 0) {
-                this.insertAttachments(a.data.requestID, a.data.requestNO);
-              } else {
-                this.showResult(a.data.requestNO);
-              }
-            } else {
-              this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
-            }
-          });
-        } else {
-          this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
-        }
-      });
+      const insertComplementary: InsertRequestComplementary = {
+        requestID: '',
+        requestTypeID: this.requestTypeID,
+        personID: this.personInfo!.personID,
+        facilityAmount: request.facilityAmount,
+        referralToCommittee: request.referralToCommittee,
+        requestDescription: request.requestDescription,
+      };
+      this.send(insert, insertComplementary);
     } else {
       this.form.markAllAsTouched();
       console.log(this.findInvalidControls(this.form));

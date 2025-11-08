@@ -7,8 +7,6 @@ import {SelectItem} from '../../../shared/components/custom-select/custom-select
 import {MatSelectChange} from '@angular/material/select';
 import {GetRequestTypeConfigResponse} from '../../../core/models/GetRequestTypeConfigResponse';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
-import {InsertResponse} from '../../../core/models/InsertResponse';
-import {InsertComplementaryResponse} from '../../../core/models/InsertComplementaryResponse';
 
 @Component({
   selector: 'app-ceremony-introduction',
@@ -84,38 +82,20 @@ export class CeremonyIntroductionComponent extends BaseFormComponent implements 
         insertUserID: 'baz-1',
         requestFrom: 2,
       };
-      this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
-        if (a.isSuccess) {
-          console.log(a);
-          const insertComplementary: InsertRequestComplementary = {
-            requestID: a.data.requestID,
-            requestTypeID: this.requestTypeID,
-            personID: this.personInfo!.personID,
-            applicantRelationship: request.applicantRelationship,
-            relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
-            facilityDiscountPercent: request.facilityDiscountPercent,
-            ceremonyTypeLookupID: request.ceremonyTypeLookupID,
-            ceremonyDate: request.ceremonyDate,
-            ceremonyGuestCount: request.ceremonyGuestCount ?? 0,
-            introducedToLookupID: request.introducedToLookupID,
-            requestDescription: request.requestDescription,
-          };
-          this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
-            console.log(b);
-            if (b.isSuccess) {
-              if ((this.attachments.controls?.length ?? 0) > 0) {
-                this.insertAttachments(a.data.requestID, a.data.requestNO);
-              } else {
-                this.showResult(a.data.requestNO);
-              }
-            } else {
-              this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
-            }
-          });
-        } else {
-          this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
-        }
-      });
+      const insertComplementary: InsertRequestComplementary = {
+        requestID: '',
+        requestTypeID: this.requestTypeID,
+        personID: this.personInfo!.personID,
+        applicantRelationship: request.applicantRelationship,
+        relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
+        facilityDiscountPercent: request.facilityDiscountPercent,
+        ceremonyTypeLookupID: request.ceremonyTypeLookupID,
+        ceremonyDate: request.ceremonyDate,
+        ceremonyGuestCount: request.ceremonyGuestCount ?? 0,
+        introducedToLookupID: request.introducedToLookupID,
+        requestDescription: request.requestDescription,
+      };
+      this.send(insert, insertComplementary);
     } else {
       this.form.markAllAsTouched();
       console.log(this.findInvalidControls(this.form));
