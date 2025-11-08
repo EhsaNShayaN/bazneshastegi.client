@@ -3,6 +3,7 @@ export interface WelfareCardRequest {
   facilityReceiveTypeLookupID: string;
   facilityReceiverFullName: string;
   previousCardNumber: string;
+  requestDescription: string;
   attachments: Attachment[];
 }
 

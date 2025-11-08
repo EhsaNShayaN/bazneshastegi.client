@@ -51,7 +51,7 @@ export class WelfareCardComponent extends BaseFormComponent implements OnInit {
       facilityReceiveTypeLookupID: ['', Validators.required],
       facilityReceiverFullName: [''],
       previousCardNumber: [''],
-      description: [''],
+      requestDescription: [''],
       attachments: this.fb.array(
         this.requestTypes.map(s =>
           this.fb.group({
@@ -89,6 +89,7 @@ export class WelfareCardComponent extends BaseFormComponent implements OnInit {
         facilityReceiveTypeLookupID: request.facilityReceiveTypeLookupID,
         facilityReceiverFullName: request.facilityReceiverFullName,
         previousCardNumber: request.previousCardNumber,
+        requestDescription: request.requestDescription,
       };
       this.send(insert, insertComplementary);
     } else {
