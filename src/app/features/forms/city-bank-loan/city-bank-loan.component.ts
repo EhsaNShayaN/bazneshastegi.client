@@ -27,6 +27,7 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
   lenders: SelectItem[] = [];
   branches: SelectItem[] = [];
   facilityGiverLookupId: string = '';
+  cityBankLookupId: string = '8002';
 
   constructor() {
     super();
@@ -34,10 +35,11 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
 
   ngOnInit() {
     this.restApiService.getLookupData('Bank', '').subscribe((a: LookUpDataResponse) => {
-      this.lenders = a.data.map(s => ({
+      this.lenders = a.data.filter(s => s.lookUpID === this.cityBankLookupId).map(s => ({
         id: s.lookUpID,
         name: s.lookUpName,
       }));
+      this.lenderChanged(this.cityBankLookupId);
     });
   }
 
@@ -46,7 +48,7 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
       .subscribe((a: GetRequestTypeConfigResponse) => {
         this.requestTypeConfig = a.data[0];
         this.form = this.fb.group({
-          lenderName: ['', Validators.required],
+          lenderName: [this.cityBankLookupId, Validators.required],
           branchName: ['', Validators.required],
           branchCode: ['', Validators.required],
           facilityAmount: [this.requestTypeConfig!.defaultAmount, [Validators.required]],

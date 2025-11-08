@@ -57,6 +57,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         name: ['', Validators.required],
         branchName: [''],
         branchCode: [''],
+        facilityGiverDesc: [''],
         loanAmount: new FormControl(null, {nonNullable: true, validators: Validators.required}),
         installmentCount: [''],
       }),
@@ -75,6 +76,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         id: s.lookUpID,
         name: s.lookUpName,
       }));
+      this.lenders.splice(0, 0, {id: '-1', name: 'سایر'});
     });
   }
 
@@ -116,7 +118,8 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
         applicantRelationship: request.borrower.relation,
         facilityAmount: request.lender.loanAmount,
         facilityInstalementCount: request.lender.installmentCount,
-        facilityGiverLookupID: this.facilityGiverLookupId
+        facilityGiverLookupID: this.facilityGiverLookupId,
+        facilityGiverDesc: request.lender.facilityGiverDesc,
       };
       this.send(insert, insertComplementary);
     } else {
@@ -130,6 +133,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   }
 
   lenderChanged($event: any) {
+
     if ($event) {
       this.facilityGiverLookupId = $event;
       this.restApiService.getLookupData('BankBranch', this.facilityGiverLookupId).subscribe((a: LookUpDataResponse) => {
@@ -138,7 +142,24 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
           name: s.lookUpName,
         }));
       });
+
+      this.setValidation();
     }
+  }
+
+  setValidation() {
+    const facilityGiverDesc = this.lender.get('facilityGiverDesc');
+    const branchName = this.lender.get('branchName');
+
+    if (this.facilityGiverLookupId === '-1') {
+      branchName?.clearValidators();
+      facilityGiverDesc?.setValidators([Validators.required]);
+    } else {
+      facilityGiverDesc?.clearValidators();
+      branchName?.setValidators([Validators.required]);
+    }
+    branchName?.updateValueAndValidity({emitEvent: false});
+    facilityGiverDesc?.updateValueAndValidity({emitEvent: false});
   }
 
   branchChanged($event: any): void {

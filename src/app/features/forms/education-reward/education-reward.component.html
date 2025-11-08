@@ -60,7 +60,7 @@
                   {{ element.personLastName }}
                 }
                 @case ('check') {
-                  <mat-radio-button name="check" [value]="element.pensionaryID" (change)="checkRelatedUser($event)"></mat-radio-button>
+                  <mat-radio-button name="check" [value]="element.personID" (change)="checkRelatedUser($event)"></mat-radio-button>
                 }
                 @default {
                   {{ element[column.key] }}

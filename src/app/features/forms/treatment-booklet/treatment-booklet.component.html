@@ -8,9 +8,9 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>نوع درخواست</mat-label>
           <mat-select formControlName="issueTypeLookupID">
-            <mat-option value="new">صدور اولیه</mat-option>
-            <mat-option value="renew">تمدید</mat-option>
-            <mat-option value="replace">تعویض</mat-option>
+            @for (item of medicalTreatmentServiceTypes; track item.lookUpID) {
+              <mat-option [value]="item.lookUpID">{{ item.lookUpName }}</mat-option>
+            }
           </mat-select>
           <mat-error *ngIf="form.get('issueTypeLookupID')?.hasError('required')">
             انتخاب نوع درخواست اجباری می باشد
@@ -22,8 +22,9 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>نحوه تحویل</mat-label>
           <mat-select formControlName="facilityReceiveTypeLookupID">
-            <mat-option value="post">پست</mat-option>
-            <mat-option value="inPerson">حضوری</mat-option>
+            @for (item of medicalBookletReceiveTypes; track item.lookUpID) {
+              <mat-option [value]="item.lookUpID">{{ item.lookUpName }}</mat-option>
+            }
           </mat-select>
           <mat-error *ngIf="form.get('facilityReceiveTypeLookupID')?.hasError('required')">
             انتخاب نحوه تحویل اجباری می باشد
@@ -34,11 +35,11 @@
       <div fxFlex="100" fxFlex.gt-xs="33.3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>هزینه ارسال (ریال)</mat-label>
-          <input matInput [disabled]="true" [value]="250000 | customCurrency" class="ltr">
+          <input matInput [disabled]="true" [value]="requestTypeConfig?.deliveryCost | customCurrency" class="ltr">
         </mat-form-field>
       </div>
 
-      <div fxFlex="100" fxFlex.gt-xs="100" *ngIf="form.get('applicantRelationship')?.value === 'وابستگانم'">
+      <div fxFlex="100" fxFlex.gt-xs="100">
         <h3>وابستگان</h3>
         <mat-divider class="mt-1"></mat-divider>
 
@@ -54,7 +55,7 @@
                       {{ element.personLastName }}
                     }
                     @case ('check') {
-                      <mat-radio-button name="check" [value]="element.pensionaryID"
+                      <mat-radio-button name="check" [value]="element.personID"
                                         (change)="checkRelatedUser($event)"></mat-radio-button>
                     }
                     @default {

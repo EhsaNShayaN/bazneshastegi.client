@@ -15,7 +15,8 @@
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-2">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>مبلغ مانده کسر از حقوق(ريال)</mat-label>
-            <input matInput [value]="this.personInfo!.remainedAmountForCertificate | customCurrency" class="ltr" [disabled]="true">
+            <input matInput [value]="this.personInfo!.remainedAmountForCertificate | customCurrency" class="ltr"
+                   [disabled]="true">
           </mat-form-field>
         </div>
       </div>
@@ -130,48 +131,62 @@
             [required]="true"
             (selectionChange)="lenderChanged($event)"
           ></app-custom-select>
-          <mat-error class="custom-error" *ngIf="lender.get('name')?.touched && lender.get('name')?.hasError('required')">
+          <mat-error class="custom-error"
+                     *ngIf="lender.get('name')?.touched && lender.get('name')?.hasError('required')">
             نام وام دهنده را انتخاب نمایید.
           </mat-error>
         </div>
-        <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
-          @if ((branches?.length ?? 0) > 0) {
-            <app-custom-select
-              formControlName="branchName"
-              [items]="branches"
-              placeholder="نام شعبه"
-              [required]="true"
-              (selectionChange)="branchChanged($event)"
-            ></app-custom-select>
-            <mat-error class="custom-error" *ngIf="lender.get('branchName')?.touched && lender.get('branchName')?.hasError('required')">
-              نام شعبه را انتخاب نمایید.
-            </mat-error>
-          } @else {
+        @if (facilityGiverLookupId === '-1') {
+          <div fxFlex="100" fxFlex.gt-xs="66.6" class="pr-2">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>نام شعبه</mat-label>
-              <mat-select formControlName="branchName" required (selectionChange)="branchChanged($event)">
-                <!--@for (item of branches; track item.lookUpID) {
-                  <mat-option [value]="item">
-                    {{ item.lookUpTypeName }}
-                    {{ item.lookUpName }}
-                  </mat-option>
-                }-->
-              </mat-select>
-              <mat-error *ngIf="lender.get('branchName')?.touched && lender.get('branchName')?.hasError('required')">
-                نام شعبه را انتخاب نمایید.
+              <mat-label>نام وام دهنده</mat-label>
+              <input matInput formControlName="facilityGiverDesc">
+              <mat-error *ngIf="lender.get('facilityGiverDesc')?.touched && lender.get('facilityGiverDesc')?.hasError('required')">
+                نام وام دهنده اجباری می باشد
               </mat-error>
             </mat-form-field>
-          }
-        </div>
-        <div fxFlex="100" fxFlex.gt-xs="33.3">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>کد شعبه</mat-label>
-            <input matInput formControlName="branchCode">
-            <mat-error *ngIf="lender.get('branchCode')?.touched && lender.get('branchCode')?.hasError('required')">
-              کد شعبه اجباری می باشد
-            </mat-error>
-          </mat-form-field>
-        </div>
+          </div>
+        } @else {
+          <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+            @if ((branches?.length ?? 0) > 0) {
+              <app-custom-select
+                formControlName="branchName"
+                [items]="branches"
+                placeholder="نام شعبه"
+                [required]="true"
+                (selectionChange)="branchChanged($event)"
+              ></app-custom-select>
+              <mat-error class="custom-error"
+                         *ngIf="lender.get('branchName')?.touched && lender.get('branchName')?.hasError('required')">
+                نام شعبه را انتخاب نمایید.
+              </mat-error>
+            } @else {
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>نام شعبه</mat-label>
+                <mat-select formControlName="branchName" required (selectionChange)="branchChanged($event)">
+                  <!--@for (item of branches; track item.lookUpID) {
+                    <mat-option [value]="item">
+                      {{ item.lookUpTypeName }}
+                      {{ item.lookUpName }}
+                    </mat-option>
+                  }-->
+                </mat-select>
+                <mat-error *ngIf="lender.get('branchName')?.touched && lender.get('branchName')?.hasError('required')">
+                  نام شعبه را انتخاب نمایید.
+                </mat-error>
+              </mat-form-field>
+            }
+          </div>
+          <div fxFlex="100" fxFlex.gt-xs="33.3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>کد شعبه</mat-label>
+              <input matInput formControlName="branchCode">
+              <mat-error *ngIf="lender.get('branchCode')?.touched && lender.get('branchCode')?.hasError('required')">
+                کد شعبه اجباری می باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+        }
       </div>
 
       <div fxLayout="row wrap">
@@ -185,7 +200,8 @@
             (keyUpEvent)="onLoanAmountKeyUp($event)"
             [required]="true"
           ></app-currency-input>
-          <mat-error class="custom-error" *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('required')">
+          <mat-error class="custom-error"
+                     *ngIf="lender.get('loanAmount')?.touched && lender.get('loanAmount')?.hasError('required')">
             مبلغ وام اجباری می باشد
           </mat-error>
         </div>

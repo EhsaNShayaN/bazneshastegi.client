@@ -18,6 +18,7 @@ import {InsertRequestAttachmentResponse} from './models/InsertRequestAttachmentR
 import {ActiveFacilitiesOfPersonResponse} from './models/ActiveFacilitiesOfPersonResponse';
 import {GetRequestTypeConfigResponse} from './models/GetRequestTypeConfigResponse';
 import {GetRequestTypeGuideResponse} from './models/GetRequestTypeGuideResponse';
+import {GetLookupResponse} from './models/GetLookupResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +89,12 @@ export class RestApiService {
     );
   }
 
+  getLookup(lookupType: string): Observable<any> {
+    return this.http.get<GetLookupResponse>(`${endpoint()}forms/getLookup?lookupType=${lookupType}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+//MedicalTreatmentServiceType
   getRelatedPersons(): Observable<any> {
     return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/relatedPersons`,).pipe(
       catchError(this.handleError)

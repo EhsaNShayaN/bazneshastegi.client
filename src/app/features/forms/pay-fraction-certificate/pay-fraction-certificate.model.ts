@@ -18,6 +18,7 @@ export interface Lender {
   name: string;
   branchName: string;
   branchCode: string;
+  facilityGiverDesc: string;
   loanAmount: number;
   installmentCount: number;
 }

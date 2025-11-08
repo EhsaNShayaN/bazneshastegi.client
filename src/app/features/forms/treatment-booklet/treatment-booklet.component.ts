@@ -4,6 +4,7 @@ import {HealthBookletRequest} from './treatment-booklet.model';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {GetRequestTypeConfigResponse, RequestTypeConfigInfo} from '../../../core/models/GetRequestTypeConfigResponse';
+import {GetLookupResponse, LookupInfo} from '../../../core/models/GetLookupResponse';
 
 @Component({
   selector: 'app-treatment-booklet',
@@ -13,31 +14,38 @@ import {GetRequestTypeConfigResponse, RequestTypeConfigInfo} from '../../../core
 })
 export class TreatmentBookletComponent extends BaseFormComponent implements OnInit {
   requestTypeConfig?: RequestTypeConfigInfo;
+  medicalTreatmentServiceTypes: LookupInfo[] = [];
+  medicalBookletReceiveTypes: LookupInfo[] = [];
 
   constructor() {
     super();
-    this.createForm();
+    this.getRelations();
   }
 
   override createForm() {
-    this.restApiService.getRequestTypeConfig(this.requestTypeID, null, null, this.personInfo?.pensionaryStatusID ?? '', this.personInfo?.genderID ?? '')
-      .subscribe((a: GetRequestTypeConfigResponse) => {
-        this.requestTypeConfig = a.data[0];
-        this.form = this.fb.group({
-          issueTypeLookupID: ['', Validators.required],
-          facilityReceiveTypeLookupID: ['', Validators.required],
-          attachments: this.fb.array(
-            this.requestTypes.map(s =>
-              this.fb.group({
-                obj: [s],
-                type: [s.lookupName],
-                file: [null, s.mandantory ? Validators.required : null],
-                uploaded: [false]
-              })
-            )
-          ),
-        });
-      });
+    this.restApiService.getRequestTypeConfig(this.requestTypeID, null, null, null, null).subscribe((a: GetRequestTypeConfigResponse) => {
+      this.requestTypeConfig = a.data[0];
+    });
+    this.restApiService.getLookup('MedicalTreatmentServiceType').subscribe((a: GetLookupResponse) => {
+      this.medicalTreatmentServiceTypes = a.data;
+    });
+    this.restApiService.getLookup('MedicalBookletReceiveType').subscribe((a: GetLookupResponse) => {
+      this.medicalBookletReceiveTypes = a.data;
+    });
+    this.form = this.fb.group({
+      issueTypeLookupID: ['', Validators.required],
+      facilityReceiveTypeLookupID: ['', Validators.required],
+      attachments: this.fb.array(
+        this.requestTypes.map(s =>
+          this.fb.group({
+            obj: [s],
+            type: [s.lookupName],
+            file: [null, s.mandantory ? Validators.required : null],
+            uploaded: [false]
+          })
+        )
+      ),
+    });
   }
 
   ngOnInit() {
