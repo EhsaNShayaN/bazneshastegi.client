@@ -111,6 +111,18 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
       .format('jYYYY/jMM/jDD'); // use "j" for Jalali calendar
   }
 
+  onFileSelected(event: Event, index: number) {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      const file = input.files[0];
+      console.log('Selected file for', this.attachments.at(index).get('type')?.value, file);
+
+      // mark as uploaded
+      this.attachments.at(index).patchValue({uploaded: true, file: file});
+      this.attachments.at(index).get('file')?.markAsTouched();
+    }
+  }
+
   get attachments(): FormArray {
     return this.form.get('attachments') as FormArray;
   }
