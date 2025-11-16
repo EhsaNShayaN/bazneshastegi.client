@@ -1,3 +1,5 @@
+import {Attachment} from '../model';
+
 export interface PayFractionCertificate {
   includeSalary: boolean;
   includeHistory: boolean;
@@ -6,11 +8,6 @@ export interface PayFractionCertificate {
   lender: Lender;
 
   borrower: Borrower;
-}
-
-export interface Attachment {
-  type: string;
-  uploaded: boolean;
 }
 
 export interface Lender {

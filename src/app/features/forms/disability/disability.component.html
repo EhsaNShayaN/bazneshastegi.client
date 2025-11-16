@@ -1,0 +1,90 @@
+<h2 class="text-center mb-2">از کار افتادگی</h2>
+
+@if (form) {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+    <div fxLayout="row wrap">
+
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <div fxLayout="row wrap" fxLayoutAlign="start center" class="mb-2">
+          <h3>برای</h3>
+          <mat-radio-group formControlName="applicantRelationship">
+            <mat-radio-button value="خودم">خودم</mat-radio-button>
+            <mat-radio-button value="وابستگانم">وابستگانم</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="100" *ngIf="form.get('applicantRelationship')?.value === 'وابستگانم'">
+        <h3>وابستگان</h3>
+        <mat-divider class="mt-1"></mat-divider>
+
+        @if (relationDataSource) {
+          <table [dataSource]="relationDataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+            @for (column of relationColumnsToDisplay; track column.key) {
+              <ng-container matColumnDef="{{column.key}}">
+                <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+                <td *matCellDef="let element; let i = index;" mat-cell>
+                  @switch (column.key) {
+                    @case ('personFirstName') {
+                      {{ element.personFirstName }}
+                      {{ element.personLastName }}
+                    }
+                    @case ('check') {
+                      <mat-radio-button name="check" [value]="element.personID"
+                                        (change)="checkRelatedUser($event)"></mat-radio-button>
+                    }
+                    @default {
+                      {{ element[column.key] }}
+                    }
+                  }
+                </td>
+              </ng-container>
+            }
+            <ng-container matColumnDef="expand">
+              <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+            </ng-container>
+            <tr *matHeaderRowDef="relationColumnsToDisplay0" mat-header-row></tr>
+            <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
+            </tr>
+          </table>
+          @if (relatedPersonIDError) {
+            <mat-error class="mb-2">
+              انتخاب وابسته اجباری می باشد.
+            </mat-error>
+          }
+        }
+      </div>
+    </div>
+
+
+    @if ((attachments.controls?.length ?? 0) > 0) {
+      <div class="control-row mb-2">
+        <h3>مدارک مورد نیاز</h3>
+        <div formArrayName="attachments">
+          @for (attachment of attachments.controls; track attachment; let i = $index) {
+            <div [formGroupName]="i" class="attachment-row">
+              <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
+              <input type="file" (change)="onFileSelected($event, i)"/>
+              @if (attachment.get('file')?.invalid && attachment.get('file')?.touched) {
+                <div class="error">
+                  {{ attachment.get('type')?.value }}
+                  اجباری می باشد
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <div fxFlex="100" fxFlex.gt-xs="100">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>لطفا توضیحات کامل خود را در اینجا ثبت فرمائید</mat-label>
+        <textarea matInput formControlName="requestDescription" rows="3"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row wrap" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
+    </div>
+  </form>
+}

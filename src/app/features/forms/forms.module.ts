@@ -20,6 +20,12 @@ import {CeremonyIntroductionComponent} from './ceremony-introduction/ceremony-in
 import {FormsRoutingModule} from './forms-routing-module';
 import {SharedModule} from '../../shared/shared-module';
 import {RelationsComponent} from './relations/relations.component';
+import {FuneralAidComponent} from './funeral-aid/funeral-aid.component';
+import {DisabilityComponent} from './disability/disability.component';
+import {DisabilityAllowanceComponent} from './disability-allowance/disability-allowance.component';
+import {SpecialIllnessAllowanceComponent} from './special-illness-allowance/special-illness-allowance.component';
+import {EducationalIntroductionLetterComponent} from './educational-introduction-letter/educational-introduction-letter.component';
+import {SportsIntroductionLetterComponent} from './sports-introduction-letter/sports-introduction-letter.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +39,12 @@ import {RelationsComponent} from './relations/relations.component';
     WelfareCardComponent,
     CeremonyIntroductionComponent,
     RelationsComponent,
+    FuneralAidComponent,
+    DisabilityComponent,
+    DisabilityAllowanceComponent,
+    SpecialIllnessAllowanceComponent,
+    EducationalIntroductionLetterComponent,
+    SportsIntroductionLetterComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +70,12 @@ import {RelationsComponent} from './relations/relations.component';
     WelfareCardComponent,
     CeremonyIntroductionComponent,
     RelationsComponent,
+    FuneralAidComponent,
+    DisabilityComponent,
+    DisabilityAllowanceComponent,
+    SpecialIllnessAllowanceComponent,
+    EducationalIntroductionLetterComponent,
+    SportsIntroductionLetterComponent,
   ]
 })
 export class FormsSharedModule {

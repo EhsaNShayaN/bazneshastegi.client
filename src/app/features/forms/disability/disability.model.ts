@@ -1,6 +1,6 @@
 import {Attachment} from '../model';
 
-export interface StationaryRequest {
+export interface DisabilityRequest {
   prizeReceiver: string;
   attachments: Attachment[];
 }

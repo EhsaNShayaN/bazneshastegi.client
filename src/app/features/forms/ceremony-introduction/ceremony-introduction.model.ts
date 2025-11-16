@@ -1,3 +1,5 @@
+import {Attachment} from '../model';
+
 export interface CeremonyIntroRequest {
   applicantRelationship: string;
   facilityDiscountPercent?: number;
@@ -8,9 +10,4 @@ export interface CeremonyIntroRequest {
   requestDescription: string;
 
   attachments: Attachment[];
-}
-
-export interface Attachment {
-  type: string;
-  uploaded: boolean;
 }

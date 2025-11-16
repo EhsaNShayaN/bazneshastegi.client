@@ -1,3 +1,5 @@
+import {Attachment} from '../model';
+
 export interface EssentialLoanRequest {
   facilityAmount: number;
   defaultInstalementCount: number;
@@ -5,9 +7,4 @@ export interface EssentialLoanRequest {
   requestDescription: string;
   referralToCommittee?: boolean;
   attachments: Attachment[];
-}
-
-export interface Attachment {
-  type: string;
-  uploaded: boolean;
 }

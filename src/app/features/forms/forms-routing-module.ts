@@ -9,6 +9,12 @@ import {StationaryComponent} from './stationary/stationary.component';
 import {EssentialLoanComponent} from './essential-loan/essential-loan.component';
 import {WelfareCardComponent} from './welfare-card/welfare-card.component';
 import {PayFractionCertificateComponent} from './pay-fraction-certificate/pay-fraction-certificate.component';
+import {FuneralAidComponent} from './funeral-aid/funeral-aid.component';
+import {DisabilityComponent} from './disability/disability.component';
+import {DisabilityAllowanceComponent} from './disability-allowance/disability-allowance.component';
+import {SpecialIllnessAllowanceComponent} from './special-illness-allowance/special-illness-allowance.component';
+import {EducationalIntroductionLetterComponent} from './educational-introduction-letter/educational-introduction-letter.component';
+import {SportsIntroductionLetterComponent} from './sports-introduction-letter/sports-introduction-letter.component';
 
 const routes: Routes = [
   {path: 'ceremony-introduction/:id', component: CeremonyIntroductionComponent},
@@ -20,6 +26,12 @@ const routes: Routes = [
   {path: 'stationary/:id', component: StationaryComponent},
   {path: 'essential-loan/:id', component: EssentialLoanComponent},
   {path: 'welfare-card/:id', component: WelfareCardComponent},
+  {path: 'funeral-aid/:id', component: FuneralAidComponent},
+  {path: 'disability/:id', component: DisabilityComponent},
+  {path: 'disability-allowance/:id', component: DisabilityAllowanceComponent},
+  {path: 'special-illness-allowance/:id', component: SpecialIllnessAllowanceComponent},
+  {path: 'educational-introduction-letter/:id', component: EducationalIntroductionLetterComponent},
+  {path: 'sports-introduction-letter/:id', component: SportsIntroductionLetterComponent},
 ];
 
 @NgModule({

@@ -1,3 +1,5 @@
+import {Attachment} from '../model';
+
 export interface WelfareCardRequest {
   issueTypeLookupID: string;
   facilityReceiveTypeLookupID: string;
@@ -5,9 +7,4 @@ export interface WelfareCardRequest {
   previousCardNumber: string;
   requestDescription: string;
   attachments: Attachment[];
-}
-
-export interface Attachment {
-  type: string;
-  uploaded: boolean;
 }

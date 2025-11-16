@@ -1,10 +1,7 @@
+import {Attachment} from '../model';
+
 export interface HealthBookletRequest {
   issueTypeLookupID: string;
-  facilityReceiveTypeLookupID:string;
+  facilityReceiveTypeLookupID: string;
   attachments: Attachment[];
-}
-
-export interface Attachment {
-  type: string;
-  uploaded: boolean;
 }

@@ -3,7 +3,7 @@ export interface RequestTypeResponse {
 }
 
 export interface RequestType {
-  requestTypeID: string; // Guid در C# → string در TS
+  requestTypeID: string;
   name: string;
   startState: number;
   workFlowName: string;
