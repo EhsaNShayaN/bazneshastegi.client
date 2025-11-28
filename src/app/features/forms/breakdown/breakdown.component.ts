@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
-import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
-import {DisabilityRequest} from './disability.model';
+import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
+import {BreakdownRequest} from './breakdown.model';
+import {InsertComplementary_WorkDisabilityInfo} from '../../../core/models/InsertComplementary_WorkDisabilityResponse';
 
 @Component({
-  selector: 'app-disability',
-  templateUrl: './disability.component.html',
+  selector: 'app-breakdown',
+  templateUrl: './breakdown.component.html',
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class DisabilityComponent extends BaseFormComponent implements OnInit {
+export class BreakdownComponent extends BaseFormComponent implements OnInit {
   constructor() {
     super();
     this.getRelations();
@@ -45,7 +46,7 @@ export class DisabilityComponent extends BaseFormComponent implements OnInit {
     this.relatedPersonIDError = this.form.get('applicantRelationship')?.value === 'وابستگانم' && !this.relatedPersonID;
     console.log(this.form.getRawValue());
     if (this.form.valid && !this.relatedPersonIDError) {
-      const request: DisabilityRequest = this.form.getRawValue();
+      const request: BreakdownRequest = this.form.getRawValue();
       console.log('📌 فرم از کار افتادگی ثبت شد:', request);
       const insert: InsertRequest = {
         personID: this.personInfo!.personID,
@@ -58,20 +59,18 @@ export class DisabilityComponent extends BaseFormComponent implements OnInit {
         insertUserID: 'baz-1',
         requestFrom: 2,
       };
-      /*const insertComplementary: InsertRequestComplementary = {
-        requestID: '',
-        requestTypeID: this.requestTypeID,
-        personID: this.personInfo!.personID,
-        applicantRelationship: request.applicantRelationship,
-        relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
-        facilityDiscountPercent: request.facilityDiscountPercent,
-        ceremonyTypeLookupID: request.ceremonyTypeLookupID,
-        ceremonyDate: request.ceremonyDate,
-        ceremonyGuestCount: request.ceremonyGuestCount ?? 0,
-        introducedToLookupID: request.introducedToLookupID,
-        requestDescription: request.requestDescription,
-      };
-      this.send(insert, insertComplementary);*/
+      this.insert(insert).then(insertResponse => {
+        if (insertResponse) {
+          const model: BreakdownRequest = {
+            requestID: insertResponse.data.requestID,
+            requestTypeID: this.requestTypeID,
+            requestComplementaryID: '',
+            relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
+            requestDescription: request.requestDescription
+          };
+          this.call<InsertComplementary_WorkDisabilityInfo>(insertResponse.data, this.restApiService.insertComplementary_WorkDisability(model));
+        }
+      });
     } else {
       this.form.markAllAsTouched();
       console.log(this.findInvalidControls(this.form));

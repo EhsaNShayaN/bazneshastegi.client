@@ -13,13 +13,16 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
-import {InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from './pay-fraction-certificate/pay-fraction-certificate.model';
+import {BaseInsertRequestComplementary, InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from './pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 import {CustomConstants} from '../../core/constants/custom.constants';
 import {RelatedPersonsResponse} from '../../core/models/RelatedPersonsResponse';
 import {MatRadioChange} from '@angular/material/radio';
-import {InsertResponse} from '../../core/models/InsertResponse';
+import {InsertInfo, InsertResponse} from '../../core/models/InsertResponse';
 import {InsertComplementaryResponse} from '../../core/models/InsertComplementaryResponse';
+import {Observable, Subscription} from 'rxjs';
+import {BaseResult} from '../../core/models/BaseResult';
+import {BreakdownRequest} from './breakdown/breakdown.model';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -181,11 +184,39 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
               this.showResult(a.data.requestNO);
             }
           } else {
-            this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+            this.toaster.error(b.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
           }
         });
       } else {
         this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+      }
+    });
+  }
+
+  insert(insert: InsertRequest): Promise<InsertResponse | null> {
+    return new Promise(resolve => {
+      this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
+        if (a.isSuccess) {
+          resolve(a);
+        } else {
+          this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا');
+          resolve(null);
+        }
+      });
+    });
+  }
+
+  call<T>(insert: InsertInfo, obs: Observable<any>) {
+    obs.subscribe((b: BaseResult<T>) => {
+      console.log(b);
+      if (b.isSuccess) {
+        if ((this.attachments.controls?.length ?? 0) > 0) {
+          this.insertAttachments(insert.requestID, insert.requestNO);
+        } else {
+          this.showResult(insert.requestNO);
+        }
+      } else {
+        this.toaster.error(b.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
       }
     });
   }

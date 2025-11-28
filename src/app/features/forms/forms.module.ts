@@ -21,7 +21,7 @@ import {FormsRoutingModule} from './forms-routing-module';
 import {SharedModule} from '../../shared/shared-module';
 import {RelationsComponent} from './relations/relations.component';
 import {FuneralAidComponent} from './funeral-aid/funeral-aid.component';
-import {DisabilityComponent} from './disability/disability.component';
+import {BreakdownComponent} from './breakdown/breakdown.component';
 import {DisabilityAllowanceComponent} from './disability-allowance/disability-allowance.component';
 import {SpecialIllnessAllowanceComponent} from './special-illness-allowance/special-illness-allowance.component';
 import {EducationalIntroductionLetterComponent} from './educational-introduction-letter/educational-introduction-letter.component';
@@ -40,7 +40,7 @@ import {SportsIntroductionLetterComponent} from './sports-introduction-letter/sp
     CeremonyIntroductionComponent,
     RelationsComponent,
     FuneralAidComponent,
-    DisabilityComponent,
+    BreakdownComponent,
     DisabilityAllowanceComponent,
     SpecialIllnessAllowanceComponent,
     EducationalIntroductionLetterComponent,
@@ -71,7 +71,7 @@ import {SportsIntroductionLetterComponent} from './sports-introduction-letter/sp
     CeremonyIntroductionComponent,
     RelationsComponent,
     FuneralAidComponent,
-    DisabilityComponent,
+    BreakdownComponent,
     DisabilityAllowanceComponent,
     SpecialIllnessAllowanceComponent,
     EducationalIntroductionLetterComponent,

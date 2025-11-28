@@ -19,6 +19,8 @@ import {ActiveFacilitiesOfPersonResponse} from './models/ActiveFacilitiesOfPerso
 import {GetRequestTypeConfigResponse} from './models/GetRequestTypeConfigResponse';
 import {GetRequestTypeGuideResponse} from './models/GetRequestTypeGuideResponse';
 import {GetLookupResponse} from './models/GetLookupResponse';
+import {BreakdownRequest} from '../features/forms/breakdown/breakdown.model';
+import {InsertComplementary_WorkDisabilityInfo} from './models/InsertComplementary_WorkDisabilityResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -113,17 +115,17 @@ export class RestApiService {
       catchError(this.handleError),
       map((d: RequestTypeResponse) => {
         if (d.data) {
-          d.data.splice(0, 0, {
-            requestTypeID: '1', name: 'کمک هزینه تدفین', startState: 0, workFlowName: '',
+          /*d.data.splice(0, 0, {
+            requestTypeID: '1', name: 'از کار افتادگی', startState: 0, workFlowName: '',
+            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'breakdown', requestFrom: 0
+          });*/
+          /*d.data.splice(0, 0, {
+            requestTypeID: '2', name: 'کمک هزینه تدفین', startState: 0, workFlowName: '',
             userView: false, role: '', natoinalCodeIsMandentory: false, page: 'funeral-aid', requestFrom: 0
           });
           d.data.splice(0, 0, {
-            requestTypeID: '2', name: 'از کار افتادگی', startState: 0, workFlowName: '',
-            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'disability', requestFrom: 0
-          });
-          d.data.splice(0, 0, {
             requestTypeID: '3', name: 'کمک هزینه معلولیت', startState: 0, workFlowName: '',
-            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'disability-allowance', requestFrom: 0
+            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'breakdown-allowance', requestFrom: 0
           });
           d.data.splice(0, 0, {
             requestTypeID: '4', name: 'کمک هزینه بیماریهای خاص', startState: 0, workFlowName: '',
@@ -136,7 +138,7 @@ export class RestApiService {
           d.data.splice(0, 0, {
             requestTypeID: '6', name: 'معرفی نامه ورزشی', startState: 0, workFlowName: '',
             userView: false, role: '', natoinalCodeIsMandentory: false, page: 'sports-introduction-letter', requestFrom: 0
-          });
+          });*/
         }
         return d;
       }));
@@ -160,6 +162,12 @@ export class RestApiService {
 
   insertComplementary(model: InsertRequestComplementary): Observable<any> {
     return this.http.post<InsertComplementaryResponse>(`${endpoint()}forms/insertComplementary`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  insertComplementary_WorkDisability(model: BreakdownRequest): Observable<any> {
+    return this.http.post<BaseResult<InsertComplementary_WorkDisabilityInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
       catchError(this.handleError)
     );
   }

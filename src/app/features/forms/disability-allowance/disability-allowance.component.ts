@@ -5,7 +5,7 @@ import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certifi
 import {DisabilityAllowanceRequest} from './disability-allowance.model';
 
 @Component({
-  selector: 'app-disability-allowance',
+  selector: 'app-breakdown-allowance',
   templateUrl: './disability-allowance.component.html',
   styleUrl: '../forms.scss',
   standalone: false

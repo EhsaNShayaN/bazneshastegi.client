@@ -13,12 +13,3 @@ export class CityBankLoanRequest {
     this.facilityGiverDesc = `${this.branchName}-${this.branchCode}`;
   }
 }
-
-/*
-{
-  "installmentAmount": 15483889,
-  "guarantorCost": 10000000,
-  "description": "",
-  "needGuarantor": true,
-  "attachments": []
-}*/

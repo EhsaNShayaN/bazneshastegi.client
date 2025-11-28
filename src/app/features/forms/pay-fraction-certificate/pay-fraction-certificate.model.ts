@@ -102,3 +102,8 @@ export interface InsertRequestAttachment {
   updateUserID?: string;
   updateTime?: string;
 }
+
+export class BaseInsertRequestComplementary {
+  requestID!: string;
+  requestTypeID!: string;
+}
