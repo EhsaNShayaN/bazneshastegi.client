@@ -122,32 +122,6 @@ export class RestApiService {
     return this.http.get<RequestTypeResponse>(`${endpoint()}forms/requestTypes`,).pipe(
       catchError(this.handleError),
       map((d: RequestTypeResponse) => {
-        if (d.data) {
-          /*d.data.splice(0, 0, {
-            requestTypeID: '1', name: 'از کار افتادگی', startState: 0, workFlowName: '',
-            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'breakdown', requestFrom: 0
-          });*/
-          /*d.data.splice(0, 0, {
-            requestTypeID: '2', name: 'کمک هزینه تدفین', startState: 0, workFlowName: '',
-            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'funeral-aid', requestFrom: 0
-          });
-          d.data.splice(0, 0, {
-            requestTypeID: '3', name: 'کمک هزینه معلولیت', startState: 0, workFlowName: '',
-            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'breakdown-allowance', requestFrom: 0
-          });
-          d.data.splice(0, 0, {
-            requestTypeID: '4', name: 'کمک هزینه بیماریهای خاص', startState: 0, workFlowName: '',
-            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'special-illness-allowance', requestFrom: 0
-          });
-          d.data.splice(0, 0, {
-            requestTypeID: '5', name: 'معرفی نامه آموزشی', startState: 0, workFlowName: '',
-            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'educational-introduction-letter', requestFrom: 0
-          });
-          d.data.splice(0, 0, {
-            requestTypeID: '6', name: 'معرفی نامه ورزشی', startState: 0, workFlowName: '',
-            userView: false, role: '', natoinalCodeIsMandentory: false, page: 'sports-introduction-letter', requestFrom: 0
-          });*/
-        }
         return d;
       }));
   }

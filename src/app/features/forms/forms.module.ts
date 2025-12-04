@@ -22,8 +22,6 @@ import {SharedModule} from '../../shared/shared-module';
 import {RelationsComponent} from './relations/relations.component';
 import {BreakdownComponent} from './breakdown/breakdown.component';
 import {SpecialIllnessAllowanceComponent} from './special-illness-allowance/special-illness-allowance.component';
-import {EducationalIntroductionLetterComponent} from './educational-introduction-letter/educational-introduction-letter.component';
-import {SportsIntroductionLetterComponent} from './sports-introduction-letter/sports-introduction-letter.component';
 import {DeathAidComponent} from './death-aid/death-aid.component';
 import {DisabilityAidComponent} from './disability-aid/disability-aid.component';
 import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
@@ -42,8 +40,6 @@ import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
     RelationsComponent,
     BreakdownComponent,
     SpecialIllnessAllowanceComponent,
-    EducationalIntroductionLetterComponent,
-    SportsIntroductionLetterComponent,
     DeathAidComponent,
     DisabilityAidComponent,
     GrandInAidComponent,
@@ -74,8 +70,6 @@ import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
     RelationsComponent,
     BreakdownComponent,
     SpecialIllnessAllowanceComponent,
-    EducationalIntroductionLetterComponent,
-    SportsIntroductionLetterComponent,
     DeathAidComponent,
     DisabilityAidComponent,
     GrandInAidComponent,

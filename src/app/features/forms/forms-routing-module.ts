@@ -11,8 +11,6 @@ import {WelfareCardComponent} from './welfare-card/welfare-card.component';
 import {PayFractionCertificateComponent} from './pay-fraction-certificate/pay-fraction-certificate.component';
 import {BreakdownComponent} from './breakdown/breakdown.component';
 import {SpecialIllnessAllowanceComponent} from './special-illness-allowance/special-illness-allowance.component';
-import {EducationalIntroductionLetterComponent} from './educational-introduction-letter/educational-introduction-letter.component';
-import {SportsIntroductionLetterComponent} from './sports-introduction-letter/sports-introduction-letter.component';
 import {DeathAidComponent} from './death-aid/death-aid.component';
 import {DisabilityAidComponent} from './disability-aid/disability-aid.component';
 import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
@@ -29,8 +27,6 @@ const routes: Routes = [
   {path: 'welfare-card/:id', component: WelfareCardComponent},
   {path: 'breakdown/:id', component: BreakdownComponent},
   {path: 'special-illness-allowance/:id', component: SpecialIllnessAllowanceComponent},
-  {path: 'educational-introduction-letter/:id', component: EducationalIntroductionLetterComponent},
-  {path: 'sports-introduction-letter/:id', component: SportsIntroductionLetterComponent},
   {path: 'deathaid/:id', component: DeathAidComponent},
   {path: 'disabilityaid/:id', component: DisabilityAidComponent},
   {path: 'grandinaid/:id', component: GrandInAidComponent},
