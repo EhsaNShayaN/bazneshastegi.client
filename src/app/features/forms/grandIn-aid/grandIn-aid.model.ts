@@ -5,5 +5,5 @@ export interface GrandInAidRequest extends BaseInsertRequestComplementary {
   relatedPersonID: string;
   requestDescription: string;
   hasWelfareCertificate: true;
-  illnessHistory: string;
+  illnessHistory: number;
 }

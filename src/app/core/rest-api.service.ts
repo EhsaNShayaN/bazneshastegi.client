@@ -26,6 +26,9 @@ import {
   InsertRequestComplementary_PhysicalDisabilityInfo,
   InsertRequestComplementary_WorkDisabilityInfo
 } from './models/InsertRequestComplementaryInfo';
+import {DeathAidRequest} from '../features/forms/death-aid/death-aid.model';
+import {GrandInAidRequest} from '../features/forms/grandIn-aid/grandIn-aid.model';
+import {DisabilityAidRequest} from '../features/forms/disability-aid/disability-aid.model';
 
 @Injectable({
   providedIn: 'root'
@@ -213,19 +216,19 @@ export class RestApiService {
     );
   }
 
-  InsertRequestComplementary_Burial(model: BreakdownRequest): Observable<any> {
+  InsertRequestComplementary_Burial(model: DeathAidRequest): Observable<any> {
     return this.http.post<BaseResult<InsertRequestComplementary_BurialInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  InsertRequestComplementary_Illness(model: BreakdownRequest): Observable<any> {
+  InsertRequestComplementary_Illness(model: GrandInAidRequest): Observable<any> {
     return this.http.post<BaseResult<InsertRequestComplementary_IllnessInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  InsertRequestComplementary_PhysicalDisability(model: BreakdownRequest): Observable<any> {
+  InsertRequestComplementary_PhysicalDisability(model: DisabilityAidRequest): Observable<any> {
     return this.http.post<BaseResult<InsertRequestComplementary_PhysicalDisabilityInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
       catchError(this.handleError)
     );
