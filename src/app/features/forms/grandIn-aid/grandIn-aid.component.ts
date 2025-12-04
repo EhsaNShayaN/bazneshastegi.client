@@ -44,7 +44,7 @@ export class GrandInAidComponent extends BaseFormComponent implements OnInit {
     console.log(this.form.getRawValue());
     if (this.form.valid && !this.relatedPersonIDError) {
       const request: GrandInAidRequest = this.form.getRawValue();
-      console.log('📌 فرم کمک هزینه معلولیت ثبت شد:', request);
+      console.log('📌 فرم کمک هزینه یماریهای خاص ثبت شد:', request);
       const insert: InsertRequest = {
         personID: this.personInfo!.personID,
         nationalCode: this.personInfo!.personNationalCode,

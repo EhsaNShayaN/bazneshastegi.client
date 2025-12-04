@@ -217,19 +217,19 @@ export class RestApiService {
   }
 
   InsertRequestComplementary_Burial(model: DeathAidRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertRequestComplementary_BurialInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
+    return this.http.post<BaseResult<InsertRequestComplementary_BurialInfo>>(`${endpoint()}forms/insertComplementary_Burial`, model).pipe(
       catchError(this.handleError)
     );
   }
 
   InsertRequestComplementary_Illness(model: GrandInAidRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertRequestComplementary_IllnessInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
+    return this.http.post<BaseResult<InsertRequestComplementary_IllnessInfo>>(`${endpoint()}forms/insertComplementary_Illness`, model).pipe(
       catchError(this.handleError)
     );
   }
 
   InsertRequestComplementary_PhysicalDisability(model: DisabilityAidRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertRequestComplementary_PhysicalDisabilityInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
+    return this.http.post<BaseResult<InsertRequestComplementary_PhysicalDisabilityInfo>>(`${endpoint()}forms/insertComplementary_PhysicalDisability`, model).pipe(
       catchError(this.handleError)
     );
   }
