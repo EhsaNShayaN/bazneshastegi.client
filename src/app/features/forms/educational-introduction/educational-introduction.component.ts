@@ -1,0 +1,101 @@
+import {Component, OnInit} from '@angular/core';
+import {Validators} from '@angular/forms';
+import {BaseFormComponent} from '../base-form-component';
+import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
+import {EducationalIntroductionRequest} from './educational-introduction.model';
+import {InsertRequestComplementary_IntroduceToEducationalPlaceInfo} from '../../../core/models/InsertRequestComplementaryInfo';
+import {GetLookupResponse} from '../../../core/models/GetLookupResponse';
+import {SelectItem} from '../../../shared/components/custom-select/custom-select.component';
+import {MatSelectChange} from '@angular/material/select';
+import {GetRequestTypeConfigResponse} from '../../../core/models/GetRequestTypeConfigResponse';
+
+@Component({
+  selector: 'app-educational-introduction',
+  templateUrl: './educational-introduction.component.html',
+  styleUrl: '../forms.scss',
+  standalone: false
+})
+export class EducationalIntroductionComponent extends BaseFormComponent implements OnInit {
+  educationalPlaces: SelectItem[] = [];
+
+  constructor() {
+    super();
+    this.getRelations();
+  }
+
+  ngOnInit() {
+    this.restApiService.getLookup('EducationalPlace').subscribe((a: GetLookupResponse) => {
+      this.educationalPlaces = a.data.map(s => ({
+        id: s.lookUpID,
+        name: s.lookUpName,
+      }));
+    });
+  }
+
+  override createForm() {
+    this.form = this.fb.group({
+      applicantRelationship: ['خودم', Validators.required],
+      requestDescription: [null],
+      facilityGiverLookupID: [null, Validators.required],
+      facilityGiverDesc: [null, Validators.required],
+      profitOrDiscountPercent: [null, Validators.required],
+      attachments: this.fb.array(
+        this.requestTypes.map(s =>
+          this.fb.group({
+            obj: [s],
+            type: [s.lookupName],
+            file: [null, s.mandantory ? Validators.required : null],
+            uploaded: [false]
+          })
+        )
+      ),
+    });
+  }
+
+  placeChanged($event: MatSelectChange<any>) {
+    if ($event.value !== '-1') {
+      this.restApiService.getRequestTypeConfig(this.requestTypeID, $event.value, null, null, null)
+        .subscribe((a: GetRequestTypeConfigResponse) => {
+          this.form.get('profitOrDiscountPercent')?.setValue(a.data[0]?.defaultDiscountPercent ?? 85);
+        });
+    }
+  }
+
+  submit() {
+    this.relatedPersonIDError = this.form.get('applicantRelationship')?.value === 'وابستگانم' && !this.relatedPersonID;
+    console.log(this.form.getRawValue());
+    if (this.form.valid && !this.relatedPersonIDError) {
+      const request: EducationalIntroductionRequest = this.form.getRawValue();
+      console.log('📌 فرم معرفی نامه آموزشی ثبت شد:', request);
+      const insert: InsertRequest = {
+        personID: this.personInfo!.personID,
+        nationalCode: this.personInfo!.personNationalCode,
+        personFirstName: this.personInfo!.personFirstName,
+        personLastName: this.personInfo!.personLastName,
+        requestDate: new Date(),
+        requestTypeID: this.requestTypeID,
+        requestText: 'از کار افتادگی از طرف بازنشسته',
+        insertUserID: 'baz-1',
+        requestFrom: 2,
+      };
+      this.insert(insert).then(insertResponse => {
+        if (insertResponse) {
+          const model: EducationalIntroductionRequest = {
+            requestID: insertResponse.data.requestID,
+            requestTypeID: this.requestTypeID,
+            requestComplementaryID: '',
+            relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
+            requestDescription: request.requestDescription,
+            facilityGiverLookupID: request.facilityGiverLookupID,
+            facilityGiverDesc: request.facilityGiverDesc,
+            profitOrDiscountPercent: request.profitOrDiscountPercent,
+          };
+          this.call<InsertRequestComplementary_IntroduceToEducationalPlaceInfo>(insertResponse.data, this.restApiService.InsertRequestComplementary_IntroduceToEducationalPlace(model));
+        }
+      });
+    } else {
+      this.form.markAllAsTouched();
+      console.log(this.findInvalidControls(this.form));
+    }
+  }
+}

@@ -14,6 +14,8 @@ import {SpecialIllnessAllowanceComponent} from './special-illness-allowance/spec
 import {DeathAidComponent} from './death-aid/death-aid.component';
 import {DisabilityAidComponent} from './disability-aid/disability-aid.component';
 import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
+import {EducationalIntroductionComponent} from './educational-introduction/educational-introduction.component';
+import {SportIntroductionComponent} from './sport-introduction/sport-introduction.component';
 
 const routes: Routes = [
   {path: 'ceremony-introduction/:id', component: CeremonyIntroductionComponent},
@@ -30,6 +32,8 @@ const routes: Routes = [
   {path: 'deathaid/:id', component: DeathAidComponent},
   {path: 'disabilityaid/:id', component: DisabilityAidComponent},
   {path: 'grandinaid/:id', component: GrandInAidComponent},
+  {path: 'educational-introduction/:id', component: EducationalIntroductionComponent},
+  {path: 'sport-introduction/:id', component: SportIntroductionComponent},
 ];
 
 @NgModule({

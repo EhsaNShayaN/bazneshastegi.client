@@ -25,6 +25,8 @@ import {SpecialIllnessAllowanceComponent} from './special-illness-allowance/spec
 import {DeathAidComponent} from './death-aid/death-aid.component';
 import {DisabilityAidComponent} from './disability-aid/disability-aid.component';
 import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
+import {EducationalIntroductionComponent} from './educational-introduction/educational-introduction.component';
+import {SportIntroductionComponent} from './sport-introduction/sport-introduction.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
     DeathAidComponent,
     DisabilityAidComponent,
     GrandInAidComponent,
+    EducationalIntroductionComponent,
+    SportIntroductionComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +77,8 @@ import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
     DeathAidComponent,
     DisabilityAidComponent,
     GrandInAidComponent,
+    EducationalIntroductionComponent,
+    SportIntroductionComponent,
   ]
 })
 export class FormsSharedModule {
