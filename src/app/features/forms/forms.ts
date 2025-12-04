@@ -52,9 +52,9 @@ export class Forms extends PureComponent implements OnInit, OnDestroy {
   selectForm($event: MatSelectChange<string>) {
     const requestType = this.requestTypes.find(s => s.requestTypeID === $event.value);
     if (requestType) {
-      console.log('selectForm');
       this.restApiService.formSubmittedSubject.next('');
-      this.router.navigate([`/forms/${requestType.page}/${requestType.requestTypeID}`]).then(() => {
+      const url = `/forms/${requestType.page.toLowerCase()}/${requestType.requestTypeID}`;
+      this.router.navigate([url]).then(() => {
       });
     }
   }

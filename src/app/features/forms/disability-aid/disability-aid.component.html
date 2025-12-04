@@ -79,20 +79,30 @@
     <div fxFlex="100" fxFlex.gt-xs="100">
       گواهی سازمان بهزیستی:
       <mat-form-field appearance="outline">
-        <mat-select>
+        <mat-select formControlName="hasWelfareCertificate">
           <mat-option [value]="true">دارد</mat-option>
           <mat-option [value]="false">ندارد</mat-option>
         </mat-select>
+        @if (form.get('hasWelfareCertificate')?.touched) {
+          <mat-error *ngIf="form.get('hasWelfareCertificate')?.hasError('required')">
+            گواهی سازمان بهزیستی اجباری می باشد
+          </mat-error>
+        }
       </mat-form-field>
       سابقه معلولیت / بیماریهای خاض:
       <mat-form-field appearance="outline">
-        <input matInput type="number" class="text-left ltr" [maxLength]="2">
+        <input matInput type="number" class="text-left ltr" [maxLength]="2" formControlName="illnessHistory">
+        @if (form.get('illnessHistory')?.touched) {
+          <mat-error *ngIf="form.get('illnessHistory')?.hasError('required')">
+            سابقه معلولیت / بیماریهای خاض اجباری می باشد
+          </mat-error>
+        }
       </mat-form-field>
       سال
     </div>
 
     <div fxFlex="100" fxFlex.gt-xs="100">
-      <mat-form-field appearance="outline" class="w-100">
+      <mat-form-field appearance="outline" class="w-100 mt-3">
         <mat-label>لطفا توضیحات کامل خود را در اینجا ثبت فرمائید</mat-label>
         <textarea matInput formControlName="requestDescription" rows="3"></textarea>
       </mat-form-field>

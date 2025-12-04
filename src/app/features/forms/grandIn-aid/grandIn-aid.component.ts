@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
-import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
-import {DisabilityAllowanceRequest} from './disability-allowance.model';
+import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
+import {InsertRequestComplementary_IllnessInfo} from '../../../core/models/InsertRequestComplementaryInfo';
+import {GrandInAidRequest} from './grandIn-aid.model';
 
 @Component({
-  selector: 'app-breakdown-allowance',
-  templateUrl: './disability-allowance.component.html',
+  selector: 'app-grandIn-aid',
+  templateUrl: './grandIn-aid.component.html',
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class DisabilityAllowanceComponent extends BaseFormComponent implements OnInit {
+export class GrandInAidComponent extends BaseFormComponent implements OnInit {
   constructor() {
     super();
     this.getRelations();
@@ -21,13 +22,10 @@ export class DisabilityAllowanceComponent extends BaseFormComponent implements O
 
   override createForm() {
     this.form = this.fb.group({
-      ceremonyTypeLookupID: ['', Validators.required],
-      introducedToLookupID: ['', Validators.required],
-      facilityDiscountPercent: [{value: null, disabled: true}, Validators.required],
-      ceremonyDate: [null, Validators.required],
-      ceremonyGuestCount: [null],
       applicantRelationship: ['خودم', Validators.required],
       requestDescription: [null],
+      hasWelfareCertificate: [null, Validators.required],
+      illnessHistory: [null, Validators.required],
       attachments: this.fb.array(
         this.requestTypes.map(s =>
           this.fb.group({
@@ -45,7 +43,7 @@ export class DisabilityAllowanceComponent extends BaseFormComponent implements O
     this.relatedPersonIDError = this.form.get('applicantRelationship')?.value === 'وابستگانم' && !this.relatedPersonID;
     console.log(this.form.getRawValue());
     if (this.form.valid && !this.relatedPersonIDError) {
-      const request: DisabilityAllowanceRequest = this.form.getRawValue();
+      const request: GrandInAidRequest = this.form.getRawValue();
       console.log('📌 فرم کمک هزینه معلولیت ثبت شد:', request);
       const insert: InsertRequest = {
         personID: this.personInfo!.personID,
@@ -54,24 +52,24 @@ export class DisabilityAllowanceComponent extends BaseFormComponent implements O
         personLastName: this.personInfo!.personLastName,
         requestDate: new Date(),
         requestTypeID: this.requestTypeID,
-        requestText: 'درخواست کارت رفاهی از طرف بازنشسته',
+        requestText: 'از کار افتادگی از طرف بازنشسته',
         insertUserID: 'baz-1',
         requestFrom: 2,
       };
-      /*const insertComplementary: InsertRequestComplementary = {
-        requestID: '',
-        requestTypeID: this.requestTypeID,
-        personID: this.personInfo!.personID,
-        applicantRelationship: request.applicantRelationship,
-        relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
-        facilityDiscountPercent: request.facilityDiscountPercent,
-        ceremonyTypeLookupID: request.ceremonyTypeLookupID,
-        ceremonyDate: request.ceremonyDate,
-        ceremonyGuestCount: request.ceremonyGuestCount ?? 0,
-        introducedToLookupID: request.introducedToLookupID,
-        requestDescription: request.requestDescription,
-      };
-      this.send(insert, insertComplementary);*/
+      this.insert(insert).then(insertResponse => {
+        if (insertResponse) {
+          const model: GrandInAidRequest = {
+            requestID: insertResponse.data.requestID,
+            requestTypeID: this.requestTypeID,
+            requestComplementaryID: '',
+            relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
+            requestDescription: request.requestDescription,
+            hasWelfareCertificate: request.hasWelfareCertificate,
+            illnessHistory: request.illnessHistory,
+          };
+          this.call<InsertRequestComplementary_IllnessInfo>(insertResponse.data, this.restApiService.InsertRequestComplementary_Illness(model));
+        }
+      });
     } else {
       this.form.markAllAsTouched();
       console.log(this.findInvalidControls(this.form));

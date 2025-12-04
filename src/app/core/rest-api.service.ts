@@ -20,7 +20,12 @@ import {GetRequestTypeConfigResponse} from './models/GetRequestTypeConfigRespons
 import {GetRequestTypeGuideResponse} from './models/GetRequestTypeGuideResponse';
 import {GetLookupResponse} from './models/GetLookupResponse';
 import {BreakdownRequest} from '../features/forms/breakdown/breakdown.model';
-import {InsertComplementary_WorkDisabilityInfo} from './models/InsertComplementary_WorkDisabilityResponse';
+import {
+  InsertRequestComplementary_BurialInfo,
+  InsertRequestComplementary_IllnessInfo,
+  InsertRequestComplementary_PhysicalDisabilityInfo,
+  InsertRequestComplementary_WorkDisabilityInfo
+} from './models/InsertRequestComplementaryInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -166,12 +171,6 @@ export class RestApiService {
     );
   }
 
-  insertComplementary_WorkDisability(model: BreakdownRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertComplementary_WorkDisabilityInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
-      catchError(this.handleError)
-    );
-  }
-
   insertRequestAttachment(model: InsertRequestAttachment, file: File): Observable<any> {
     const formData: FormData = this.toFormData(model);
     formData.append('file', file);
@@ -206,6 +205,30 @@ export class RestApiService {
           this.authService.logout();
           return d.data;
         }));
+  }
+
+  insertComplementary_WorkDisability(model: BreakdownRequest): Observable<any> {
+    return this.http.post<BaseResult<InsertRequestComplementary_WorkDisabilityInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  InsertRequestComplementary_Burial(model: BreakdownRequest): Observable<any> {
+    return this.http.post<BaseResult<InsertRequestComplementary_BurialInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  InsertRequestComplementary_Illness(model: BreakdownRequest): Observable<any> {
+    return this.http.post<BaseResult<InsertRequestComplementary_IllnessInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  InsertRequestComplementary_PhysicalDisability(model: BreakdownRequest): Observable<any> {
+    return this.http.post<BaseResult<InsertRequestComplementary_PhysicalDisabilityInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
+      catchError(this.handleError)
+    );
   }
 
   handleError<T>(error: HttpErrorResponse): Observable<any> {

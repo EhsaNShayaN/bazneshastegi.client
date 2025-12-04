@@ -20,12 +20,13 @@ import {CeremonyIntroductionComponent} from './ceremony-introduction/ceremony-in
 import {FormsRoutingModule} from './forms-routing-module';
 import {SharedModule} from '../../shared/shared-module';
 import {RelationsComponent} from './relations/relations.component';
-import {FuneralAidComponent} from './funeral-aid/funeral-aid.component';
 import {BreakdownComponent} from './breakdown/breakdown.component';
-import {DisabilityAllowanceComponent} from './disability-allowance/disability-allowance.component';
 import {SpecialIllnessAllowanceComponent} from './special-illness-allowance/special-illness-allowance.component';
 import {EducationalIntroductionLetterComponent} from './educational-introduction-letter/educational-introduction-letter.component';
 import {SportsIntroductionLetterComponent} from './sports-introduction-letter/sports-introduction-letter.component';
+import {DeathAidComponent} from './death-aid/death-aid.component';
+import {DisabilityAidComponent} from './disability-aid/disability-aid.component';
+import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
 
 @NgModule({
   declarations: [
@@ -39,12 +40,13 @@ import {SportsIntroductionLetterComponent} from './sports-introduction-letter/sp
     WelfareCardComponent,
     CeremonyIntroductionComponent,
     RelationsComponent,
-    FuneralAidComponent,
     BreakdownComponent,
-    DisabilityAllowanceComponent,
     SpecialIllnessAllowanceComponent,
     EducationalIntroductionLetterComponent,
     SportsIntroductionLetterComponent,
+    DeathAidComponent,
+    DisabilityAidComponent,
+    GrandInAidComponent,
   ],
   imports: [
     CommonModule,
@@ -70,12 +72,13 @@ import {SportsIntroductionLetterComponent} from './sports-introduction-letter/sp
     WelfareCardComponent,
     CeremonyIntroductionComponent,
     RelationsComponent,
-    FuneralAidComponent,
     BreakdownComponent,
-    DisabilityAllowanceComponent,
     SpecialIllnessAllowanceComponent,
     EducationalIntroductionLetterComponent,
     SportsIntroductionLetterComponent,
+    DeathAidComponent,
+    DisabilityAidComponent,
+    GrandInAidComponent,
   ]
 })
 export class FormsSharedModule {

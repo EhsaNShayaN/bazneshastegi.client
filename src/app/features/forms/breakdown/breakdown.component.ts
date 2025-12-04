@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
+import {InsertRequestComplementary_WorkDisabilityInfo} from '../../../core/models/InsertRequestComplementaryInfo';
 import {BreakdownRequest} from './breakdown.model';
-import {InsertComplementary_WorkDisabilityInfo} from '../../../core/models/InsertComplementary_WorkDisabilityResponse';
 
 @Component({
   selector: 'app-breakdown',
@@ -63,7 +63,7 @@ export class BreakdownComponent extends BaseFormComponent implements OnInit {
             relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
             requestDescription: request.requestDescription
           };
-          this.call<InsertComplementary_WorkDisabilityInfo>(insertResponse.data, this.restApiService.insertComplementary_WorkDisability(model));
+          this.call<InsertRequestComplementary_WorkDisabilityInfo>(insertResponse.data, this.restApiService.insertComplementary_WorkDisability(model));
         }
       });
     } else {
