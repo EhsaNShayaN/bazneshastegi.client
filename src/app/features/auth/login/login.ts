@@ -6,6 +6,7 @@ import {RestApiService} from '../../../core/rest-api.service';
 import {Router} from '@angular/router';
 import {LoginForPortalResponse} from '../../../core/models/LoginForPortalResponse';
 import {AuthService} from '../../../core/services/auth.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -22,8 +23,8 @@ export class Login extends PureComponent {
               private auth: AuthService) {
     super();
     this.form = this.fb.group({
-      nationalCode: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
-      cellPhone: ['', Validators.compose([Validators.required, mobileValidator])],
+      nationalCode: [environment.production ? '' : '0045723702', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+      cellPhone: [environment.production ? '' : '09121017503', Validators.compose([Validators.required, mobileValidator])],
     });
   }
 

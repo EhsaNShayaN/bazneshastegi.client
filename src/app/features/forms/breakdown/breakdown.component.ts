@@ -22,11 +22,6 @@ export class BreakdownComponent extends BaseFormComponent implements OnInit {
 
   override createForm() {
     this.form = this.fb.group({
-      ceremonyTypeLookupID: ['', Validators.required],
-      introducedToLookupID: ['', Validators.required],
-      facilityDiscountPercent: [{value: null, disabled: true}, Validators.required],
-      ceremonyDate: [null, Validators.required],
-      ceremonyGuestCount: [null],
       applicantRelationship: ['خودم', Validators.required],
       requestDescription: [null],
       attachments: this.fb.array(
