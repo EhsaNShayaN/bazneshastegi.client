@@ -32,6 +32,7 @@ export class EducationalIntroductionComponent extends BaseFormComponent implemen
   }
 
   override createForm() {
+    return;
     this.form = this.fb.group({
       applicantRelationship: ['خودم', Validators.required],
       requestDescription: [null],

@@ -32,6 +32,7 @@ export class SportIntroductionComponent extends BaseFormComponent implements OnI
   }
 
   override createForm() {
+    return;
     this.form = this.fb.group({
       applicantRelationship: ['خودم', Validators.required],
       requestDescription: [null],
