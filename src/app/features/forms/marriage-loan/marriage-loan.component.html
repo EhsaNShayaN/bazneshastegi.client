@@ -1,0 +1,153 @@
+@if (form) {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+    <div fxLayout="row wrap">
+
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <app-currency-input
+          label="میزان وام درخواستی (ریال)"
+          placeholder="میزان وام درخواستی (ریال)"
+          formControlName="facilityAmount"
+          [required]="true"
+          [disabled]="true"
+          (keyUpEvent)="installmentKeyUpEvent($event)">
+        </app-currency-input>
+        <mat-error *ngIf="form.get('facilityAmount')?.touched &&
+                    form.get('facilityAmount')?.hasError('required')">
+          مبلغ وام اجباری می باشد
+        </mat-error>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>تعداد اقساط</mat-label>
+          <input matInput type="number" formControlName="facilityInstalementCount" class="ltr text-left">
+          <mat-error *ngIf="form.get('facilityInstalementCount')?.touched &&
+                    form.get('facilityInstalementCount')?.hasError('required')">
+            تعداد اقساط اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>درصد سود</mat-label>
+          <input matInput type="number" formControlName="profitOrDiscountPercent" class="ltr text-left">
+          <mat-error *ngIf="form.get('profitOrDiscountPercent')?.touched &&
+                    form.get('profitOrDiscountPercent')?.hasError('required')">
+            درصد سود اجباری می باشد
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-xs="33.3">
+        <app-currency-input
+          label="مبلغ قسط"
+          placeholder="مبلغ قسط"
+          formControlName="facilityInstalementAmount"
+          [required]="true"
+          [disabled]="true"
+        ></app-currency-input>
+        <mat-error *ngIf="form.get('facilityInstalementAmount')?.touched &&
+                    form.get('facilityInstalementAmount')?.hasError('required')">
+          مبلغ اقساط اجباری می باشد
+        </mat-error>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <h3>وابستگان</h3>
+        <mat-divider class="mt-1"></mat-divider>
+
+        @if (relationDataSource) {
+          <table [dataSource]="relationDataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+            @for (column of relationColumnsToDisplay; track column.key) {
+              <ng-container matColumnDef="{{column.key}}">
+                <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+                <td *matCellDef="let element; let i = index;" mat-cell>
+                  @switch (column.key) {
+                    @case ('personFirstName') {
+                      {{ element.personFirstName }}
+                      {{ element.personLastName }}
+                    }
+                    @case ('check') {
+                      <mat-radio-button name="check" [value]="element.personID"
+                                        (change)="checkRelatedUser($event)"></mat-radio-button>
+                    }
+                    @default {
+                      {{ element[column.key] }}
+                    }
+                  }
+                </td>
+              </ng-container>
+            }
+            <ng-container matColumnDef="expand">
+              <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+            </ng-container>
+            <tr *matHeaderRowDef="relationColumnsToDisplay0" mat-header-row></tr>
+            <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
+            </tr>
+          </table>
+          @if (relatedPersonIDError) {
+            <mat-error class="mb-2">
+              انتخاب وابسته اجباری می باشد.
+            </mat-error>
+          }
+        }
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>توضیحات</mat-label>
+          <textarea matInput formControlName="requestDescription" rows="3"></textarea>
+        </mat-form-field>
+      </div>
+
+      @if ((attachments.controls?.length ?? 0) > 0) {
+        <div fxFlex="100" fxFlex.gt-xs="100">
+          <h3>مدارک مورد نیاز</h3>
+          <div formArrayName="attachments">
+            <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
+              <mat-checkbox formControlName="uploaded">{{ att.type }}</mat-checkbox>
+            </div>
+          </div>
+        </div>
+      }
+
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <h3>سابقه وام های قبلی</h3>
+        <mat-divider class="mt-1"></mat-divider>
+        @if (dataSource) {
+          <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+            @for (column of columnsToDisplay; track column.key) {
+              <ng-container matColumnDef="{{column.key}}">
+                <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+                <td *matCellDef="let element; let i = index;" mat-cell>
+                  @switch (column.key) {
+                    @case ('facilityAmount') {
+                      {{ element.facilityAmount | customCurrency }}
+                      ريال
+                    }
+                    @default {
+                      {{ element[column.key] }}
+                    }
+                  }
+                </td>
+              </ng-container>
+            }
+            <ng-container matColumnDef="expand">
+              <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+            </ng-container>
+            <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
+            <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+            </tr>
+          </table>
+          <!--<mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>-->
+        }
+      </div>
+
+    </div>
+
+    <div fxLayout="row wrap" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
+    </div>
+  </form>
+}
