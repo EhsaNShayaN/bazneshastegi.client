@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
-import {InsertRequestComplementary_IllnessInfo} from '../../../core/models/InsertRequestComplementaryInfo';
 import {GrandInAidRequest} from './grandIn-aid.model';
 
 @Component({
@@ -67,7 +66,7 @@ export class GrandInAidComponent extends BaseFormComponent implements OnInit {
             hasWelfareCertificate: request.hasWelfareCertificate,
             illnessHistory: request.illnessHistory,
           };
-          this.call<InsertRequestComplementary_IllnessInfo>(
+          this.call<GrandInAidRequest>(
             insertResponse.data,
             this.restApiService.InsertRequestComplementary_Illness(model));
         }

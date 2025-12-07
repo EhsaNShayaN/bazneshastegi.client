@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
-import {InsertRequestComplementary_PhysicalDisabilityInfo} from '../../../core/models/InsertRequestComplementaryInfo';
 import {DisabilityAidRequest} from './disability-aid.model';
 
 @Component({
@@ -67,7 +66,7 @@ export class DisabilityAidComponent extends BaseFormComponent implements OnInit 
             hasWelfareCertificate: request.hasWelfareCertificate,
             illnessHistory: request.illnessHistory,
           };
-          this.call<InsertRequestComplementary_PhysicalDisabilityInfo>(insertResponse.data, this.restApiService.InsertRequestComplementary_PhysicalDisability(model));
+          this.call<DisabilityAidRequest>(insertResponse.data, this.restApiService.InsertRequestComplementary_PhysicalDisability(model));
         }
       });
     } else {

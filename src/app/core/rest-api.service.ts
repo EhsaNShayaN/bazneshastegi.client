@@ -20,12 +20,6 @@ import {GetRequestTypeConfigResponse} from './models/GetRequestTypeConfigRespons
 import {GetRequestTypeGuideResponse} from './models/GetRequestTypeGuideResponse';
 import {GetLookupResponse} from './models/GetLookupResponse';
 import {BreakdownRequest} from '../features/forms/breakdown/breakdown.model';
-import {
-  InsertRequestComplementary_BurialInfo,
-  InsertRequestComplementary_IllnessInfo, InsertRequestComplementary_IntroduceToEducationalPlaceInfo, InsertRequestComplementary_IntroduceToSportsVenueInfo,
-  InsertRequestComplementary_PhysicalDisabilityInfo,
-  InsertRequestComplementary_WorkDisabilityInfo
-} from './models/InsertRequestComplementaryInfo';
 import {DeathAidRequest} from '../features/forms/death-aid/death-aid.model';
 import {GrandInAidRequest} from '../features/forms/grandIn-aid/grandIn-aid.model';
 import {DisabilityAidRequest} from '../features/forms/disability-aid/disability-aid.model';
@@ -187,37 +181,37 @@ export class RestApiService {
   }
 
   insertComplementary_WorkDisability(model: BreakdownRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertRequestComplementary_WorkDisabilityInfo>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
+    return this.http.post<BaseResult<BreakdownRequest>>(`${endpoint()}forms/insertComplementary_WorkDisability`, model).pipe(
       catchError(this.handleError)
     );
   }
 
   InsertRequestComplementary_Burial(model: DeathAidRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertRequestComplementary_BurialInfo>>(`${endpoint()}forms/insertComplementary_Burial`, model).pipe(
+    return this.http.post<BaseResult<DeathAidRequest>>(`${endpoint()}forms/insertComplementary_Burial`, model).pipe(
       catchError(this.handleError)
     );
   }
 
   InsertRequestComplementary_Illness(model: GrandInAidRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertRequestComplementary_IllnessInfo>>(`${endpoint()}forms/insertComplementary_Illness`, model).pipe(
+    return this.http.post<BaseResult<GrandInAidRequest>>(`${endpoint()}forms/insertComplementary_Illness`, model).pipe(
       catchError(this.handleError)
     );
   }
 
   InsertRequestComplementary_PhysicalDisability(model: DisabilityAidRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertRequestComplementary_PhysicalDisabilityInfo>>(`${endpoint()}forms/insertComplementary_PhysicalDisability`, model).pipe(
+    return this.http.post<BaseResult<DisabilityAidRequest>>(`${endpoint()}forms/insertComplementary_PhysicalDisability`, model).pipe(
       catchError(this.handleError)
     );
   }
 
   InsertRequestComplementary_IntroduceToEducationalPlace(model: EducationalIntroductionRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertRequestComplementary_IntroduceToEducationalPlaceInfo>>(`${endpoint()}forms/insertComplementary_IntroduceToEducationalPlace`, model).pipe(
+    return this.http.post<BaseResult<EducationalIntroductionRequest>>(`${endpoint()}forms/insertComplementary_IntroduceToEducationalPlace`, model).pipe(
       catchError(this.handleError)
     );
   }
 
   InsertRequestComplementary_IntroduceToSportsVenue(model: SportIntroductionRequest): Observable<any> {
-    return this.http.post<BaseResult<InsertRequestComplementary_IntroduceToSportsVenueInfo>>(`${endpoint()}forms/insertComplementary_IntroduceToSportsVenue`, model).pipe(
+    return this.http.post<BaseResult<SportIntroductionRequest>>(`${endpoint()}forms/insertComplementary_IntroduceToSportsVenue`, model).pipe(
       catchError(this.handleError)
     );
   }

@@ -7,7 +7,6 @@ import {SelectItem} from '../../../shared/components/custom-select/custom-select
 import {MatSelectChange} from '@angular/material/select';
 import {GetRequestTypeConfigResponse} from '../../../core/models/GetRequestTypeConfigResponse';
 import {SportIntroductionRequest} from './sport-introduction.model';
-import {InsertRequestComplementary_IntroduceToSportsVenueInfo} from '../../../core/models/InsertRequestComplementaryInfo';
 
 @Component({
   selector: 'app-sport-introduction',
@@ -90,7 +89,7 @@ export class SportIntroductionComponent extends BaseFormComponent implements OnI
             facilityGiverDesc: request.facilityGiverDesc,
             profitOrDiscountPercent: request.profitOrDiscountPercent,
           };
-          this.call<InsertRequestComplementary_IntroduceToSportsVenueInfo>(
+          this.call<SportIntroductionRequest>(
             insertResponse.data,
             this.restApiService.InsertRequestComplementary_IntroduceToSportsVenue(model));
         }

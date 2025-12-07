@@ -3,7 +3,6 @@ import {Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {EducationalIntroductionRequest} from './educational-introduction.model';
-import {InsertRequestComplementary_IntroduceToEducationalPlaceInfo} from '../../../core/models/InsertRequestComplementaryInfo';
 import {GetLookupResponse} from '../../../core/models/GetLookupResponse';
 import {SelectItem} from '../../../shared/components/custom-select/custom-select.component';
 import {MatSelectChange} from '@angular/material/select';
@@ -90,7 +89,7 @@ export class EducationalIntroductionComponent extends BaseFormComponent implemen
             facilityGiverDesc: request.facilityGiverDesc,
             profitOrDiscountPercent: request.profitOrDiscountPercent,
           };
-          this.call<InsertRequestComplementary_IntroduceToEducationalPlaceInfo>(insertResponse.data, this.restApiService.InsertRequestComplementary_IntroduceToEducationalPlace(model));
+          this.call<EducationalIntroductionRequest>(insertResponse.data, this.restApiService.InsertRequestComplementary_IntroduceToEducationalPlace(model));
         }
       });
     } else {

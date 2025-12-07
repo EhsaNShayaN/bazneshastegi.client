@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
-import {InsertRequestComplementary_BurialInfo} from '../../../core/models/InsertRequestComplementaryInfo';
 import {DeathAidRequest} from './death-aid.model';
 
 @Component({
@@ -63,7 +62,7 @@ export class DeathAidComponent extends BaseFormComponent implements OnInit {
             relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
             requestDescription: request.requestDescription
           };
-          this.call<InsertRequestComplementary_BurialInfo>(insertResponse.data, this.restApiService.InsertRequestComplementary_Burial(model));
+          this.call<DeathAidRequest>(insertResponse.data, this.restApiService.InsertRequestComplementary_Burial(model));
         }
       });
     } else {
