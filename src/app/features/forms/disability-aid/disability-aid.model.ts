@@ -5,5 +5,5 @@ export interface DisabilityAidRequest extends BaseInsertRequestComplementary {
   relatedPersonID: string;
   requestDescription: string;
   hasWelfareCertificate: true;
-  illnessHistory: number;
+  illnessHistory: string;
 }

@@ -89,12 +89,12 @@
           </mat-error>
         }
       </mat-form-field>
-      سابقه معلولیت / بیماریهای خاض:
+      سابقه معلولیت / بیماریهای خاص:
       <mat-form-field appearance="outline">
-        <input matInput type="number" class="text-left ltr" [maxLength]="2" formControlName="illnessHistory">
+        <input matInput class="text-left ltr" [maxLength]="2" formControlName="illnessHistory">
         @if (form.get('illnessHistory')?.touched) {
           <mat-error *ngIf="form.get('illnessHistory')?.hasError('required')">
-            سابقه معلولیت / بیماریهای خاض اجباری می باشد
+            سابقه معلولیت / بیماریهای خاص اجباری می باشد
           </mat-error>
         }
       </mat-form-field>
