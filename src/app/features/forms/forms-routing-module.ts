@@ -16,6 +16,7 @@ import {DisabilityAidComponent} from './disability-aid/disability-aid.component'
 import {GrandInAidComponent} from './grandIn-aid/grandIn-aid.component';
 import {EducationalIntroductionComponent} from './educational-introduction/educational-introduction.component';
 import {SportIntroductionComponent} from './sport-introduction/sport-introduction.component';
+import {NursingHelpComponent} from './nursing-help/nursing-help.component';
 
 const routes: Routes = [
   {path: 'ceremony-introduction/:id', component: CeremonyIntroductionComponent},
@@ -34,6 +35,7 @@ const routes: Routes = [
   {path: 'grandinaid/:id', component: GrandInAidComponent},
   {path: 'educational-introduction/:id', component: EducationalIntroductionComponent},
   {path: 'sport-introduction/:id', component: SportIntroductionComponent},
+  {path: 'nursinghelp/:id', component: NursingHelpComponent},
 ];
 
 @NgModule({

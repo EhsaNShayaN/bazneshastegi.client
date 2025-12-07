@@ -25,6 +25,7 @@ import {GrandInAidRequest} from '../features/forms/grandIn-aid/grandIn-aid.model
 import {DisabilityAidRequest} from '../features/forms/disability-aid/disability-aid.model';
 import {EducationalIntroductionRequest} from '../features/forms/educational-introduction/educational-introduction.model';
 import {SportIntroductionRequest} from '../features/forms/sport-introduction/sport-introduction.model';
+import {NursingHelpRequest} from '../features/forms/nursing-help/nursing-help.model';
 
 @Injectable({
   providedIn: 'root'
@@ -212,6 +213,12 @@ export class RestApiService {
 
   InsertRequestComplementary_IntroduceToSportsVenue(model: SportIntroductionRequest): Observable<any> {
     return this.http.post<BaseResult<SportIntroductionRequest>>(`${endpoint()}forms/insertComplementary_IntroduceToSportsVenue`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  InsertRequestComplementary_NursingExpenses(model: NursingHelpRequest): Observable<any> {
+    return this.http.post<BaseResult<NursingHelpRequest>>(`${endpoint()}forms/insertComplementary_NursingExpenses`, model).pipe(
       catchError(this.handleError)
     );
   }

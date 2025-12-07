@@ -25,7 +25,8 @@ export class Home implements OnInit {
 
   selectForm($event: MatSelectChange<RequestType>) {
     const requestType = $event.value;
-    this.router.navigate([`/forms/${requestType.page}/${requestType.requestTypeID}`]).then(() => {
+    const url = `/forms/${requestType.page.toLowerCase()}/${requestType.requestTypeID}`;
+    this.router.navigate([url]).then(() => {
     });
   }
 }
