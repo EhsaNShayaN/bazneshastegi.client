@@ -11,6 +11,7 @@ export interface RequestTypeConfigInfo {
   deliveryCost?: number;
   defaultInstalementCount: number | null;
   defaultDiscountPercent: number | null;
+  profitOrDiscountPercent: number | null;
   guarantorCost: number | null;
   validationStartDate: string;
   facilityReceiverRelationshipID: number | null;

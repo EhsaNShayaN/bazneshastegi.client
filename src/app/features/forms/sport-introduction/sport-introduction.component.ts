@@ -36,7 +36,7 @@ export class SportIntroductionComponent extends BaseFormComponent implements OnI
       applicantRelationship: ['خودم', Validators.required],
       requestDescription: [null],
       facilityGiverLookupID: [null, Validators.required],
-      facilityGiverDesc: [null, Validators.required],
+      facilityGiverDesc: [null],
       profitOrDiscountPercent: [null, Validators.required],
       attachments: this.fb.array(
         this.requestTypes.map(s =>
@@ -52,12 +52,17 @@ export class SportIntroductionComponent extends BaseFormComponent implements OnI
   }
 
   placeChanged($event: MatSelectChange<any>) {
-    if ($event.value !== '-1') {
+    const facilityGiverDescControl = this.form.get('facilityGiverDesc');
+    if ($event.value === '-1') {
+      facilityGiverDescControl?.setValidators([Validators.required]);
+    } else {
+      facilityGiverDescControl?.clearValidators();
       this.restApiService.getRequestTypeConfig(this.requestTypeID, $event.value, null, null, null)
         .subscribe((a: GetRequestTypeConfigResponse) => {
-          this.form.get('profitOrDiscountPercent')?.setValue(a.data[0]?.defaultDiscountPercent ?? 85);
+          this.form.get('profitOrDiscountPercent')?.setValue(a.data[0]?.profitOrDiscountPercent ?? 0);
         });
     }
+    facilityGiverDescControl?.updateValueAndValidity({emitEvent: false});
   }
 
   submit() {
