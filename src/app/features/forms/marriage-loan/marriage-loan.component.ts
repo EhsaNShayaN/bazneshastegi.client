@@ -29,7 +29,6 @@ export class MarriageLoanComponent extends BaseFormComponent {
   }
 
   override createForm() {
-    return;
     this.restApiService.getRequestTypeConfig(this.requestTypeID, null, null, null, null)
       .subscribe((a: GetRequestTypeConfigResponse) => {
         this.requestTypeConfig = a.data[0];

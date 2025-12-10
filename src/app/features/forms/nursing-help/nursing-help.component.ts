@@ -31,7 +31,6 @@ export class NursingHelpComponent extends BaseFormComponent implements OnInit {
   }
 
   override createForm() {
-    return;
     this.form = this.fb.group({
       applicantRelationship: ['خودم', Validators.required],
       requestDescription: [null],
