@@ -18,6 +18,7 @@ import {EducationalIntroductionComponent} from './educational-introduction/educa
 import {SportIntroductionComponent} from './sport-introduction/sport-introduction.component';
 import {NursingHelpComponent} from './nursing-help/nursing-help.component';
 import {MarriageLoanComponent} from './marriage-loan/marriage-loan.component';
+import {MariageAidComponent} from './mariage-aid/mariage-aid.component';
 
 const routes: Routes = [
   {path: 'ceremony-introduction/:id', component: CeremonyIntroductionComponent},
@@ -38,6 +39,7 @@ const routes: Routes = [
   {path: 'sport-introduction/:id', component: SportIntroductionComponent},
   {path: 'nursinghelp/:id', component: NursingHelpComponent},
   {path: 'marriage-loan/:id', component: MarriageLoanComponent},
+  {path: 'mariageaid/:id', component: MariageAidComponent},
 ];
 
 @NgModule({

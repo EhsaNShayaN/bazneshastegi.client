@@ -29,6 +29,7 @@ import {EducationalIntroductionComponent} from './educational-introduction/educa
 import {SportIntroductionComponent} from './sport-introduction/sport-introduction.component';
 import {NursingHelpComponent} from './nursing-help/nursing-help.component';
 import {MarriageLoanComponent} from './marriage-loan/marriage-loan.component';
+import {MariageAidComponent} from './mariage-aid/mariage-aid.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {MarriageLoanComponent} from './marriage-loan/marriage-loan.component';
     SportIntroductionComponent,
     NursingHelpComponent,
     MarriageLoanComponent,
+    MariageAidComponent,
   ],
   imports: [
     CommonModule,
@@ -85,6 +87,7 @@ import {MarriageLoanComponent} from './marriage-loan/marriage-loan.component';
     SportIntroductionComponent,
     NursingHelpComponent,
     MarriageLoanComponent,
+    MariageAidComponent,
   ]
 })
 export class FormsSharedModule {

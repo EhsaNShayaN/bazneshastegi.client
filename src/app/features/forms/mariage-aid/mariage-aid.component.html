@@ -1,4 +1,4 @@
-<h2 class="text-center mb-2">وام ازدواج</h2>
+<h2 class="text-center mb-2">کمک هزینه ازدواج</h2>
 
 @if (form) {
   <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
@@ -9,49 +9,10 @@
           label="میزان وام درخواستی (ریال)"
           placeholder="میزان وام درخواستی (ریال)"
           formControlName="facilityAmount"
-          [required]="true"
-          [disabled]="true"
-          (keyUpEvent)="installmentKeyUpEvent($event)">
+          [required]="true">
         </app-currency-input>
-        <mat-error *ngIf="form.get('facilityAmount')?.touched &&
-                    form.get('facilityAmount')?.hasError('required')">
+        <mat-error *ngIf="form.get('facilityAmount')?.touched && form.get('facilityAmount')?.hasError('required')">
           مبلغ وام اجباری می باشد
-        </mat-error>
-      </div>
-
-      <div fxFlex="100" fxFlex.gt-xs="33.3">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>تعداد اقساط</mat-label>
-          <input matInput type="number" formControlName="facilityInstalementCount" class="ltr text-left">
-          <mat-error *ngIf="form.get('facilityInstalementCount')?.touched &&
-                    form.get('facilityInstalementCount')?.hasError('required')">
-            تعداد اقساط اجباری می باشد
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>درصد سود</mat-label>
-          <input matInput type="number" formControlName="profitOrDiscountPercent" class="ltr text-left">
-          <mat-error *ngIf="form.get('profitOrDiscountPercent')?.touched &&
-                    form.get('profitOrDiscountPercent')?.hasError('required')">
-            درصد سود اجباری می باشد
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div fxFlex="100" fxFlex.gt-xs="33.3">
-        <app-currency-input
-          label="مبلغ قسط"
-          placeholder="مبلغ قسط"
-          formControlName="facilityInstalementAmount"
-          [required]="true"
-          [disabled]="true"
-        ></app-currency-input>
-        <mat-error *ngIf="form.get('facilityInstalementAmount')?.touched &&
-                    form.get('facilityInstalementAmount')?.hasError('required')">
-          مبلغ اقساط اجباری می باشد
         </mat-error>
       </div>
 
@@ -115,7 +76,7 @@
       }
 
       <div fxFlex="100" fxFlex.gt-xs="100">
-        <h3>درخواستهای وام قبلی</h3>
+        <h3>درخواستهای کمک هزینه های قبلی</h3>
         <mat-divider class="mt-1"></mat-divider>
         @if (dataSource) {
           <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>

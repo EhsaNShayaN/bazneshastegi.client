@@ -3,15 +3,15 @@ import {Validators} from '@angular/forms';
 import {BaseFormComponent} from '../base-form-component';
 import {GetRequestTypeConfigResponse, RequestTypeConfigInfo} from '../../../core/models/GetRequestTypeConfigResponse';
 import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
-import {MarriageLoanRequest} from './marriage-loan.model';
+import {MarriageAidRequest} from './marriage-aid.model';
 
 @Component({
-  selector: 'app-marriage-loan',
-  templateUrl: './marriage-loan.component.html',
+  selector: 'app-mariage-aid',
+  templateUrl: './mariage-aid.component.html',
   styleUrl: '../forms.scss',
   standalone: false
 })
-export class MarriageLoanComponent extends BaseFormComponent {
+export class MariageAidComponent extends BaseFormComponent {
   columnsToDisplay = [
     {key: 'mainPersonFirstName', name: 'نام'},
     {key: 'mainPersonLastName', name: 'نام خانوادگی'},
@@ -21,7 +21,6 @@ export class MarriageLoanComponent extends BaseFormComponent {
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
   requestTypeConfig?: RequestTypeConfigInfo;
-  totalRemainedAmount: number = 0;
 
   constructor() {
     super();
@@ -33,10 +32,7 @@ export class MarriageLoanComponent extends BaseFormComponent {
       .subscribe((a: GetRequestTypeConfigResponse) => {
         this.requestTypeConfig = a.data[0];
         this.form = this.fb.group({
-          facilityAmount: [{value: this.requestTypeConfig?.defaultAmount, disabled: true}, Validators.required],
-          profitOrDiscountPercent: [{value: this.requestTypeConfig?.profitOrDiscountPercent, disabled: true}, Validators.required],
-          facilityInstalementCount: [{value: this.requestTypeConfig?.defaultInstalementCount, disabled: true}, Validators.required],
-          facilityInstalementAmount: [{value: null, disabled: true}, Validators.required],
+          facilityAmount: [this.requestTypeConfig?.defaultAmount, Validators.required],
           requestDescription: [''],
           attachments: this.fb.array(
             this.requestTypes.map(s =>
@@ -49,20 +45,7 @@ export class MarriageLoanComponent extends BaseFormComponent {
             )
           ),
         });
-        this.calculateLoanInstallment(this.requestTypeConfig!.defaultAmount);
       });
-    this.totalRemainedAmount = this.dataSource?.data.reduce((total, num) => total + (num.remainedAmount ?? 0), 0) ?? 0;
-  }
-
-  calculateLoanInstallment(principal: number) {
-    const months = this.requestTypeConfig!.profitOrDiscountPercent ?? 36;
-    const installment = Math.round(principal / months);
-    this.form.get('facilityInstalementAmount')?.setValue(installment);
-    return installment;
-  }
-
-  installmentKeyUpEvent($event: KeyboardEvent) {
-    this.calculateLoanInstallment(this.form.get('facilityAmount')?.value);
   }
 
   submit() {
@@ -72,8 +55,8 @@ export class MarriageLoanComponent extends BaseFormComponent {
         this.relatedPersonIDError = true;
         return;
       }
-      const request: MarriageLoanRequest = this.form.getRawValue();
-      console.log('📌 فرم وام ازدواج ثبت شد:', request);
+      const request: MarriageAidRequest = this.form.getRawValue();
+      console.log('📌 فرم کمک هزینه ازدواج ثبت شد:', request);
       const insert: InsertRequest = {
         personID: this.personInfo!.personID,
         nationalCode: this.personInfo!.personNationalCode,
@@ -87,7 +70,7 @@ export class MarriageLoanComponent extends BaseFormComponent {
       };
       this.insert(insert).then(insertResponse => {
         if (insertResponse) {
-          const model: MarriageLoanRequest = {
+          const model: MarriageAidRequest = {
             requestID: insertResponse.data.requestID,
             requestTypeID: this.requestTypeID,
             requestComplementaryID: '',
@@ -98,9 +81,9 @@ export class MarriageLoanComponent extends BaseFormComponent {
             profitOrDiscountPercent: request.profitOrDiscountPercent,
             facilityInstalementAmount: request.facilityInstalementAmount,
           };
-          this.call<MarriageLoanRequest>(
+          this.call<MarriageAidRequest>(
             insertResponse.data,
-            this.restApiService.InsertRequestComplementary_MarriageLoan(model));
+            this.restApiService.InsertRequestComplementary_MarriageAid(model));
         }
       });
     } else {
