@@ -33,7 +33,7 @@ export class EssentialLoanComponent extends BaseFormComponent {
       .subscribe((a: GetRequestTypeConfigResponse) => {
         this.requestTypeConfig = a.data[0];
         this.form = this.fb.group({
-          facilityAmount: [this.requestTypeConfig!.defaultAmount, [Validators.required]],
+          facilityAmount: [this.requestTypeConfig?.defaultAmount, [Validators.required]],
           defaultInstalementCount: [{value: this.requestTypeConfig?.defaultInstalementCount, disabled: true}, Validators.required],
           facilityInstalementAmount: [{value: null, disabled: false}, Validators.required],
           requestDescription: [''],
@@ -48,16 +48,16 @@ export class EssentialLoanComponent extends BaseFormComponent {
             )
           ),
         });
-        this.calculateLoanInstallment(this.requestTypeConfig!.defaultAmount);
+        this.calculateLoanInstallment(this.requestTypeConfig?.defaultAmount);
       });
     this.totalRemainedAmount = this.dataSource?.data.reduce((total, num) => total + (num.remainedAmount ?? 0), 0) ?? 0;
   }
 
   calculateLoanInstallment(principal: number) {
-    const months = this.requestTypeConfig!.defaultInstalementCount ?? 36;
+    const months = this.requestTypeConfig?.defaultInstalementCount ?? 36;
     const installment = Math.round(principal / months);
     this.form.get('facilityInstalementAmount')?.setValue(installment);
-    this.showDescription = ((this.form.get('facilityAmount')?.value ?? 0) + this.totalRemainedAmount) > this.requestTypeConfig!.defaultAmount;
+    this.showDescription = ((this.form.get('facilityAmount')?.value ?? 0) + this.totalRemainedAmount) > (this.requestTypeConfig?.defaultAmount ?? 0);
     return installment;
   }
 

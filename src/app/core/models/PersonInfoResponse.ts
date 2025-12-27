@@ -37,7 +37,7 @@ export class PersonInfo {
   educationTypeCaption!: string;
   basketReceiveTypeID!: string;
   basketReceiveTypeName!: string;
-  remainedAmountForCertificate!: number;
+  remainedAmountForCertificate?: number;
   employmentTypeID!: string;
   employmentTypeName!: string;
 }
