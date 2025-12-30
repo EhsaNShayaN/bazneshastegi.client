@@ -75,7 +75,7 @@ export class NursingHelpComponent extends BaseFormComponent implements OnInit {
             requestDescription: request.requestDescription,
             issueTypeLookupID: request.issueTypeLookupID,
           };
-          this.call<NursingHelpRequest>(insertResponse.data, this.restApiService.InsertRequestComplementary_NursingExpenses(model));
+          this.call<NursingHelpRequest>(insertResponse.data, this.restApiService.insertRequestComplementary_NursingExpenses(model));
         }
       });
     } else {

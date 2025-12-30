@@ -100,7 +100,7 @@ export class MarriageLoanComponent extends BaseFormComponent {
           };
           this.call<MarriageLoanRequest>(
             insertResponse.data,
-            this.restApiService.InsertRequestComplementary_MarriageLoan(model));
+            this.restApiService.insertRequestComplementary_MarriageLoan(model));
         }
       });
     } else {

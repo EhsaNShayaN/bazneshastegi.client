@@ -62,7 +62,7 @@ export class DeathAidComponent extends BaseFormComponent implements OnInit {
             relatedPersonID: this.form.get('applicantRelationship')?.value === 'وابستگانم' ? this.relatedPersonID : '',
             requestDescription: request.requestDescription
           };
-          this.call<DeathAidRequest>(insertResponse.data, this.restApiService.InsertRequestComplementary_Burial(model));
+          this.call<DeathAidRequest>(insertResponse.data, this.restApiService.insertRequestComplementary_Burial(model));
         }
       });
     } else {

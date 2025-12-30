@@ -94,7 +94,7 @@ export class EducationalIntroductionComponent extends BaseFormComponent implemen
             facilityGiverDesc: request.facilityGiverDesc,
             profitOrDiscountPercent: request.profitOrDiscountPercent,
           };
-          this.call<EducationalIntroductionRequest>(insertResponse.data, this.restApiService.InsertRequestComplementary_IntroduceToEducationalPlace(model));
+          this.call<EducationalIntroductionRequest>(insertResponse.data, this.restApiService.insertRequestComplementary_IntroduceToEducationalPlace(model));
         }
       });
     } else {

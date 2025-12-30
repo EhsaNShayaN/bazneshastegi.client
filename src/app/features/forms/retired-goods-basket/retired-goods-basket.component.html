@@ -1,0 +1,37 @@
+<h2 class="text-center mb-2">تغییر نوع سبد کالا بازنشسته</h2>
+@if (form) {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        وضعیت جاری نوع سبد کالا:
+        {{ currentBasketReceiveType?.name }}
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-checkbox formControlName="basketReceiveTypeID">
+          تبدیل
+          {{ currentBasketReceiveType?.name }}
+          به
+          {{ unCurrentBasketReceiveType?.name }}
+        </mat-checkbox>
+      </div>
+    </div>
+    <div fxLayout="row wrap">
+      @if ((attachments.controls?.length ?? 0) > 0) {
+        <div fxFlex="100" fxFlex.gt-xs="100">
+          <h3>مدارک مورد نیاز</h3>
+          <div formArrayName="attachments">
+            <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
+              <mat-checkbox formControlName="uploaded">{{ att.type }}</mat-checkbox>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit"
+              [disabled]="!form.get('basketReceiveTypeID')?.value">
+        ذخیره و ارسال
+      </button>
+    </div>
+  </form>
+}

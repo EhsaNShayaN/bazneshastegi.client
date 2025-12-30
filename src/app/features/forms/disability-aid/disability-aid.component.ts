@@ -66,7 +66,7 @@ export class DisabilityAidComponent extends BaseFormComponent implements OnInit 
             hasWelfareCertificate: request.hasWelfareCertificate,
             illnessHistory: request.illnessHistory,
           };
-          this.call<DisabilityAidRequest>(insertResponse.data, this.restApiService.InsertRequestComplementary_PhysicalDisability(model));
+          this.call<DisabilityAidRequest>(insertResponse.data, this.restApiService.insertRequestComplementary_PhysicalDisability(model));
         }
       });
     } else {

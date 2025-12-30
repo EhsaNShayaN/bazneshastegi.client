@@ -13,16 +13,15 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
-import {BaseInsertRequestComplementary, InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from './pay-fraction-certificate/pay-fraction-certificate.model';
+import {InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from './pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 import {CustomConstants} from '../../core/constants/custom.constants';
 import {RelatedPersonsResponse} from '../../core/models/RelatedPersonsResponse';
 import {MatRadioChange} from '@angular/material/radio';
 import {InsertInfo, InsertResponse} from '../../core/models/InsertResponse';
 import {InsertComplementaryResponse} from '../../core/models/InsertComplementaryResponse';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {BaseResult} from '../../core/models/BaseResult';
-import {BreakdownRequest} from './breakdown/breakdown.model';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -65,11 +64,6 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     this.sub = this.activatedRoute.params.subscribe(({id}) => {
       this.restApiService.formSubmittedSubject.next('');
       this.requestTypeID = id;
-      /*this.restApiService.getRequestTypeGuide(this.requestTypeID).subscribe((g: GetRequestTypeGuideResponse) => {
-        if (g.data.length > 0) {
-          this.requestTypeGuide = g.data[0];
-        }
-      });*/
       this.restApiService.getActiveFacilitiesOfPerson(this.requestTypeID).subscribe((a: ActiveFacilitiesOfPersonResponse) => {
         this.initDataSource(a);
         this.sub3 = this.restApiService.personInfoSubject.subscribe(personInfo => {
@@ -168,6 +162,11 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     this.form.markAsPristine();
     this.form.markAsUntouched();
     window.scrollTo({top: 0, behavior: 'smooth'});
+    this.customFunction();
+  }
+
+  customFunction() {
+
   }
 
   send(insert: InsertRequest, insertComplementary: InsertRequestComplementary) {

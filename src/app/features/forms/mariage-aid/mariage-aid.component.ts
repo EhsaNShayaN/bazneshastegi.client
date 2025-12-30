@@ -83,7 +83,7 @@ export class MariageAidComponent extends BaseFormComponent {
           };
           this.call<MarriageAidRequest>(
             insertResponse.data,
-            this.restApiService.InsertRequestComplementary_MarriageAid(model));
+            this.restApiService.insertRequestComplementary_MarriageAid(model));
         }
       });
     } else {

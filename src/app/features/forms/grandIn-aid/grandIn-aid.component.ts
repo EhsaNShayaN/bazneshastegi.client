@@ -68,7 +68,7 @@ export class GrandInAidComponent extends BaseFormComponent implements OnInit {
           };
           this.call<GrandInAidRequest>(
             insertResponse.data,
-            this.restApiService.InsertRequestComplementary_Illness(model));
+            this.restApiService.insertRequestComplementary_Illness(model));
         }
       });
     } else {

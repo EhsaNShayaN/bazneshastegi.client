@@ -28,6 +28,7 @@ import {SportIntroductionRequest} from '../features/forms/sport-introduction/spo
 import {NursingHelpRequest} from '../features/forms/nursing-help/nursing-help.model';
 import {MarriageLoanRequest} from '../features/forms/marriage-loan/marriage-loan.model';
 import {MarriageAidRequest} from '../features/forms/mariage-aid/marriage-aid.model';
+import {RetiredGoodsBasketRequest} from '../features/forms/retired-goods-basket/retired-goods-basket.model';
 
 @Injectable({
   providedIn: 'root'
@@ -189,50 +190,56 @@ export class RestApiService {
     );
   }
 
-  InsertRequestComplementary_Burial(model: DeathAidRequest): Observable<any> {
+  insertRequestComplementary_Burial(model: DeathAidRequest): Observable<any> {
     return this.http.post<BaseResult<DeathAidRequest>>(`${endpoint()}forms/insertComplementary_Burial`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  InsertRequestComplementary_Illness(model: GrandInAidRequest): Observable<any> {
+  insertRequestComplementary_Illness(model: GrandInAidRequest): Observable<any> {
     return this.http.post<BaseResult<GrandInAidRequest>>(`${endpoint()}forms/insertComplementary_Illness`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  InsertRequestComplementary_PhysicalDisability(model: DisabilityAidRequest): Observable<any> {
+  insertRequestComplementary_PhysicalDisability(model: DisabilityAidRequest): Observable<any> {
     return this.http.post<BaseResult<DisabilityAidRequest>>(`${endpoint()}forms/insertComplementary_PhysicalDisability`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  InsertRequestComplementary_IntroduceToEducationalPlace(model: EducationalIntroductionRequest): Observable<any> {
+  insertRequestComplementary_IntroduceToEducationalPlace(model: EducationalIntroductionRequest): Observable<any> {
     return this.http.post<BaseResult<EducationalIntroductionRequest>>(`${endpoint()}forms/insertComplementary_IntroduceToEducationalPlace`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  InsertRequestComplementary_IntroduceToSportsVenue(model: SportIntroductionRequest): Observable<any> {
+  insertRequestComplementary_IntroduceToSportsVenue(model: SportIntroductionRequest): Observable<any> {
     return this.http.post<BaseResult<SportIntroductionRequest>>(`${endpoint()}forms/insertComplementary_IntroduceToSportsVenue`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  InsertRequestComplementary_NursingExpenses(model: NursingHelpRequest): Observable<any> {
+  insertRequestComplementary_NursingExpenses(model: NursingHelpRequest): Observable<any> {
     return this.http.post<BaseResult<NursingHelpRequest>>(`${endpoint()}forms/insertComplementary_NursingExpenses`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  InsertRequestComplementary_MarriageLoan(model: MarriageLoanRequest): Observable<any> {
+  insertRequestComplementary_MarriageLoan(model: MarriageLoanRequest): Observable<any> {
     return this.http.post<BaseResult<MarriageLoanRequest>>(`${endpoint()}forms/insertComplementary_MarriageLoan`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  InsertRequestComplementary_MarriageAid(model: MarriageAidRequest): Observable<any> {
+  insertRequestComplementary_MarriageAid(model: MarriageAidRequest): Observable<any> {
     return this.http.post<BaseResult<MarriageAidRequest>>(`${endpoint()}forms/insertComplementary_MarriageAid`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  insertRequestForEditBasketReceiveTypeRetired(model: RetiredGoodsBasketRequest): Observable<any> {
+    return this.http.post<BaseResult<RetiredGoodsBasketRequest>>(`${endpoint()}forms/insertRequestForEditBasketReceiveTypeRetired`, model).pipe(
       catchError(this.handleError)
     );
   }

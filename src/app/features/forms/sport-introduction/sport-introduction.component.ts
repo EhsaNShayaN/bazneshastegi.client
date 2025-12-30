@@ -96,7 +96,7 @@ export class SportIntroductionComponent extends BaseFormComponent implements OnI
           };
           this.call<SportIntroductionRequest>(
             insertResponse.data,
-            this.restApiService.InsertRequestComplementary_IntroduceToSportsVenue(model));
+            this.restApiService.insertRequestComplementary_IntroduceToSportsVenue(model));
         }
       });
     } else {
