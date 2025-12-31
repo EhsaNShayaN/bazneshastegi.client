@@ -48,10 +48,6 @@ export class RetiredGoodsBasketComponent extends BaseFormComponent {
   submit() {
     console.log(this.form.getRawValue());
     if (this.form.valid) {
-      if (!this.relatedPersonID) {
-        this.relatedPersonIDError = true;
-        return;
-      }
       const request: RetiredGoodsBasketRequest = this.form.getRawValue();
       console.log('📌 فرم تغییر نوع سبد کالا بازنشسته ثبت شد:', request);
       const insert: InsertRequest = {
@@ -71,7 +67,7 @@ export class RetiredGoodsBasketComponent extends BaseFormComponent {
             requestID: insertResponse.data.requestID,
             requestTypeID: this.requestTypeID,
             loginedPersonID: this.personInfo?.personID ?? '',
-            basketReceiveTypeID: request.basketReceiveTypeID,
+            basketReceiveTypeID: this.unCurrentBasketReceiveType!.id,
           };
           this.call<RetiredGoodsBasketRequest>(
             insertResponse.data,
