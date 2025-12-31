@@ -30,6 +30,7 @@ import {MarriageLoanRequest} from '../features/forms/marriage-loan/marriage-loan
 import {MarriageAidRequest} from '../features/forms/mariage-aid/marriage-aid.model';
 import {RetiredGoodsBasketRequest} from '../features/forms/retired-goods-basket/retired-goods-basket.model';
 import {HeirGoodsBasketRequest} from '../features/forms/heir-goods-basket/heir-goods-basket.model';
+import {ImprestRequest} from '../features/forms/imprest/imprest.model';
 
 @Injectable({
   providedIn: 'root'
@@ -235,6 +236,12 @@ export class RestApiService {
 
   insertRequestComplementary_MarriageAid(model: MarriageAidRequest): Observable<any> {
     return this.http.post<BaseResult<MarriageAidRequest>>(`${endpoint()}forms/insertComplementary_MarriageAid`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  insertRequestComplementary_Imprest(model: ImprestRequest): Observable<any> {
+    return this.http.post<BaseResult<ImprestRequest>>(`${endpoint()}forms/insertComplementary_Imprest`, model).pipe(
       catchError(this.handleError)
     );
   }
