@@ -29,6 +29,7 @@ import {NursingHelpRequest} from '../features/forms/nursing-help/nursing-help.mo
 import {MarriageLoanRequest} from '../features/forms/marriage-loan/marriage-loan.model';
 import {MarriageAidRequest} from '../features/forms/mariage-aid/marriage-aid.model';
 import {RetiredGoodsBasketRequest} from '../features/forms/retired-goods-basket/retired-goods-basket.model';
+import {HeirGoodsBasketRequest} from '../features/forms/heir-goods-basket/heir-goods-basket.model';
 
 @Injectable({
   providedIn: 'root'
@@ -240,6 +241,12 @@ export class RestApiService {
 
   insertRequestForEditBasketReceiveTypeRetired(model: RetiredGoodsBasketRequest): Observable<any> {
     return this.http.post<BaseResult<RetiredGoodsBasketRequest>>(`${endpoint()}forms/insertRequestForEditBasketReceiveTypeRetired`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  insertRequestForEditBasketReceiveTypeHeir(model: HeirGoodsBasketRequest): Observable<any> {
+    return this.http.post<BaseResult<HeirGoodsBasketRequest>>(`${endpoint()}forms/insertRequestForEditBasketReceiveTypeHeir`, model).pipe(
       catchError(this.handleError)
     );
   }

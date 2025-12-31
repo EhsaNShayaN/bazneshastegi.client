@@ -42,6 +42,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   relationColumnsToDisplay0: string[] = this.relationColumnsToDisplay.map(s => s.key);
   relationDataSource: MatTableDataSource<any> | null = null;
   relatedPersonIDError: boolean = false;
+  relatedPerson: any;
   relatedPersonID: string = '';
 
   private sub: any;
@@ -152,6 +153,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   checkRelatedUser($event: MatRadioChange) {
     this.relatedPersonID = $event.source.value;
     this.relatedPersonIDError = !this.relatedPersonID;
+    this.relatedPerson = this.relationDataSource?.data.find(s => s.personID === this.relatedPersonID);
   }
 
   showResult(requestNO: string) {

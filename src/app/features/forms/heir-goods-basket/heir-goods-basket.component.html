@@ -1,0 +1,231 @@
+<h2 class="text-center mb-2">تغییر نوع سبد کالا موظف</h2>
+@if (form) {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        وضعیت جاری نوع سبد کالا:
+        {{ currentBasketReceiveType?.name }}
+      </div>
+      <div fxFlex="50" fxFlex.gt-xs="50">
+        <mat-checkbox formControlName="basketReceiveTypeID">
+          تبدیل
+          {{ currentBasketReceiveType?.name }}
+          به
+          {{ unCurrentBasketReceiveType?.name }}
+        </mat-checkbox>
+      </div>
+      <div fxFlex="50" fxFlex.gt-xs="50">
+        @if (form.get('basketReceiveTypeID')?.value) {
+          <span style="background-color: yellow; padding: 1rem; border: dashed 1px red">
+            لطفاً دریافت کننده سبد کالا را از لیست زیر انتخاب و مدارک لازم را پیوست نمایید.
+          </span>
+        }
+      </div>
+    </div>
+
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <h3>وابستگان</h3>
+        <mat-divider class="mt-1"></mat-divider>
+
+        @if (relationDataSource) {
+          <table [dataSource]="relationDataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+            @for (column of relationColumnsToDisplay; track column.key) {
+              <ng-container matColumnDef="{{column.key}}">
+                <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+                <td *matCellDef="let element; let i = index;" mat-cell>
+                  @switch (column.key) {
+                    @case ('personFirstName') {
+                      {{ element.personFirstName }}
+                      {{ element.personLastName }}
+                    }
+                    @case ('check') {
+                      <mat-radio-button name="check" [value]="element.personID"
+                                        (change)="checkRelatedUser($event)"></mat-radio-button>
+                    }
+                    @default {
+                      {{ element[column.key] }}
+                    }
+                  }
+                </td>
+              </ng-container>
+            }
+            <ng-container matColumnDef="expand">
+              <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+            </ng-container>
+            <tr *matHeaderRowDef="relationColumnsToDisplay0" mat-header-row></tr>
+            <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
+            </tr>
+          </table>
+          @if (relatedPersonIDError) {
+            <mat-error class="mb-2">
+              انتخاب وابسته اجباری می باشد.
+            </mat-error>
+          }
+        }
+      </div>
+    </div>
+
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <div class="p-7 bg-white text-black text-sm leading-8">
+          <!-- عنوان -->
+          <div class="text-center mb-6">
+            <div class="fw-600">بسمه تعالی</div>
+            <div class="fw-600 mt-2">فرم درخواست دریافت سبد کالا ی موظفین</div>
+          </div>
+
+          <!-- تاریخ -->
+          <div class="text-left">
+            <span class="fw-600">تاریخ :</span>
+          </div>
+
+          <!-- خطاب -->
+          <div class="mb-1 fw-600">
+            <p>
+              جناب آقای
+              <span class="text-red-600">(نام معاون جاری بازنشستگی)</span>
+            </p>
+            <p>معاونت محترم امور بازنشستگی و مشارکین</p>
+            <p>با سلام و احترام ،</p>
+          </div>
+
+          <!-- متن اصلی -->
+          <div class="mb-6 text-justify">
+            <p>
+              به استحضار می‌رساند این جانب
+              <span class="text-red-600">(نام موظفین با جدا سازی حرف «،»)</span>
+            </p>
+            <p>
+              وظیفه بگیران مرحوم
+              <span class="text-red-600">
+                {{ personInfo?.personFirstName }}
+                {{ personInfo?.personLastName }}
+              </span>
+              به شماره بازنشستگی
+              <span class="text-red-600">(شماره بازنشستگی)</span>
+              درخواست دریافت سبد کالا به جای وجه نقد را داریم.
+              خواهشمند است دستورات لازم را در این خصوص صادر فرمایید.
+            </p>
+          </div>
+
+          <!-- تحویل گیرنده -->
+          <div class="mb-6">
+            <p>
+              <span class="fw-600">
+                نام وظیفه بگیر تحویل گیرنده سبد :
+              </span>
+              <span class="text-red-600">
+                {{ relatedPerson?.personFirstName }}
+                {{ relatedPerson?.personLastName }}
+              </span>
+            </p>
+            <p class="fw-600">
+              محل تحویل سبد کالا :
+              <span class="text-red-600">(نشانی کامل وظیفه بگیر)</span>
+            </p>
+          </div>
+
+          <!-- فرم آدرس -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div fxLayout="row wrap">
+              <div fxFlex="100" fxFlex.gt-xs="100">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>آدرس</mat-label>
+                  <textarea matInput formControlName="personAddress"></textarea>
+                  <mat-error *ngIf="form.get('personAddress')?.touched && form.get('personAddress')?.hasError('required')">
+                    آدرس اجباری می باشد
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex="100" fxFlex.gt-xs="100">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>منطقه شهرداری</mat-label>
+                  <input onlyNumber class="ltr" matInput formControlName="personRegion"/>
+                  <mat-error *ngIf="form.get('personRegion')?.touched && form.get('personRegion')?.hasError('required')">
+                    منطقه شهرداری اجباری می باشد
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex="100" fxFlex.gt-xs="100">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>ناحیه</mat-label>
+                  <input onlyNumber class="ltr" matInput formControlName="personArea"/>
+                  <mat-error *ngIf="form.get('personArea')?.touched && form.get('personArea')?.hasError('required')">
+                    ناحیه اجباری می باشد
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex="100" fxFlex.gt-xs="33.3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>کد پستی</mat-label>
+                  <input matInput type="text" formControlName="personPostalCode" required
+                         [minLength]="10" [maxLength]="10" onlyNumber class="ltr">
+                  <mat-error *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('required')">
+                    کد پستی اجباری می باشد
+                  </mat-error>
+                  <mat-error *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('minlength')">
+                    کد پستی باید 10 کاراکتر باشد.
+                  </mat-error>
+                  <mat-error *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('maxlength')">
+                    کد پستی باید 10 کاراکتر باشد.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>تلفن ثابت</mat-label>
+                  <input onlyNumber class="ltr" matInput formControlName="personPhone"/>
+                  <mat-error *ngIf="form.get('personPhone')?.touched && form.get('personPhone')?.hasError('required')">
+                    تلفن ثابت اجباری می باشد
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex="100" fxFlex.gt-xs="33.3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>تلفن همراه</mat-label>
+                  <input matInput type="text" formControlName="personCellPhone" required
+                         [minLength]="10" [maxLength]="14" onlyNumber class="ltr">
+                  <mat-error *ngIf="form.get('personCellPhone')?.touched && form.get('personCellPhone')?.hasError('required')">
+                    تلفن همراه اجباری می باشد
+                  </mat-error>
+                  <mat-error *ngIf="form.get('personCellPhone')?.touched &&
+                    (form.get('personCellPhone')?.hasError('invalidMobile') ||
+                    form.get('personCellPhone')?.hasError('minlength') ||
+                    form.get('personCellPhone')?.hasError('maxlength'))">
+                    تلفن همراه نامعتبر است.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- امضا -->
+          <div class="mt-12 fw-600">
+            <p>نام و نام خانوادگی و امضای وظیفه بگیران :</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row wrap">
+      @if ((attachments.controls?.length ?? 0) > 0) {
+        <div fxFlex="100" fxFlex.gt-xs="100">
+          <h3>مدارک مورد نیاز</h3>
+          <div formArrayName="attachments">
+            <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
+              <mat-checkbox formControlName="uploaded">{{ att.type }}</mat-checkbox>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit"
+              [disabled]="!form.get('basketReceiveTypeID')?.value">
+        ذخیره و ارسال
+      </button>
+    </div>
+  </form>
+}

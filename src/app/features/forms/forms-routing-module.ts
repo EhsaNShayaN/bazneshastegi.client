@@ -20,6 +20,7 @@ import {NursingHelpComponent} from './nursing-help/nursing-help.component';
 import {MarriageLoanComponent} from './marriage-loan/marriage-loan.component';
 import {MariageAidComponent} from './mariage-aid/mariage-aid.component';
 import {RetiredGoodsBasketComponent} from './retired-goods-basket/retired-goods-basket.component';
+import {HeirGoodsBasketComponent} from './heir-goods-basket/heir-goods-basket.component';
 
 const routes: Routes = [
   {path: 'ceremony-introduction/:id', component: CeremonyIntroductionComponent},
@@ -42,6 +43,7 @@ const routes: Routes = [
   {path: 'marriage-loan/:id', component: MarriageLoanComponent},
   {path: 'mariageaid/:id', component: MariageAidComponent},
   {path: 'retired-goods-basket/:id', component: RetiredGoodsBasketComponent},
+  {path: 'heired-goods-basket/:id', component: HeirGoodsBasketComponent},
 ];
 
 @NgModule({
