@@ -11,7 +11,7 @@
           }
         </mat-select>
         @if (form.controls['relationshipID']['touched'] && form.controls['relationshipID'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>نسبت الزامی است</mat-error>
         }
       </mat-form-field>
 
@@ -36,7 +36,7 @@
         <input matInput type="text" formControlName="personNationalCode" required
                [minLength]="10" [maxLength]="10" onlyNumber class="ltr">
         <mat-error *ngIf="form.get('personNationalCode')?.touched && form.get('personNationalCode')?.hasError('required')">
-          کدملی اجباری می باشد
+          کدملی الزامی است
         </mat-error>
         <mat-error *ngIf="form.get('personNationalCode')?.touched && form.get('personNationalCode')?.hasError('minlength')">
           کدملی باید 10 کاراکتر باشد.
@@ -55,7 +55,9 @@
         <mat-label>شماره شناسنامه</mat-label>
         <input matInput formControlName="personCertificateNo">
         @if (form.controls['personCertificateNo']['touched'] && form.controls['personCertificateNo'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            شماره شناسنامه الزامی است
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
@@ -72,28 +74,33 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="form.get('personBirthDate')?.touched && form.get('personBirthDate')?.hasError('required')">
-          تاریخ تولد اجباری می باشد
+          تاریخ تولد الزامی است
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>استان محل تولد</mat-label>
-        <mat-select formControlName="personBirthPlaceStateID">
+        <mat-select formControlName="personBirthPlaceStateID" (selectionChange)="stateChanged($event)">
           @for (item of states; track item.id) {
             <mat-option [value]="item.id">{{ item.name }}</mat-option>
           }
         </mat-select>
         @if (form.controls['personBirthPlaceStateID']['touched'] && form.controls['personBirthPlaceStateID'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            استان محل تولد الزامی است
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>شهر محل تولد</mat-label>
         <mat-select formControlName="personBirthPlaceCityID">
-          <mat-option value="1">مرد</mat-option>
-          <mat-option value="2">زن</mat-option>
+          @for (item of cities; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
         </mat-select>
         @if (form.controls['personBirthPlaceCityID']['touched'] && form.controls['personBirthPlaceCityID'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            شهر محل تولد الزامی است
+          </mat-error>
         }
       </mat-form-field>
     </div>
@@ -117,7 +124,9 @@
           <mat-option value="2">زن</mat-option>
         </mat-select>
         @if (form.controls['genderID']['touched'] && form.controls['genderID'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            جنسیت الزامی است
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
@@ -127,7 +136,9 @@
           <mat-option value="2">متأهل</mat-option>
         </mat-select>
         @if (form.controls['maritalStatusID']['touched'] && form.controls['maritalStatusID'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            وضعیت خدمت الزامی است
+          </mat-error>
         }
       </mat-form-field>
     </div>
@@ -137,31 +148,40 @@
       <mat-form-field appearance="outline">
         <mat-label>مدرک تحصیلی</mat-label>
         <mat-select formControlName="educationTypeID">
-          <mat-option value="1">دیپلم</mat-option>
-          <mat-option value="2">لیسانس</mat-option>
+          @for (item of educationTypes; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
         </mat-select>
         @if (form.controls['educationTypeID']['touched'] && form.controls['educationTypeID'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            مدرک تحصیلی الزامی است
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>رشته تحصیلی</mat-label>
-        <mat-select formControlName="educationTypeID">
-          <mat-option value="1">دیپلم</mat-option>
-          <mat-option value="2">لیسانس</mat-option>
+        <mat-select formControlName="educationBranchID">
+          @for (item of educationTypes; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
         </mat-select>
-        @if (form.controls['educationTypeID']['touched'] && form.controls['educationTypeID'].invalid) {
-          <mat-error>الزامی</mat-error>
+        @if (form.controls['educationBranchID']['touched'] && form.controls['educationBranchID'].invalid) {
+          <mat-error>
+            رشته تحصیلی الزامی است
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>دانشگاه</mat-label>
         <mat-select formControlName="universityID">
-          <mat-option value="1">تهران</mat-option>
-          <mat-option value="2">آزاد</mat-option>
+          @for (item of universities; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
         </mat-select>
         @if (form.controls['universityID']['touched'] && form.controls['universityID'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            دانشگاه الزامی است
+          </mat-error>
         }
       </mat-form-field>
     </div>
@@ -169,42 +189,47 @@
     <div class="grid-4">
       <mat-form-field appearance="outline">
         <mat-label>استان</mat-label>
-        <mat-select formControlName="personStateID">
-          <mat-option value="1">مرد</mat-option>
-          <mat-option value="2">زن</mat-option>
+        <mat-select formControlName="personStateID" (selectionChange)="personStateChanged($event)">
+          @for (item of states; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
         </mat-select>
         @if (form.controls['personStateID']['touched'] && form.controls['personStateID'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            استان الزامی است
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>شهر</mat-label>
+        <mat-label>شهر تولد</mat-label>
         <mat-select formControlName="personCityID">
-          <mat-option value="1">مرد</mat-option>
-          <mat-option value="2">زن</mat-option>
+          @for (item of personCities; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
         </mat-select>
         @if (form.controls['personCityID']['touched'] && form.controls['personCityID'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            شهر الزامی است
+          </mat-error>
         }
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>منطقه</mat-label>
-        <mat-select formControlName="personRegion">
-          <mat-option value="1">مرد</mat-option>
-          <mat-option value="2">زن</mat-option>
-        </mat-select>
+        <input matInput formControlName="personRegion" class="ltr" onlyNumber>
         @if (form.controls['personRegion']['touched'] && form.controls['personRegion'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            منطقه الزامی است
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>ناحیه</mat-label>
-        <mat-select formControlName="personArea">
-          <mat-option value="1">مرد</mat-option>
-          <mat-option value="2">زن</mat-option>
-        </mat-select>
+        <input matInput formControlName="personArea" class="ltr" onlyNumber>
         @if (form.controls['personArea']['touched'] && form.controls['personArea'].invalid) {
-          <mat-error>الزامی</mat-error>
+          <mat-error>
+            ناحیه الزامی است
+          </mat-error>
         }
       </mat-form-field>
     </div>
@@ -226,7 +251,7 @@
           <input matInput type="text" formControlName="personPostalCode" required
                  [minLength]="10" [maxLength]="10" onlyNumber class="ltr">
           <mat-error *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('required')">
-            کد پستی اجباری می باشد
+            کد پستی الزامی است
           </mat-error>
           <mat-error *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('minlength')">
             کد پستی باید 10 کاراکتر باشد.

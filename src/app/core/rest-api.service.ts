@@ -109,9 +109,14 @@ export class RestApiService {
     );
   }
 
-//MedicalTreatmentServiceType
   getRelatedPersons(): Observable<any> {
     return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/relatedPersons`,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getNewPersonByParentId(): Observable<any> {
+    return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/newPersonByParentId`,).pipe(
       catchError(this.handleError)
     );
   }
