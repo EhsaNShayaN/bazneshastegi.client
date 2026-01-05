@@ -17,7 +17,6 @@ export class NewRelatedComponent extends BaseFormComponent {
     {key: 'personID', name: 'شماره پرسنلی'},
     {key: 'personFirstName', name: 'نام و نام خانوادگی'},
     {key: 'personNationalCode', name: 'کدملی'},
-    {key: 'check', name: 'انتخاب'},
   ];
   newRelationColumnsToDisplay0: string[] = this.newRelationColumnsToDisplay.map(s => s.key);
   newRelationDataSource: MatTableDataSource<any> | null = null;

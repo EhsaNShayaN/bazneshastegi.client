@@ -6,9 +6,11 @@ import {SelectItem} from '../../../../shared/components/custom-select/custom-sel
 import {RelationshipResponse} from '../../../../core/models/RelationshipResponse';
 import {LookUpDataResponse} from '../../../../core/models/LookUpResponse';
 import {MatSelectChange} from '@angular/material/select';
-import {InsertResponse} from '../../../../core/models/InsertResponse';
 import {BaseResult} from '../../../../core/models/BaseResult';
 import {NewRelatedRequest} from '../new-related.model';
+import {ToastrService} from 'ngx-toastr';
+import {CustomConstants} from '../../../../core/constants/custom.constants';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-person-form',
@@ -26,7 +28,9 @@ export class PersonFormComponent extends BaseComponent implements OnInit {
   form!: FormGroup;
 
   constructor(private restApiService: RestApiService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private toaster: ToastrService,
+              private router: Router) {
     super();
   }
 
@@ -92,7 +96,10 @@ export class PersonFormComponent extends BaseComponent implements OnInit {
     if (this.form.valid) {
       console.log(this.form.value);
       this.restApiService.insertNewPerson(this.form.value).subscribe((a: BaseResult<NewRelatedRequest>) => {
-
+        this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL)
+          .onHidden.subscribe(() => {
+          this.router.navigate(['/forms/none/63cf4a02-5237-44b6-911e-1747ede53238']);
+        });
       });
     } else {
       this.form.markAllAsTouched();

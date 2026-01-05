@@ -39,8 +39,11 @@
         </mat-error>
       }
     }
-    <mat-divider class="mt-1"></mat-divider>
     @if (newRelationDataSource) {
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <h3>وابستگان جدید</h3>
+      </div>
+      <mat-divider class="mt-1"></mat-divider>
       <table [dataSource]="newRelationDataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
         @for (column of newRelationColumnsToDisplay; track column.key) {
           <ng-container matColumnDef="{{column.key}}">
