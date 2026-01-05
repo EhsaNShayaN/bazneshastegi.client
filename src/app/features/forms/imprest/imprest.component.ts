@@ -24,7 +24,6 @@ export class ImprestComponent extends BaseFormComponent {
 
   constructor() {
     super();
-    this.getRelations();
   }
 
   override createForm() {

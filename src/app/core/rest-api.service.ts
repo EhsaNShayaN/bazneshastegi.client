@@ -31,6 +31,8 @@ import {MarriageAidRequest} from '../features/forms/mariage-aid/marriage-aid.mod
 import {RetiredGoodsBasketRequest} from '../features/forms/retired-goods-basket/retired-goods-basket.model';
 import {HeirGoodsBasketRequest} from '../features/forms/heir-goods-basket/heir-goods-basket.model';
 import {ImprestRequest} from '../features/forms/imprest/imprest.model';
+import {NewRelatedRequest} from '../features/forms/new-related/new-related.model';
+import {RelationshipResponse} from './models/RelationshipResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -134,6 +136,16 @@ export class RestApiService {
       url += `&lookUpParentID=${lookUpParentID}`;
     }
     return this.http.get<LookUpDataResponse>(url,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getRelationship(relationshipID: string | null = null): Observable<any> {
+    let url = `${endpoint()}forms/relationship`;
+    if (relationshipID) {
+      url += `?relationshipID=${relationshipID}`;
+    }
+    return this.http.get<RelationshipResponse>(url,).pipe(
       catchError(this.handleError)
     );
   }
@@ -254,6 +266,12 @@ export class RestApiService {
 
   insertRequestForEditBasketReceiveTypeHeir(model: HeirGoodsBasketRequest): Observable<any> {
     return this.http.post<BaseResult<HeirGoodsBasketRequest>>(`${endpoint()}forms/insertRequestForEditBasketReceiveTypeHeir`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  insertNewPerson(model: NewRelatedRequest): Observable<any> {
+    return this.http.post<BaseResult<NewRelatedRequest>>(`${endpoint()}forms/insertNewPerson`, model).pipe(
       catchError(this.handleError)
     );
   }

@@ -22,6 +22,8 @@ import {MariageAidComponent} from './mariage-aid/mariage-aid.component';
 import {RetiredGoodsBasketComponent} from './retired-goods-basket/retired-goods-basket.component';
 import {HeirGoodsBasketComponent} from './heir-goods-basket/heir-goods-basket.component';
 import {ImprestComponent} from './imprest/imprest.component';
+import {NewRelatedComponent} from './new-related/new-related.component';
+import {PersonFormComponent} from './new-related/person-form/person-form.component';
 
 const routes: Routes = [
   {path: 'ceremony-introduction/:id', component: CeremonyIntroductionComponent},
@@ -46,6 +48,9 @@ const routes: Routes = [
   {path: 'retired-goods-basket/:id', component: RetiredGoodsBasketComponent},
   {path: 'heired-goods-basket/:id', component: HeirGoodsBasketComponent},
   {path: 'imprest/:id', component: ImprestComponent},
+  {path: 'none/:id', component: NewRelatedComponent},
+  {path: 'person', component: PersonFormComponent},
+  {path: 'person/:id', component: PersonFormComponent},
 ];
 
 @NgModule({
