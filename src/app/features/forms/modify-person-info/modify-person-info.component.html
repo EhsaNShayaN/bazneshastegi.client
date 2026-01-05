@@ -1,0 +1,189 @@
+@if (form) {
+  <form [formGroup]="form" class="form-container">
+
+    <!-- ردیف 1 -->
+    <div class="grid-3">
+      <mat-form-field appearance="outline">
+        <mat-label>نام</mat-label>
+        <input matInput formControlName="personFirstName">
+        @if (form.controls['personFirstName']['touched'] && form.controls['personFirstName'].invalid) {
+          <mat-error>نام الزامی است</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>نام خانوادگی</mat-label>
+        <input matInput formControlName="personLastName">
+        @if (form.controls['personLastName']['touched'] && form.controls['personLastName'].invalid) {
+          <mat-error>نام خانوادگی الزامی است</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>کدملی</mat-label>
+        <input matInput type="text" formControlName="personNationalCode" required
+               [minLength]="10" [maxLength]="10" onlyNumber class="ltr">
+        <mat-error *ngIf="form.get('personNationalCode')?.touched && form.get('personNationalCode')?.hasError('required')">
+          کدملی الزامی است
+        </mat-error>
+        <mat-error *ngIf="form.get('personNationalCode')?.touched && form.get('personNationalCode')?.hasError('minlength')">
+          کدملی باید 10 کاراکتر باشد.
+        </mat-error>
+        <mat-error *ngIf="form.get('personNationalCode')?.touched && form.get('personNationalCode')?.hasError('maxlength')">
+          کدملی باید 10 کاراکتر باشد.
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <!-- ردیف 2 -->
+    <div class="grid-5">
+
+      <mat-form-field appearance="outline">
+        <mat-label>شماره شناسنامه</mat-label>
+        <input matInput formControlName="personCertificateNo">
+        @if (form.controls['personCertificateNo']['touched'] && form.controls['personCertificateNo'].invalid) {
+          <mat-error>
+            شماره شناسنامه الزامی است
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>نام پدر</mat-label>
+        <input matInput formControlName="personFatherName">
+        @if (form.controls['personFatherName']['touched'] && form.controls['personFatherName'].invalid) {
+          <mat-error>نام پدر الزامی است</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>تاریخ تولد</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="personBirthDate" class="ltr" onlyNumber placeholder="تاریخ تولد">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="form.get('personBirthDate')?.touched && form.get('personBirthDate')?.hasError('required')">
+          تاریخ تولد الزامی است
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>استان محل تولد</mat-label>
+        <mat-select formControlName="personBirthPlaceStateID" (selectionChange)="stateChanged($event)">
+          @for (item of states; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls['personBirthPlaceStateID']['touched'] && form.controls['personBirthPlaceStateID'].invalid) {
+          <mat-error>
+            استان محل تولد الزامی است
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>شهر محل تولد</mat-label>
+        <mat-select formControlName="personBirthPlaceCityID">
+          @for (item of cities; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls['personBirthPlaceCityID']['touched'] && form.controls['personBirthPlaceCityID'].invalid) {
+          <mat-error>
+            شهر محل تولد الزامی است
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="grid-2">
+      <mat-form-field appearance="outline">
+        <mat-label>موبایل</mat-label>
+        <input matInput formControlName="personCellPhone">
+        @if (form.controls['personCellPhone']['touched'] && form.controls['personCellPhone'].invalid) {
+          <mat-error>شماره موبایل الزامی است</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>تلفن ثابت</mat-label>
+        <input matInput formControlName="personPhone">
+      </mat-form-field>
+    </div>
+
+    <div class="grid-4">
+      <mat-form-field appearance="outline">
+        <mat-label>استان</mat-label>
+        <mat-select formControlName="personStateID" (selectionChange)="personStateChanged($event)">
+          @for (item of states; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls['personStateID']['touched'] && form.controls['personStateID'].invalid) {
+          <mat-error>
+            استان الزامی است
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>شهر</mat-label>
+        <mat-select formControlName="personCityID">
+          @for (item of personCities; track item.id) {
+            <mat-option [value]="item.id">{{ item.name }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls['personCityID']['touched'] && form.controls['personCityID'].invalid) {
+          <mat-error>
+            شهر الزامی است
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>منطقه</mat-label>
+        <input matInput formControlName="personRegion" class="ltr" onlyNumber>
+        @if (form.controls['personRegion']['touched'] && form.controls['personRegion'].invalid) {
+          <mat-error>
+            منطقه الزامی است
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>ناحیه</mat-label>
+        <input matInput formControlName="personArea" class="ltr" onlyNumber>
+        @if (form.controls['personArea']['touched'] && form.controls['personArea'].invalid) {
+          <mat-error>
+            ناحیه الزامی است
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="grid-1" fxLayout="row wrap">
+      <!-- آدرس -->
+      <div class="w-75-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>آدرس</mat-label>
+          <textarea matInput rows="3" formControlName="personAddress"></textarea>
+          @if (form.controls['personAddress']['touched'] && form.controls['personAddress'].invalid) {
+            <mat-error>آدرس الزامی است</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="w-25-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>کد پستی</mat-label>
+          <input matInput type="text" formControlName="personPostalCode" required
+                 [minLength]="10" [maxLength]="10" onlyNumber class="ltr">
+          <mat-error *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('required')">
+            کد پستی الزامی است
+          </mat-error>
+          <mat-error *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('minlength')">
+            کد پستی باید 10 کاراکتر باشد.
+          </mat-error>
+          <mat-error *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('maxlength')">
+            کد پستی باید 10 کاراکتر باشد.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" (click)="submit()">ذخیره</button>
+
+  </form>
+}

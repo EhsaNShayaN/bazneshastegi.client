@@ -281,6 +281,12 @@ export class RestApiService {
     );
   }
 
+  insertRequestForEditPersonInfo(model: PersonInfo): Observable<any> {
+    return this.http.post<BaseResult<PersonInfo>>(`${endpoint()}forms/insertRequestForEditPersonInfo`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   handleError<T>(error: HttpErrorResponse): Observable<any> {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
