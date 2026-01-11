@@ -76,7 +76,7 @@ export class RestApiService {
 
   getRequestTypeConfig(requestTypeId: string,
                        lookupID: string | null = null,
-                       facilityReceiverRelationshipID: string | null = null,
+                       facilityReceiverRelationshipID: number | null = null,
                        pensionaryStatusCategory: string | null = null,
                        genderLookupID: string | null = null): Observable<any> {
     let query = `${endpoint()}forms/getRequestTypeConfig?requestTypeId=${requestTypeId}`;

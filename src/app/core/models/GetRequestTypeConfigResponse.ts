@@ -14,7 +14,7 @@ export interface RequestTypeConfigInfo {
   profitOrDiscountPercent: number | null;
   guarantorCost: number | null;
   validationStartDate: string;
-  facilityReceiverRelationshipID: number | null;
+  facilityReceiverRelationshipID: string | null;
   pensionaryStatusCategory: string | null;
   genderLookupID: number | null;
   isActive: boolean;
