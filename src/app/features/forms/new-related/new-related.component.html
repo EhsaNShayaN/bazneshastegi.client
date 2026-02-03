@@ -1,9 +1,13 @@
 <h2 class="text-center mb-2">وابسته جدید</h2>
 <div fxLayout="row wrap">
   <div fxFlex="100" fxFlex.gt-xs="100">
-    <h3>وابستگان</h3>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <h3>وابستگان</h3>
+      <a routerLink="/forms/person" mat-icon-button color="warn" class="close" matTooltip="افزودن وابسته جدید">
+        <mat-icon color="warn">add_circle</mat-icon>
+      </a>
+    </div>
     <mat-divider class="mt-1"></mat-divider>
-
     @if (relationDataSource) {
       <table [dataSource]="relationDataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
         @for (column of relationColumnsToDisplay; track column.key) {
@@ -34,6 +38,36 @@
           انتخاب وابسته اجباری می باشد.
         </mat-error>
       }
+    }
+    @if (newRelationDataSource) {
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <h3>وابستگان جدید</h3>
+      </div>
+      <mat-divider class="mt-1"></mat-divider>
+      <table [dataSource]="newRelationDataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+        @for (column of newRelationColumnsToDisplay; track column.key) {
+          <ng-container matColumnDef="{{column.key}}">
+            <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+            <td *matCellDef="let element; let i = index;" mat-cell>
+              @switch (column.key) {
+                @case ('personFirstName') {
+                  {{ element.personFirstName }}
+                  {{ element.personLastName }}
+                }
+                @default {
+                  {{ element[column.key] }}
+                }
+              }
+            </td>
+          </ng-container>
+        }
+        <ng-container matColumnDef="expand">
+          <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+        </ng-container>
+        <tr *matHeaderRowDef="newRelationColumnsToDisplay0" mat-header-row></tr>
+        <tr *matRowDef="let element; columns: newRelationColumnsToDisplay0;" class="example-element-row" mat-row>
+        </tr>
+      </table>
     }
   </div>
 </div>

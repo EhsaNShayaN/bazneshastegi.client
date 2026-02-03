@@ -109,9 +109,14 @@ export class RestApiService {
     );
   }
 
-//MedicalTreatmentServiceType
   getRelatedPersons(): Observable<any> {
     return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/relatedPersons`,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getNewPersonByParentId(): Observable<any> {
+    return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/newPersonByParentId`,).pipe(
       catchError(this.handleError)
     );
   }
@@ -272,6 +277,12 @@ export class RestApiService {
 
   insertNewPerson(model: NewRelatedRequest): Observable<any> {
     return this.http.post<BaseResult<NewRelatedRequest>>(`${endpoint()}forms/insertNewPerson`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  insertRequestForEditPersonInfo(model: PersonInfo): Observable<any> {
+    return this.http.post<BaseResult<PersonInfo>>(`${endpoint()}forms/insertRequestForEditPersonInfo`, model).pipe(
       catchError(this.handleError)
     );
   }

@@ -1,0 +1,38 @@
+.form-container {
+  border: 2px solid #7cb342;
+  padding: 16px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.w-75-6 {
+  width: calc(75% - 6px);
+  padding-left: 6px;
+}
+
+.w-25-6 {
+  width: calc(25% - 6px);
+  padding-right: 6px;
+}

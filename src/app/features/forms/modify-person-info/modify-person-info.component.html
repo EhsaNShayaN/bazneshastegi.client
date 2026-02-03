@@ -2,19 +2,7 @@
   <form [formGroup]="form" class="form-container">
 
     <!-- ردیف 1 -->
-    <div class="grid-4">
-      <mat-form-field appearance="outline">
-        <mat-label>نسبت</mat-label>
-        <mat-select formControlName="relationshipID">
-          @for (item of relationships; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-        @if (form.controls['relationshipID']['touched'] && form.controls['relationshipID'].invalid) {
-          <mat-error>نسبت الزامی است</mat-error>
-        }
-      </mat-form-field>
-
+    <div class="grid-3">
       <mat-form-field appearance="outline">
         <mat-label>نام</mat-label>
         <input matInput formControlName="personFirstName">
@@ -105,7 +93,7 @@
       </mat-form-field>
     </div>
 
-    <div class="grid-4">
+    <div class="grid-2">
       <mat-form-field appearance="outline">
         <mat-label>موبایل</mat-label>
         <input matInput formControlName="personCellPhone">
@@ -116,73 +104,6 @@
       <mat-form-field appearance="outline">
         <mat-label>تلفن ثابت</mat-label>
         <input matInput formControlName="personPhone">
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>جنسیت</mat-label>
-        <mat-select formControlName="genderID">
-          <mat-option value="1">مرد</mat-option>
-          <mat-option value="2">زن</mat-option>
-        </mat-select>
-        @if (form.controls['genderID']['touched'] && form.controls['genderID'].invalid) {
-          <mat-error>
-            جنسیت الزامی است
-          </mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>وضعیت خدمت</mat-label>
-        <mat-select formControlName="maritalStatusID">
-          <mat-option value="1">مجرد</mat-option>
-          <mat-option value="2">متأهل</mat-option>
-        </mat-select>
-        @if (form.controls['maritalStatusID']['touched'] && form.controls['maritalStatusID'].invalid) {
-          <mat-error>
-            وضعیت خدمت الزامی است
-          </mat-error>
-        }
-      </mat-form-field>
-    </div>
-
-    <!-- ردیف تحصیلات -->
-    <div class="grid-3">
-      <mat-form-field appearance="outline">
-        <mat-label>مدرک تحصیلی</mat-label>
-        <mat-select formControlName="educationTypeID">
-          @for (item of educationTypes; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-        @if (form.controls['educationTypeID']['touched'] && form.controls['educationTypeID'].invalid) {
-          <mat-error>
-            مدرک تحصیلی الزامی است
-          </mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>رشته تحصیلی</mat-label>
-        <mat-select formControlName="educationBranchID">
-          @for (item of educationTypes; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-        @if (form.controls['educationBranchID']['touched'] && form.controls['educationBranchID'].invalid) {
-          <mat-error>
-            رشته تحصیلی الزامی است
-          </mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>دانشگاه</mat-label>
-        <mat-select formControlName="universityID">
-          @for (item of universities; track item.id) {
-            <mat-option [value]="item.id">{{ item.name }}</mat-option>
-          }
-        </mat-select>
-        @if (form.controls['universityID']['touched'] && form.controls['universityID'].invalid) {
-          <mat-error>
-            دانشگاه الزامی است
-          </mat-error>
-        }
       </mat-form-field>
     </div>
 
@@ -201,7 +122,7 @@
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>شهر تولد</mat-label>
+        <mat-label>شهر</mat-label>
         <mat-select formControlName="personCityID">
           @for (item of personCities; track item.id) {
             <mat-option [value]="item.id">{{ item.name }}</mat-option>
