@@ -47,13 +47,14 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
     this.restApiService.getRequestTypeConfig(this.requestTypeID, null, null, this.personInfo?.pensionaryStatusID ?? '', this.personInfo?.genderID ?? '')
       .subscribe((a: GetRequestTypeConfigResponse) => {
         this.requestTypeConfig = a.data[0];
+        console.log('requestTypeConfig', this.requestTypeConfig);
         this.form = this.fb.group({
           lenderName: [this.cityBankLookupId, Validators.required],
           branchName: ['', Validators.required],
           branchCode: ['', Validators.required],
-          facilityAmount: [this.requestTypeConfig!.defaultAmount, [Validators.required]],
+          facilityAmount: [this.requestTypeConfig?.defaultAmount, [Validators.required]],
           facilityInstalementAmount: [{value: '', disabled: true}, Validators.required],
-          guarantorCost: [{value: this.requestTypeConfig.guarantorCost, disabled: true}, Validators.required],
+          guarantorCost: [{value: this.requestTypeConfig?.guarantorCost, disabled: true}, Validators.required],
           requestDescription: [''],
           needGuarantor: [false, Validators.required],
           attachments: this.fb.array(
@@ -67,14 +68,14 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
             )
           ),
         });
-        this.calculateLoanInstallment(this.requestTypeConfig!.defaultAmount);
+        this.calculateLoanInstallment(this.requestTypeConfig?.defaultAmount);
       });
     this.totalRemainedAmount = this.dataSource?.data.reduce((total, num) => total + (num.remainedAmount ?? 0), 0) ?? 0;
   }
 
   calculateLoanInstallment(principal: number) {
-    const annualRate = (this.requestTypeConfig!.defaultDiscountPercent ?? 12) / 100;
-    const months = this.requestTypeConfig!.defaultInstalementCount ?? 36;
+    const annualRate = (this.requestTypeConfig?.defaultDiscountPercent ?? 12) / 100;
+    const months = this.requestTypeConfig?.defaultInstalementCount ?? 36;
     const monthlyRate = annualRate / 12; // نرخ ماهانه
     const installment = principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) /
       (Math.pow(1 + monthlyRate, months) - 1);
@@ -88,7 +89,7 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
       totalInterest: Math.round(totalInterest)
     };
     this.form.get('facilityInstalementAmount')?.setValue(result.installment);
-    this.showDescription = ((this.form.get('facilityAmount')?.value ?? 0) + this.totalRemainedAmount) > this.requestTypeConfig!.defaultAmount;
+    this.showDescription = ((this.form.get('facilityAmount')?.value ?? 0) + this.totalRemainedAmount) > (this.requestTypeConfig?.defaultAmount ?? 0);
     return result;
   }
 

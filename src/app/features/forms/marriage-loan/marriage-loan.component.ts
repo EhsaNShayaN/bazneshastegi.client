@@ -49,13 +49,13 @@ export class MarriageLoanComponent extends BaseFormComponent {
             )
           ),
         });
-        this.calculateLoanInstallment(this.requestTypeConfig!.defaultAmount);
+        this.calculateLoanInstallment(this.requestTypeConfig?.defaultAmount);
       });
     this.totalRemainedAmount = this.dataSource?.data.reduce((total, num) => total + (num.remainedAmount ?? 0), 0) ?? 0;
   }
 
   calculateLoanInstallment(principal: number) {
-    const months = this.requestTypeConfig!.profitOrDiscountPercent ?? 36;
+    const months = this.requestTypeConfig?.profitOrDiscountPercent ?? 36;
     const installment = Math.round(principal / months);
     this.form.get('facilityInstalementAmount')?.setValue(installment);
     return installment;
