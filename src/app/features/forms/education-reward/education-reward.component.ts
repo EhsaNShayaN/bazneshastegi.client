@@ -90,7 +90,7 @@ export class EducationRewardComponent extends BaseFormComponent implements OnIni
 
   prizeChanged($event: MatSelectChange<string>) {
     this.restApiService.getRequestTypeConfig(this.requestTypeID, $event.value).subscribe((a: GetRequestTypeConfigResponse) => {
-      this.facilityAmount = a.data[0].defaultAmount;
+      this.facilityAmount = a.data[0]?.defaultAmount;
     });
   }
 }
