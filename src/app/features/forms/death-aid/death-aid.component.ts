@@ -21,7 +21,7 @@ export class DeathAidComponent extends BaseFormComponent implements OnInit {
 
   override createForm() {
     this.form = this.fb.group({
-      applicantRelationship: ['خودم', Validators.required],
+      applicantRelationship: ['وابستگانم', Validators.required],
       requestDescription: [null],
       attachments: this.fb.array(
         this.requestTypes.map(s =>
@@ -30,9 +30,7 @@ export class DeathAidComponent extends BaseFormComponent implements OnInit {
             type: [s.lookupName],
             file: [null, s.mandantory ? Validators.required : null],
             uploaded: [false]
-          })
-        )
-      ),
+          })))
     });
   }
 
