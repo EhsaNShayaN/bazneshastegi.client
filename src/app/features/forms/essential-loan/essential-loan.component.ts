@@ -55,7 +55,7 @@ export class EssentialLoanComponent extends BaseFormComponent {
 
   calculateLoanInstallment(principal: number) {
     const months = this.requestTypeConfig?.defaultInstalementCount ?? 36;
-    const installment = Math.round(principal / months);
+    const installment = Math.round(principal * 1.04 / months);
     this.form.get('facilityInstalementAmount')?.setValue(installment);
     this.showDescription = ((this.form.get('facilityAmount')?.value ?? 0) + this.totalRemainedAmount) > (this.requestTypeConfig?.defaultAmount ?? 0);
     return installment;

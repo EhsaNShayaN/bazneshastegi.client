@@ -73,7 +73,7 @@ export class MarriageLoanComponent extends BaseFormComponent {
         return;
       }
       const request: MarriageLoanRequest = this.form.getRawValue();
-      console.log('📌 فرم وام ازدواج ثبت شد:', request);
+      console.log('📌 فرم وام ازدواج فرزند ثبت شد:', request);
       const insert: InsertRequest = {
         personID: this.personInfo!.personID,
         nationalCode: this.personInfo!.personNationalCode,

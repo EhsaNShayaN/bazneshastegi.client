@@ -16,12 +16,12 @@ import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../
 import {InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from './pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 import {CustomConstants} from '../../core/constants/custom.constants';
-import {RelatedPersonsResponse} from '../../core/models/RelatedPersonsResponse';
 import {MatRadioChange} from '@angular/material/radio';
 import {InsertInfo, InsertResponse} from '../../core/models/InsertResponse';
 import {InsertComplementaryResponse} from '../../core/models/InsertComplementaryResponse';
 import {Observable} from 'rxjs';
 import {BaseResult} from '../../core/models/BaseResult';
+import {RelatedListForPortal, RelatedListForPortalResponse} from '../../core/models/RelatedListForPortalResponse';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
@@ -40,7 +40,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     {key: 'check', name: 'انتخاب'},
   ];
   relationColumnsToDisplay0: string[] = this.relationColumnsToDisplay.map(s => s.key);
-  relationDataSource: MatTableDataSource<any> | null = null;
+  relationDataSource: MatTableDataSource<RelatedListForPortal> | null = null;
   relatedPersonIDError: boolean = false;
   relatedPerson: any;
   relatedPersonID: string = '';
@@ -94,9 +94,12 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   }
 
   getRelations() {
-    this.restApiService.getRelatedPersons().subscribe((res: RelatedPersonsResponse) => {
-      this.relationDataSource = new MatTableDataSource<any>(res.data);
+    this.restApiService.getRelatedListForPortal(this.requestTypeID).subscribe((res: RelatedListForPortalResponse) => {
+      this.relationDataSource = new MatTableDataSource<RelatedListForPortal>(res.data);
     });
+    /*this.restApiService.getRelatedPersons().subscribe((res: RelatedPersonsResponse) => {
+      this.relationDataSource = new MatTableDataSource<RelatedPersons>(res.data);
+    });*/
   }
 
   convertToGeorgianDate(date: string): string {

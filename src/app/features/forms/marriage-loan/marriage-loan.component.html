@@ -1,4 +1,4 @@
-<h2 class="text-center mb-2">وام ازدواج</h2>
+<h2 class="text-center mb-2">وام ازدواج فرزند</h2>
 
 @if (form) {
   <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
@@ -15,7 +15,7 @@
         </app-currency-input>
         <mat-error *ngIf="form.get('facilityAmount')?.touched &&
                     form.get('facilityAmount')?.hasError('required')">
-          مبلغ وام اجباری می باشد
+          مبلغ اجباری است
         </mat-error>
       </div>
 

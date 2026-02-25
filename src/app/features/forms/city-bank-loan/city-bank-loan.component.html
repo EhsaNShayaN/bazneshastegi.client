@@ -67,7 +67,7 @@
           (keyUpEvent)="installmentKeyUpEvent($event)">
         </app-currency-input>
         <mat-error *ngIf="form.get('facilityAmount')?.hasError('required')">
-          مبلغ وام اجباری می باشد
+          مبلغ اجباری است
         </mat-error>
       </div>
       <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-1">

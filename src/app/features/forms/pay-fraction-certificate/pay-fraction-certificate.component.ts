@@ -23,6 +23,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   lenders: SelectItem[] = [];
   branches: SelectItem[] = [];
   facilityGiverLookupId: string = '';
+  branchLoading = false;
 
   constructor() {
     super();
@@ -133,16 +134,16 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   }
 
   lenderChanged($event: any) {
-
     if ($event) {
+      this.branchLoading = true;
       this.facilityGiverLookupId = $event;
       this.restApiService.getLookupData('BankBranch', this.facilityGiverLookupId).subscribe((a: LookUpDataResponse) => {
         this.branches = a.data.map(s => ({
           id: s.lookUpID,
           name: s.lookUpName,
         }));
+        this.branchLoading = false;
       });
-
       this.setValidation();
     }
   }

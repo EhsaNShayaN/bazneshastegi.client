@@ -33,6 +33,7 @@ import {HeirGoodsBasketRequest} from '../features/forms/heir-goods-basket/heir-g
 import {ImprestRequest} from '../features/forms/imprest/imprest.model';
 import {NewRelatedRequest} from '../features/forms/new-related/new-related.model';
 import {RelationshipResponse} from './models/RelationshipResponse';
+import {RelatedListForPortalResponse} from './models/RelatedListForPortalResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -111,6 +112,13 @@ export class RestApiService {
 
   getRelatedPersons(): Observable<any> {
     return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/relatedPersons`,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getRelatedListForPortal(requestTypeID: string): Observable<any> {
+    const data = {requestTypeID};
+    return this.http.post<RelatedListForPortalResponse>(`${endpoint()}forms/relatedListForPortal`, data).pipe(
       catchError(this.handleError)
     );
   }

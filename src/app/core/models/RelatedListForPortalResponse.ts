@@ -1,8 +1,8 @@
-export interface RelatedPersonsResponse {
-  data: RelatedPersons[];
+export interface RelatedListForPortalResponse {
+  data: RelatedListForPortal[];
 }
 
-export interface RelatedPersons {
+export interface RelatedListForPortal {
   personID: string;
   pensionaryID: string;
   personNationalCode: string;
