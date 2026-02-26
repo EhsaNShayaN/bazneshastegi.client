@@ -1,4 +1,4 @@
-import {Directive, inject, OnDestroy, ViewChild} from '@angular/core';
+import {Directive, inject, OnDestroy, Renderer2, ViewChild} from '@angular/core';
 import {BaseComponent} from '../../base-component';
 import {ActivatedRoute} from '@angular/router';
 import {PersonInfo} from '../../core/models/PersonInfoResponse';
@@ -22,9 +22,11 @@ import {InsertComplementaryResponse} from '../../core/models/InsertComplementary
 import {Observable} from 'rxjs';
 import {BaseResult} from '../../core/models/BaseResult';
 import {RelatedListForPortal, RelatedListForPortalResponse} from '../../core/models/RelatedListForPortalResponse';
+import {SubmitLoadingDirective} from '../../core/directives/submit-loading.directive';
 
 @Directive()
 export class BaseFormComponent extends BaseComponent implements OnDestroy {
+  @ViewChild('btn') btn!: SubmitLoadingDirective;
   message: string = '';
   dataSource: MatTableDataSource<ActiveFacilitiesOfPerson> | null = null;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
@@ -45,6 +47,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   relatedPerson: any;
   relatedPersonID: string = '';
 
+  renderer = inject(Renderer2);
   private sub: any;
   private sub3: any;
   activatedRoute = inject(ActivatedRoute);
@@ -143,12 +146,18 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
           updateUserID: requestTypeAttachment.updateUserID,
           updateTime: requestTypeAttachment.updateTime,
         };
-        this.restApiService.insertRequestAttachment(insertRequestAttachment, attachment.file).subscribe((c: InsertRequestAttachmentResponse) => {
-          console.log(c);
-          if (i === lastIndex) {
-            this.showResult(requestNO);
-          }
-        });
+        this.restApiService.insertRequestAttachment(insertRequestAttachment, attachment.file)
+          .subscribe({
+            next: (c: InsertRequestAttachmentResponse) => {
+              console.log(c);
+              if (i === lastIndex) {
+                this.showResult(requestNO);
+              }
+            },
+            error: (err) => {
+              this.stopLoading();
+            }
+          });
       }
     }
   }
@@ -168,6 +177,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     this.form.markAsUntouched();
     window.scrollTo({top: 0, behavior: 'smooth'});
     this.customFunction();
+    this.stopLoading();
   }
 
   customFunction() {
@@ -175,54 +185,87 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   }
 
   send(insert: InsertRequest, insertComplementary: InsertRequestComplementary) {
-    this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
-      if (a.isSuccess) {
-        console.log(a);
-        insertComplementary.requestID = a.data.requestID;
-        this.restApiService.insertComplementary(insertComplementary).subscribe((b: InsertComplementaryResponse) => {
-          console.log(b);
-          if (b.isSuccess) {
-            if ((this.attachments.controls?.length ?? 0) > 0) {
-              this.insertAttachments(a.data.requestID, a.data.requestNO);
-            } else {
-              this.showResult(a.data.requestNO);
+    this.restApiService.insert(insert).subscribe({
+      next: (a: InsertResponse) => {
+        if (a.isSuccess) {
+          console.log(a);
+          insertComplementary.requestID = a.data.requestID;
+          this.restApiService.insertComplementary(insertComplementary).subscribe({
+            next: (b: InsertComplementaryResponse) => {
+              console.log(b);
+              if (b.isSuccess) {
+                if ((this.attachments.controls?.length ?? 0) > 0) {
+                  this.insertAttachments(a.data.requestID, a.data.requestNO);
+                } else {
+                  this.showResult(a.data.requestNO);
+                }
+              } else {
+                this.toaster.error(b.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+                this.stopLoading();
+              }
+            },
+            error: (err2) => {
+              this.stopLoading();
             }
-          } else {
-            this.toaster.error(b.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
-          }
-        });
-      } else {
-        this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+          });
+        } else {
+          this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+          this.stopLoading();
+        }
+      },
+      error: (err1) => {
+        this.stopLoading();
       }
     });
   }
 
   insert(insert: InsertRequest): Promise<InsertResponse | null> {
+    this.startLoading();
     return new Promise(resolve => {
-      this.restApiService.insert(insert).subscribe((a: InsertResponse) => {
-        if (a.isSuccess) {
-          resolve(a);
-        } else {
-          this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا');
-          resolve(null);
+      this.restApiService.insert(insert).subscribe({
+        next: (a: InsertResponse) => {
+          if (a.isSuccess) {
+            resolve(a);
+          } else {
+            this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا');
+            resolve(null);
+            this.stopLoading();
+          }
+        },
+        error: (err) => {
+          this.stopLoading();
         }
       });
     });
   }
 
   call<T>(insert: InsertInfo, obs: Observable<any>) {
-    obs.subscribe((b: BaseResult<T>) => {
-      console.log(b);
-      if (b.isSuccess) {
-        if ((this.attachments.controls?.length ?? 0) > 0) {
-          this.insertAttachments(insert.requestID, insert.requestNO);
+    obs.subscribe({
+      next: (b: BaseResult<T>) => {
+        console.log(b);
+        if (b.isSuccess) {
+          if ((this.attachments.controls?.length ?? 0) > 0) {
+            this.insertAttachments(insert.requestID, insert.requestNO);
+          } else {
+            this.showResult(insert.requestNO);
+          }
         } else {
-          this.showResult(insert.requestNO);
+          this.toaster.error(b.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+          this.stopLoading();
         }
-      } else {
-        this.toaster.error(b.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا', {});
+      },
+      error: (err) => {
+        this.stopLoading();
       }
     });
+  }
+
+  startLoading() {
+    this.btn.startLoading();
+  }
+
+  stopLoading() {
+    this.btn.stopLoading();
   }
 
   ngOnDestroy() {

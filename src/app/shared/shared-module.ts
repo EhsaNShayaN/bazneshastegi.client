@@ -16,7 +16,7 @@ import {SafeHtmlPipe} from '../core/pipes/safe-html.pipe';
 import {ReplaceUrlSpacesPipe} from '../core/pipes/replace-url-spaces.pipe';
 import {DirectivesModule} from '../core/directives/directives.module';
 import {LoadMoreComponent} from './load-more/load-more.component';
-import {MatProgressSpinner} from '@angular/material/progress-spinner';
+import {MatProgressSpinner, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatChipListbox, MatChipOption} from '@angular/material/chips';
 import {Comments} from './comments/comments';
 import {DefaultClassDirective, DefaultFlexDirective, DefaultLayoutAlignDirective, DefaultLayoutDirective, DefaultShowHideDirective} from 'ngx-flexible-layout';
@@ -53,6 +53,7 @@ import {CustomSelectComponent} from './components/custom-select/custom-select.co
     ToastrModule.forRoot(),
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
     /////////////////
     MatToolbarModule,
     MatButtonModule,
