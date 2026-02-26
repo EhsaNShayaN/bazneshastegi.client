@@ -114,14 +114,27 @@
           <textarea matInput formControlName="requestDescription" rows="3"></textarea>
         </mat-form-field>
       </div>
-      <div fxFlex="100" fxFlex.gt-xs="100">
-        <h3>مدارک مورد نیاز</h3>
-        <div formArrayName="attachments">
-          <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
-            <mat-checkbox formControlName="uploaded">{{ att.type }}</mat-checkbox>
+
+      @if ((attachments.controls?.length ?? 0) > 0) {
+        <div class="control-row mb-2">
+          <h3>مدارک مورد نیاز</h3>
+          <div formArrayName="attachments">
+            @for (attachment of attachments.controls; track attachment; let i = $index) {
+              <div [formGroupName]="i" class="attachment-row">
+                <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
+                <input type="file" (change)="onFileSelected($event, i)"/>
+                @if (attachment.get('file')?.invalid && attachment.get('file')?.touched) {
+                  <div class="error">
+                    {{ attachment.get('type')?.value }}
+                    اجباری می باشد
+                  </div>
+                }
+              </div>
+            }
           </div>
         </div>
-      </div>
+      }
+
     </div>
     <div fxLayout="row wrap" fxLayoutAlign="end center">
       <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>

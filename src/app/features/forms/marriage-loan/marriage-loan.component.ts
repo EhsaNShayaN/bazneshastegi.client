@@ -43,7 +43,7 @@ export class MarriageLoanComponent extends BaseFormComponent {
               this.fb.group({
                 obj: [s],
                 type: [s.lookupName],
-                file: [null, s.mandantory ? Validators.required : null],
+                file: [null, Validators.required],
                 uploaded: [false]
               })
             )

@@ -163,9 +163,9 @@
             } @else {
               <mat-form-field appearance="outline" class="w-100 position-relative">
                 <mat-label>نام شعبه</mat-label>
-                @if (!branchLoading) {
-                  <div class="position-absolute">
-                    <img src="/assets/loading.gif" class="w-100 h-100">
+                @if (branchLoading) {
+                  <div class="loading-wrapper">
+                    <img src="/assets/loading.gif" class="img-loading">
                   </div>
                 }
                 <mat-select formControlName="branchName" required (selectionChange)="branchChanged($event)">

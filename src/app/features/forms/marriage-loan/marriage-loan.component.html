@@ -89,7 +89,7 @@
             </tr>
           </table>
           @if (relatedPersonIDError) {
-            <mat-error class="mb-2">
+            <mat-error class="custom-error mt-0 mb-4">
               انتخاب وابسته اجباری می باشد.
             </mat-error>
           }
@@ -104,12 +104,21 @@
       </div>
 
       @if ((attachments.controls?.length ?? 0) > 0) {
-        <div fxFlex="100" fxFlex.gt-xs="100">
+        <div class="control-row mb-2">
           <h3>مدارک مورد نیاز</h3>
           <div formArrayName="attachments">
-            <div *ngFor="let att of form.get('attachments')?.value; let i=index" [formGroupName]="i">
-              <mat-checkbox formControlName="uploaded">{{ att.type }}</mat-checkbox>
-            </div>
+            @for (attachment of attachments.controls; track attachment; let i = $index) {
+              <div [formGroupName]="i" class="attachment-row">
+                <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
+                <input type="file" (change)="onFileSelected($event, i)"/>
+                @if (attachment.get('file')?.invalid && attachment.get('file')?.touched) {
+                  <div class="error">
+                    {{ attachment.get('type')?.value }}
+                    اجباری می باشد
+                  </div>
+                }
+              </div>
+            }
           </div>
         </div>
       }

@@ -63,3 +63,15 @@ div.mat-mdc-form-field-error,
   background-color: #fff !important;
   border: solid 1px #ddd !important;
 }
+
+.loading-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  .img-loading {
+    height: 56px;
+  }
+}

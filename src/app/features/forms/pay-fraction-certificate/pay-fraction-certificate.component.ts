@@ -134,6 +134,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   }
 
   lenderChanged($event: any) {
+    this.branches = [];
     if ($event) {
       this.branchLoading = true;
       this.facilityGiverLookupId = $event;
