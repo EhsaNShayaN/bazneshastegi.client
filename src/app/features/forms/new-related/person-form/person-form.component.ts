@@ -24,6 +24,7 @@ export class PersonFormComponent extends BaseComponent implements OnInit {
   cities: SelectItem[] = [];
   personCities: SelectItem[] = [];
   educationTypes: SelectItem[] = [];
+  educationBranches: SelectItem[] = [];
   universities: SelectItem[] = [];
   form!: FormGroup;
 
@@ -50,41 +51,47 @@ export class PersonFormComponent extends BaseComponent implements OnInit {
             id: s.lookUpID,
             name: s.lookUpName,
           }));
-          this.restApiService.getLookupData('UniversityType', '').subscribe((universities: LookUpDataResponse) => {
-            this.universities = universities.data.map(s => ({
+          this.restApiService.getLookupData('EducationBranch', '').subscribe((educationBranches: LookUpDataResponse) => {
+            this.educationBranches = educationBranches.data.map(s => ({
               id: s.lookUpID,
               name: s.lookUpName,
             }));
-            this.form = this.fb.group({
-              relationshipID: ['', Validators.required],
-              personFirstName: ['', Validators.required],
-              personLastName: ['', Validators.required],
-              personNationalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
-              personFatherName: ['', Validators.required],
-              personCertificateNo: ['', Validators.required],
-              personBirthDate: ['', Validators.required],
-              personBirthPlaceStateID: [null],
-              personBirthPlaceCityID: [null],
+            this.restApiService.getLookupData('UniversityType', '').subscribe((universities: LookUpDataResponse) => {
+              this.universities = universities.data.map(s => ({
+                id: s.lookUpID,
+                name: s.lookUpName,
+              }));
+              this.form = this.fb.group({
+                relationshipID: ['', Validators.required],
+                personFirstName: ['', Validators.required],
+                personLastName: ['', Validators.required],
+                personNationalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+                personFatherName: ['', Validators.required],
+                personCertificateNo: ['', Validators.required],
+                personBirthDate: ['', Validators.required],
+                personBirthPlaceStateID: [null],
+                personBirthPlaceCityID: [null],
 
-              genderID: ['', Validators.required],
-              maritalStatusID: ['', Validators.required],
+                genderID: ['', Validators.required],
+                maritalStatusID: ['', Validators.required],
 
-              educationTypeID: [null],
-              educationBranchID: [null],
-              universityID: [null],
+                educationTypeID: [null],
+                educationBranchID: [null],
+                universityID: [null],
 
-              personPhone: [''],
-              personCellPhone: ['', Validators.required],
+                personPhone: [''],
+                personCellPhone: ['', Validators.required],
 
-              personStateID: ['', Validators.required],
-              personCityID: ['', Validators.required],
-              personRegion: [null, Validators.required],
-              personArea: [null, Validators.required],
+                personStateID: ['', Validators.required],
+                personCityID: ['', Validators.required],
+                personRegion: [null, Validators.required],
+                personArea: [null, Validators.required],
 
-              personPostalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
-              personAddress: ['', Validators.required],
+                personPostalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+                personAddress: ['', Validators.required],
 
-              personDescription: [''],
+                personDescription: [''],
+              });
             });
           });
         });

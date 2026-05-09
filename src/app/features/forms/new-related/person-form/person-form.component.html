@@ -161,7 +161,7 @@
       <mat-form-field appearance="outline">
         <mat-label>رشته تحصیلی</mat-label>
         <mat-select formControlName="educationBranchID">
-          @for (item of educationTypes; track item.id) {
+          @for (item of educationBranches; track item.id) {
             <mat-option [value]="item.id">{{ item.name }}</mat-option>
           }
         </mat-select>

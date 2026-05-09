@@ -62,11 +62,12 @@
       <div fxFlex="100" fxFlex.gt-xs="33.3">
         <app-currency-input
           label="سقف مبلغ درخواستی(ریال)"
-          placeholder="سقف مبلغ درخواستی(ریال)"
           formControlName="facilityAmount"
+          [required]="true"
           (keyUpEvent)="installmentKeyUpEvent($event)">
         </app-currency-input>
-        <mat-error *ngIf="form.get('facilityAmount')?.hasError('required')">
+        <mat-error class="custom-error"
+                   *ngIf="form.get('facilityAmount')?.touched && form.get('facilityAmount')?.hasError('required')">
           مبلغ اجباری است
         </mat-error>
       </div>
@@ -130,7 +131,7 @@
     </div>
 
     <div fxLayout="row wrap" fxLayoutAlign="end center">
-      <button mat-raised-button color="primary" type="submit">ذخیره و ارسال</button>
+      <button mat-raised-button color="primary" type="submit" submitLoading #btn="submitLoading">ذخیره و ارسال</button>
     </div>
   </form>
 }
