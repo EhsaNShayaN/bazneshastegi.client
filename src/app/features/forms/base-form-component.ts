@@ -227,7 +227,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
           if (a.isSuccess) {
             resolve(a);
           } else {
-            this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا');
+            //this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا');
             resolve(null);
             this.stopLoading();
           }
