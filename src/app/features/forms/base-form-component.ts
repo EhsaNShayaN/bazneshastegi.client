@@ -132,7 +132,8 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   }
 
   insertAttachments(requestID: string, requestNO: string) {
-    const lastIndex = this.attachments.controls.length - 1;
+    let counter: number = 0;
+    const lastIndex = this.attachments.controls.length;
     for (let i = 0; i < this.attachments.controls.length; i++) {
       const attachment = this.attachments.at(i).getRawValue();
       if (attachment.file) {
@@ -150,7 +151,8 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
           .subscribe({
             next: (c: InsertRequestAttachmentResponse) => {
               console.log(c);
-              if (i === lastIndex) {
+              counter++;
+              if (counter === lastIndex) {
                 this.showResult(requestNO);
               }
             },
@@ -158,6 +160,11 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
               this.stopLoading();
             }
           });
+      } else {
+        counter++;
+        if (counter === lastIndex) {
+          this.showResult(requestNO);
+        }
       }
     }
   }
@@ -242,7 +249,6 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   call<T>(insert: InsertInfo, obs: Observable<any>) {
     obs.subscribe({
       next: (b: BaseResult<T>) => {
-        console.log(b);
         if (b.isSuccess) {
           if ((this.attachments.controls?.length ?? 0) > 0) {
             this.insertAttachments(insert.requestID, insert.requestNO);
