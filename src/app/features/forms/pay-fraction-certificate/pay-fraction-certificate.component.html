@@ -21,27 +21,6 @@
         </div>
       </div>
 
-      @if ((attachments.controls?.length ?? 0) > 0) {
-        <div class="control-row mb-2">
-          <h3>مدارک مورد نیاز</h3>
-          <div formArrayName="attachments">
-            @for (attachment of attachments.controls; track attachment; let i = $index) {
-              <div [formGroupName]="i" class="attachment-row">
-                <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
-                <input type="file" (change)="onFileSelected($event, i)"/>
-                @if (attachment.get('file')?.invalid && attachment.get('file')?.touched) {
-                  <div class="error">
-                    {{ attachment.get('type')?.value }}
-                    اجباری می باشد
-                  </div>
-                }
-              </div>
-            }
-          </div>
-        </div>
-      }
-    </div>
-
     <div fxLayout="row wrap">
       <div class="control-row">
         <mat-checkbox formControlName="includeSalary">درج حقوق در گواهی</mat-checkbox>
@@ -141,7 +120,8 @@
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>نام وام دهنده</mat-label>
               <input matInput formControlName="facilityGiverDesc">
-              <mat-error *ngIf="lender.get('facilityGiverDesc')?.touched && lender.get('facilityGiverDesc')?.hasError('required')">
+              <mat-error
+                *ngIf="lender.get('facilityGiverDesc')?.touched && lender.get('facilityGiverDesc')?.hasError('required')">
                 نام وام دهنده اجباری می باشد
               </mat-error>
             </mat-form-field>
@@ -221,39 +201,62 @@
       </div>
     </div>
 
+    @if ((attachments.controls?.length ?? 0) > 0) {
+      <div class="control-row mb-2 doc-box">
+        <h3>مدارک مورد نیاز</h3>
+        <div formArrayName="attachments">
+          @for (attachment of attachments.controls; track attachment; let i = $index) {
+            <div [formGroupName]="i" class="attachment-row">
+              <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
+              <input type="file" (change)="onFileSelected($event, i)"/>
+              @if (attachment.get('file')?.invalid && attachment.get('file')?.touched) {
+                <div class="error">
+                  {{ attachment.get('type')?.value }}
+                  اجباری می باشد
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+    </div>
+
     <div fxLayout="row wrap" fxLayoutAlign="end center">
       <button mat-raised-button color="primary" type="submit" submitLoading #btn="submitLoading">ذخیره و ارسال</button>
     </div>
   </form>
 }
 
-<h3>لیست گواهی‌های فعال</h3>
-<mat-divider class="mt-1"></mat-divider>
-
-@if (dataSource) {
-  <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
-    @for (column of columnsToDisplay; track column.key) {
-      <ng-container matColumnDef="{{column.key}}">
-        <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
-        <td *matCellDef="let element; let i = index;" mat-cell>
-          @switch (column.key) {
-            @case ('facilityAmount') {
-              {{ element.facilityAmount | customCurrency }}
-              ريال
+<div>
+  <hr class="my-3 border-primary"/>
+  <h3>لیست گواهی‌های فعال</h3>
+  <mat-divider class="mt-1"></mat-divider>
+  @if (dataSource) {
+    <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
+      @for (column of columnsToDisplay; track column.key) {
+        <ng-container matColumnDef="{{column.key}}">
+          <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
+          <td *matCellDef="let element; let i = index;" mat-cell>
+            @switch (column.key) {
+              @case ('facilityAmount') {
+                {{ element.facilityAmount | customCurrency }}
+                ريال
+              }
+              @default {
+                {{ element[column.key] }}
+              }
             }
-            @default {
-              {{ element[column.key] }}
-            }
-          }
-        </td>
+          </td>
+        </ng-container>
+      }
+      <ng-container matColumnDef="expand">
+        <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
       </ng-container>
-    }
-    <ng-container matColumnDef="expand">
-      <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
-    </ng-container>
-    <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
-    <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
-    </tr>
-  </table>
-  <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
-}
+      <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
+      <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+      </tr>
+    </table>
+    <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+  }
+</div>

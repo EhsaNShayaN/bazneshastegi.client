@@ -5,7 +5,7 @@ import {BaseFormComponent} from '../base-form-component';
 import {LookUpDataResponse} from '../../../core/models/LookUpResponse';
 import {SelectItem} from '../../../shared/components/custom-select/custom-select.component';
 import {MatSelectChange} from '@angular/material/select';
-import {GetRequestTypeConfigResponse} from '../../../core/models/GetRequestTypeConfigResponse';
+import {GetRequestTypeConfigResponse, RequestTypeConfigInfo} from '../../../core/models/GetRequestTypeConfigResponse';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 
 @Component({
@@ -17,6 +17,7 @@ import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certifi
 export class CeremonyIntroductionComponent extends BaseFormComponent implements OnInit {
   ceremonyTypes: SelectItem[] = [];
   places: SelectItem[] = [];
+  requestTypeConfig?: RequestTypeConfigInfo;
 
   constructor() {
     super();
@@ -105,7 +106,7 @@ export class CeremonyIntroductionComponent extends BaseFormComponent implements 
   ceremonyTypeChanged($event: MatSelectChange<any>) {
     this.restApiService.getRequestTypeConfig(this.requestTypeID, $event.value, null, null, null)
       .subscribe((a: GetRequestTypeConfigResponse) => {
-        this.form.get('facilityDiscountPercent')?.setValue(a.data[0]?.defaultDiscountPercent ?? 0);
+        this.form.get('facilityDiscountPercent')?.setValue(a.data[0]?.profitOrDiscountPercent ?? 0);
       });
   }
 }

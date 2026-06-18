@@ -15,6 +15,7 @@
         </mat-checkbox>
       </div>
     </div>
+
     <div fxLayout="row wrap">
       @if ((attachments.controls?.length ?? 0) > 0) {
         <div fxFlex="100" fxFlex.gt-xs="100">
@@ -27,6 +28,7 @@
         </div>
       }
     </div>
+
     <div fxLayout="row wrap" fxLayoutAlign="end center">
       <button mat-raised-button color="primary" type="submit"
               [disabled]="!form.get('basketReceiveTypeID')?.value">

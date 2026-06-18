@@ -210,7 +210,7 @@
     </div>
 
     @if ((attachments.controls?.length ?? 0) > 0) {
-      <div class="control-row mb-2">
+      <div class="control-row mb-2 doc-box">
         <h3>مدارک مورد نیاز</h3>
         <div formArrayName="attachments">
           @for (attachment of attachments.controls; track attachment; let i = $index) {

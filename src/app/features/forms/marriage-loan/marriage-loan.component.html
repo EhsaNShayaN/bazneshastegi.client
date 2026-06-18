@@ -103,27 +103,8 @@
         </mat-form-field>
       </div>
 
-      @if ((attachments.controls?.length ?? 0) > 0) {
-        <div class="control-row mb-2">
-          <h3>مدارک مورد نیاز</h3>
-          <div formArrayName="attachments">
-            @for (attachment of attachments.controls; track attachment; let i = $index) {
-              <div [formGroupName]="i" class="attachment-row">
-                <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
-                <input type="file" (change)="onFileSelected($event, i)"/>
-                @if (attachment.get('file')?.invalid && attachment.get('file')?.touched) {
-                  <div class="error">
-                    {{ attachment.get('type')?.value }}
-                    اجباری می باشد
-                  </div>
-                }
-              </div>
-            }
-          </div>
-        </div>
-      }
-
       <div fxFlex="100" fxFlex.gt-xs="100">
+        <hr class="my-2 border-primary"/>
         <h3>درخواستهای وام قبلی</h3>
         <mat-divider class="mt-1"></mat-divider>
         @if (dataSource) {
@@ -154,8 +135,27 @@
           <!--<mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>-->
         }
       </div>
-
     </div>
+
+    @if ((attachments.controls?.length ?? 0) > 0) {
+      <div class="control-row mb-2 doc-box">
+        <h3>مدارک مورد نیاز</h3>
+        <div formArrayName="attachments">
+          @for (attachment of attachments.controls; track attachment; let i = $index) {
+            <div [formGroupName]="i" class="attachment-row">
+              <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
+              <input type="file" (change)="onFileSelected($event, i)"/>
+              @if (attachment.get('file')?.invalid && attachment.get('file')?.touched) {
+                <div class="error">
+                  {{ attachment.get('type')?.value }}
+                  اجباری می باشد
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
 
     <div fxLayout="row wrap" fxLayoutAlign="end center">
       <button mat-raised-button color="primary" type="submit" submitLoading #btn="submitLoading">ذخیره و ارسال</button>

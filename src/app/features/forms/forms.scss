@@ -1,3 +1,5 @@
+@use '../../theme/styles/variables' as *;
+
 .form-container {
   display: flex;
   flex-direction: column;
@@ -91,4 +93,14 @@ div.mat-mdc-form-field-error,
   to {
     transform: rotate(360deg);
   }
+}
+
+.border-primary {
+  border-color: $primary;
+  border-width: 2px;
+}
+
+.doc-box {
+  padding: 12px 0;
+  border-top: solid 2px $primary;
 }

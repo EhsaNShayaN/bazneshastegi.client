@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {InsertRequest, InsertRequestComplementary, PayFractionCertificate} from './pay-fraction-certificate.model';
-import {LookUpDataResponse} from '../../../core/models/LookUpResponse';
+import {LookUpData, LookUpDataResponse} from '../../../core/models/LookUpResponse';
 import {BaseFormComponent} from '../base-form-component';
 import {SelectItem} from '../../../shared/components/custom-select/custom-select.component';
 
@@ -21,6 +21,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   ];
   columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
   lenders: SelectItem[] = [];
+  originalBranches: LookUpData[] = [];
   branches: SelectItem[] = [];
   facilityGiverLookupId: string = '';
   branchLoading = false;
@@ -57,7 +58,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
       lender: this.fb.group({
         name: ['', Validators.required],
         branchName: [''],
-        branchCode: [''],
+        branchCode: [{value: '', disabled: true}],
         facilityGiverDesc: [''],
         loanAmount: new FormControl(null, {nonNullable: true, validators: Validators.required}),
         installmentCount: [''],
@@ -139,6 +140,7 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
       this.branchLoading = true;
       this.facilityGiverLookupId = $event;
       this.restApiService.getLookupData('BankBranch', this.facilityGiverLookupId).subscribe((a: LookUpDataResponse) => {
+        this.originalBranches = a.data;
         this.branches = a.data.map(s => ({
           id: s.lookUpID,
           name: s.lookUpName,
@@ -167,6 +169,8 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   branchChanged($event: any): void {
     if ($event) {
       this.facilityGiverLookupId = $event;
+      const branch = this.originalBranches.find(s => s.lookUpID === this.facilityGiverLookupId);
+      this.lender.get('branchCode')?.setValue(branch?.lookUpDescription);
     }
   }
 
