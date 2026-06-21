@@ -13,11 +13,10 @@ import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certifi
 })
 export class EssentialLoanComponent extends BaseFormComponent {
   columnsToDisplay = [
-    {key: 'mainpersonFirstName', name: 'نام'},
-    {key: 'mainpersonLastName', name: 'نام خانوادگی'},
-    {key: 'facilityReceiverFullName', name: 'وام گیرنده'},
-    {key: 'facilityGiverDesc', name: 'وام‌دهنده'},
-    {key: 'facilityAmount', name: 'مبلغ وام'}
+    {key: 'confirmDate', name: 'تاریخ دریافت'},
+    {key: 'facilityAmount', name: 'مبلغ دریافتی'},
+    {key: 'remainedAmount', name: 'مانده'},
+    {key: 'a', name: 'تاریخ آخرین قسط'},
   ];
   currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   requestTypeConfig?: RequestTypeConfigInfo;
