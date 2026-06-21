@@ -11,6 +11,13 @@ import {DisabilityAidRequest} from './disability-aid.model';
   standalone: false
 })
 export class DisabilityAidComponent extends BaseFormComponent implements OnInit {
+  columnsToDisplay = [
+    {key: 'confirmDate', name: 'تاریخ دریافت'},
+    {key: 'facilityAmount', name: 'مبلغ دریافتی'},
+    {key: 'mainPersonFirstName', name: 'نام دریافت کننده'},
+    {key: 'mainPersonLastName', name: 'نام خانوادگی دریافت کننده'},
+  ];
+  currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   constructor() {
     super();
     this.getRelations();
