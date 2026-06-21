@@ -13,11 +13,8 @@ import {ImprestRequest} from './imprest.model';
 })
 export class ImprestComponent extends BaseFormComponent {
   columnsToDisplay = [
-    {key: 'mainPersonFirstName', name: 'نام'},
-    {key: 'mainPersonLastName', name: 'نام خانوادگی'},
-    {key: 'facilityReceiverFullName', name: 'وام گیرنده'},
-    {key: 'facilityGiverDesc', name: 'وام‌دهنده'},
-    {key: 'facilityAmount', name: 'مبلغ وام'}
+    {key: 'confirmDate', name: 'تاریخ دریافت'},
+    {key: 'facilityAmount', name: 'مبلغ دریافتی'}
   ];
   currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   requestTypeConfig?: RequestTypeConfigInfo;

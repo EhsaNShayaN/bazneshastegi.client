@@ -1,0 +1,150 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <div class="p-7 bg-white text-black text-sm leading-8">
+      <!-- عنوان -->
+      <div class="text-center mb-6">
+        <div class="fw-600">بسمه تعالی</div>
+        <div class="fw-600 mt-2">فرم درخواست دریافت سبد کالا ی موظفین</div>
+      </div>
+
+      <!-- تاریخ -->
+      <div class="text-left">
+        <span class="fw-600">تاریخ :</span>
+      </div>
+
+      <!-- خطاب -->
+      <div class="mb-1 fw-600">
+        <p>
+          جناب آقای
+          <span class="text-red-600">(نام معاون جاری بازنشستگی)</span>
+        </p>
+        <p>معاونت محترم امور بازنشستگی و مشارکین</p>
+        <p>با سلام و احترام ،</p>
+      </div>
+
+      <!-- متن اصلی -->
+      <div class="mb-6 text-justify">
+        <p>
+          به استحضار می‌رساند این جانب
+          <span class="text-red-600">(نام موظفین با جدا سازی حرف «،»)</span>
+        </p>
+        <p>
+          وظیفه بگیران مرحوم
+          <span class="text-red-600">
+                {{ personInfo?.personFirstName }}
+            {{ personInfo?.personLastName }}
+              </span>
+          به شماره بازنشستگی
+          <span class="text-red-600">(شماره بازنشستگی)</span>
+          درخواست دریافت سبد کالا به جای وجه نقد را داریم.
+          خواهشمند است دستورات لازم را در این خصوص صادر فرمایید.
+        </p>
+      </div>
+
+      <!-- تحویل گیرنده -->
+      <div class="mb-6">
+        <p>
+              <span class="fw-600">
+                نام وظیفه بگیر تحویل گیرنده سبد :
+              </span>
+          <span class="text-red-600">
+                {{ relatedPerson?.personFirstName }}
+            {{ relatedPerson?.personLastName }}
+              </span>
+        </p>
+        <p class="fw-600">
+          محل تحویل سبد کالا :
+          <span class="text-red-600">(نشانی کامل وظیفه بگیر)</span>
+        </p>
+      </div>
+
+      <!-- فرم آدرس -->
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div fxLayout="row wrap">
+          <div fxFlex="100" fxFlex.gt-xs="100">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>آدرس</mat-label>
+              <textarea matInput formControlName="personAddress"></textarea>
+              <mat-error
+                *ngIf="form.get('personAddress')?.touched && form.get('personAddress')?.hasError('required')">
+                آدرس اجباری می باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-xs="100">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>منطقه شهرداری</mat-label>
+              <input onlyNumber class="ltr" matInput formControlName="personRegion"/>
+              <mat-error
+                *ngIf="form.get('personRegion')?.touched && form.get('personRegion')?.hasError('required')">
+                منطقه شهرداری اجباری می باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-xs="100">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>ناحیه</mat-label>
+              <input onlyNumber class="ltr" matInput formControlName="personArea"/>
+              <mat-error
+                *ngIf="form.get('personArea')?.touched && form.get('personArea')?.hasError('required')">
+                ناحیه اجباری می باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-xs="33.3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>کد پستی</mat-label>
+              <input matInput type="text" formControlName="personPostalCode" required
+                     [minLength]="10" [maxLength]="10" onlyNumber class="ltr">
+              <mat-error
+                *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('required')">
+                کد پستی اجباری می باشد
+              </mat-error>
+              <mat-error
+                *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('minlength')">
+                کد پستی باید 10 کاراکتر باشد.
+              </mat-error>
+              <mat-error
+                *ngIf="form.get('personPostalCode')?.touched && form.get('personPostalCode')?.hasError('maxlength')">
+                کد پستی باید 10 کاراکتر باشد.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>تلفن ثابت</mat-label>
+              <input onlyNumber class="ltr" matInput formControlName="personPhone"/>
+              <mat-error
+                *ngIf="form.get('personPhone')?.touched && form.get('personPhone')?.hasError('required')">
+                تلفن ثابت اجباری می باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-xs="33.3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>تلفن همراه</mat-label>
+              <input matInput type="text" formControlName="personCellPhone" required
+                     [minLength]="10" [maxLength]="14" onlyNumber class="ltr">
+              <mat-error
+                *ngIf="form.get('personCellPhone')?.touched && form.get('personCellPhone')?.hasError('required')">
+                تلفن همراه اجباری می باشد
+              </mat-error>
+              <mat-error *ngIf="form.get('personCellPhone')?.touched &&
+                    (form.get('personCellPhone')?.hasError('invalidMobile') ||
+                    form.get('personCellPhone')?.hasError('minlength') ||
+                    form.get('personCellPhone')?.hasError('maxlength'))">
+                تلفن همراه نامعتبر است.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- امضا -->
+      <div class="mt-12 fw-600">
+        <p>نام و نام خانوادگی و امضای وظیفه بگیران :</p>
+      </div>
+
+    </div>
+  </div>
+</div>
