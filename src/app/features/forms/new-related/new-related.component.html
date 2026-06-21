@@ -2,7 +2,7 @@
 <div fxLayout="row wrap">
   <div fxFlex="100" fxFlex.gt-xs="100">
     <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-      <h3>وابستگان</h3>
+      <h3>لیست وابستگان</h3>
       <a routerLink="/forms/person" mat-icon-button color="warn" class="close" matTooltip="افزودن وابسته جدید">
         <mat-icon color="warn">add_circle</mat-icon>
       </a>
@@ -29,8 +29,8 @@
         <ng-container matColumnDef="expand">
           <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
         </ng-container>
-        <tr *matHeaderRowDef="relationColumnsToDisplay0" mat-header-row></tr>
-        <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
+        <tr *matHeaderRowDef="relationcurrentColumnsToDisplay" mat-header-row></tr>
+        <tr *matRowDef="let element; columns: relationcurrentColumnsToDisplay;" class="example-element-row" mat-row>
         </tr>
       </table>
       @if (relatedPersonIDError) {
@@ -64,8 +64,8 @@
         <ng-container matColumnDef="expand">
           <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
         </ng-container>
-        <tr *matHeaderRowDef="newRelationColumnsToDisplay0" mat-header-row></tr>
-        <tr *matRowDef="let element; columns: newRelationColumnsToDisplay0;" class="example-element-row" mat-row>
+        <tr *matHeaderRowDef="newRelationcurrentColumnsToDisplay" mat-header-row></tr>
+        <tr *matRowDef="let element; columns: newRelationcurrentColumnsToDisplay;" class="example-element-row" mat-row>
         </tr>
       </table>
     }

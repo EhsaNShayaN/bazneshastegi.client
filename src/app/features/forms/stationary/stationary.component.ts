@@ -17,11 +17,12 @@ export class StationaryComponent extends BaseFormComponent implements OnInit {
   columnsToDisplay = [
     {key: 'mainpersonFirstName', name: 'نام'},
     {key: 'mainpersonLastName', name: 'نام خانوادگی'},
-    {key: 'facilityReceiverFullName', name: 'وام گیرنده'},
-    {key: 'facilityGiverDesc', name: 'وام‌دهنده'},
-    {key: 'facilityAmount', name: 'مبلغ وام'}
+    {key: 'facilityReceiverFullName', name: 'نسبت'},
+    {key: 'educationTypeName', name: 'مقطع تحصیلی'},
+    {key: 'facilityAmount', name: 'مبلغ تسهیالت دریافتی'},
+    {key: 'facilityAmount2', name: 'تاریخ دریافت'}
   ];
-  columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   prizeReceivers: LookUpData[] = [];
   facilityAmount?: number;
 

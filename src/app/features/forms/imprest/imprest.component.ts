@@ -19,7 +19,7 @@ export class ImprestComponent extends BaseFormComponent {
     {key: 'facilityGiverDesc', name: 'وام‌دهنده'},
     {key: 'facilityAmount', name: 'مبلغ وام'}
   ];
-  columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   requestTypeConfig?: RequestTypeConfigInfo;
 
   constructor() {

@@ -65,7 +65,7 @@
     </div>
   </div>
 
-  <h3>وابستگان</h3>
+  <h3>لیست وابستگان</h3>
   <div formArrayName="dependents" class="dependents">
     <div *ngFor="let dep of dependents.controls; let i=index" [formGroupName]="i" class="dependent-item">
       <mat-form-field appearance="outline">
@@ -137,8 +137,8 @@
     <ng-container matColumnDef="expand">
       <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
     </ng-container>
-    <tr *matHeaderRowDef="relationColumnsToDisplay0" mat-header-row></tr>
-    <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
+    <tr *matHeaderRowDef="relationcurrentColumnsToDisplay" mat-header-row></tr>
+    <tr *matRowDef="let element; columns: relationcurrentColumnsToDisplay;" class="example-element-row" mat-row>
     </tr>
   </table>
   <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>

@@ -20,7 +20,7 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
     {key: 'remainedAmount', name: 'مانده'},
     {key: 'a', name: 'تاریخ آخرین قسط'},
   ];
-  columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   requestTypeConfig?: RequestTypeConfigInfo;
   totalRemainedAmount: number = 0;
   showDescription: boolean = false;

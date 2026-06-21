@@ -15,11 +15,13 @@ export class PayFractionCertificateComponent extends BaseFormComponent implement
   columnsToDisplay = [
     {key: 'mainpersonFirstName', name: 'نام'},
     {key: 'mainpersonLastName', name: 'نام خانوادگی'},
-    {key: 'facilityReceiverFullName', name: 'وام گیرنده'},
-    {key: 'facilityGiverDesc', name: 'وام‌دهنده'},
+    {key: 'facilityReceiverFullName', name: 'نسبت'},
+    {key: 'facilityGiverDesc', name: 'نام وام دهنده'},
+    {key: 'facilityGiverDesc2', name: 'شعبه'},
+    {key: 'instalementCount', name: 'تعداد قسط باقی مانده'},
     {key: 'facilityAmount', name: 'مبلغ وام'}
   ];
-  columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   lenders: SelectItem[] = [];
   originalBranches: LookUpData[] = [];
   branches: SelectItem[] = [];

@@ -36,12 +36,15 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     //{key: 'pensionaryID', name: 'شناسه'},
     //{key: 'personFatherName', name: 'نام پدر'},
     //{key: 'personLastName', name: 'نام خانوادگی'},
-    {key: 'personID', name: 'شماره پرسنلی'},
-    {key: 'personFirstName', name: 'نام و نام خانوادگی'},
-    {key: 'personNationalCode', name: 'کدملی'},
+    //{key: 'personID', name: 'شماره پرسنلی'},
+    {key: 'personFirstName', name: 'نام'},
+    {key: 'personLastName', name: 'نام خانوادگی'},
+    {key: 'pensionaryIsUnderGauranteeText', name: 'وضعیت تکفل'},
+    {key: 'educationTypeName', name: 'مقطع تحصیلی'},
+    //{key: 'personNationalCode', name: 'کدملی'},
     {key: 'check', name: 'انتخاب'},
   ];
-  relationColumnsToDisplay0: string[] = this.relationColumnsToDisplay.map(s => s.key);
+  relationcurrentColumnsToDisplay: string[] = this.relationColumnsToDisplay.map(s => s.key);
   relationDataSource: MatTableDataSource<RelatedListForPortal> | null = null;
   relatedPersonIDError: boolean = false;
   relatedPerson: any;

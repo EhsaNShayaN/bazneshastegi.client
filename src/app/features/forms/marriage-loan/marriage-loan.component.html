@@ -56,7 +56,7 @@
       </div>
 
       <div fxFlex="100" fxFlex.gt-xs="100">
-        <h3>وابستگان</h3>
+        <h3>لیست وابستگان</h3>
         <mat-divider class="mt-1"></mat-divider>
 
         @if (relationDataSource) {
@@ -66,10 +66,6 @@
                 <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
                 <td *matCellDef="let element; let i = index;" mat-cell>
                   @switch (column.key) {
-                    @case ('personFirstName') {
-                      {{ element.personFirstName }}
-                      {{ element.personLastName }}
-                    }
                     @case ('check') {
                       <mat-radio-button name="check" [value]="element.personID"
                                         (change)="checkRelatedUser($event)"></mat-radio-button>
@@ -84,8 +80,8 @@
             <ng-container matColumnDef="expand">
               <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
             </ng-container>
-            <tr *matHeaderRowDef="relationColumnsToDisplay0" mat-header-row></tr>
-            <tr *matRowDef="let element; columns: relationColumnsToDisplay0;" class="example-element-row" mat-row>
+            <tr *matHeaderRowDef="relationcurrentColumnsToDisplay" mat-header-row></tr>
+            <tr *matRowDef="let element; columns: relationcurrentColumnsToDisplay;" class="example-element-row" mat-row>
             </tr>
           </table>
           @if (relatedPersonIDError) {
@@ -128,8 +124,8 @@
             <ng-container matColumnDef="expand">
               <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
             </ng-container>
-            <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
-            <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+            <tr *matHeaderRowDef="currentColumnsToDisplay" mat-header-row></tr>
+            <tr *matRowDef="let element; columns: currentColumnsToDisplay;" class="example-element-row" mat-row>
             </tr>
           </table>
           <!--<mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>-->

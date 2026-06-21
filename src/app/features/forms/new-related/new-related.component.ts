@@ -18,13 +18,13 @@ export class NewRelatedComponent extends BaseFormComponent {
     {key: 'personFirstName', name: 'نام و نام خانوادگی'},
     {key: 'personNationalCode', name: 'کدملی'},
   ];
-  newRelationColumnsToDisplay0: string[] = this.newRelationColumnsToDisplay.map(s => s.key);
+  newRelationcurrentColumnsToDisplay: string[] = this.newRelationColumnsToDisplay.map(s => s.key);
   newRelationDataSource: MatTableDataSource<any> | null = null;
 
   constructor() {
     super();
     this.relationColumnsToDisplay = this.relationColumnsToDisplay.filter(s => s.key !== 'check');
-    this.relationColumnsToDisplay0 = this.relationColumnsToDisplay.map(s => s.key);
+    this.relationcurrentColumnsToDisplay = this.relationColumnsToDisplay.map(s => s.key);
     this.getRelations();
     this.getNewRelations();
   }

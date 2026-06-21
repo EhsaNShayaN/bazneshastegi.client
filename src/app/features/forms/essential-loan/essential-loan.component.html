@@ -108,8 +108,8 @@
       <ng-container matColumnDef="expand">
         <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
       </ng-container>
-      <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
-      <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+      <tr *matHeaderRowDef="currentColumnsToDisplay" mat-header-row></tr>
+      <tr *matRowDef="let element; columns: currentColumnsToDisplay;" class="example-element-row" mat-row>
       </tr>
     </table>
     <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>

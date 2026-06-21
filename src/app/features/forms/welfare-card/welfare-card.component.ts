@@ -20,7 +20,7 @@ export class WelfareCardComponent extends BaseFormComponent implements OnInit {
     {key: 'b', name: 'تاریخ صدور'},
     {key: 'c', name: 'نوع صدور'},
   ];
-  columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   issueTypes: SelectItem[] = [];
   facilityReceiveTypes: SelectItem[] = [];
   defaultAmount: number = 0;

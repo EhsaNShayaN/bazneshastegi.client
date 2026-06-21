@@ -18,7 +18,7 @@ export class SalaryCertificateComponent extends BaseFormComponent implements OnI
     {key: 'facilityGiverDesc', name: 'وام‌دهنده'},
     {key: 'facilityAmount', name: 'مبلغ وام'}
   ];
-  columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   retirementDate: string = '';
 
   constructor() {

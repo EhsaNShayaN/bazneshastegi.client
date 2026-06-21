@@ -230,7 +230,7 @@
 
 <div>
   <hr class="my-3 border-primary"/>
-  <h3>لیست گواهی‌های فعال</h3>
+  <h3>لیست گواهی کسر از حقوقهای فعال</h3>
   <mat-divider class="mt-1"></mat-divider>
   @if (dataSource) {
     <table [dataSource]="dataSource" class="w-100 mt-3" mat-table multiTemplateDataRows>
@@ -243,6 +243,9 @@
                 {{ element.facilityAmount | customCurrency }}
                 ريال
               }
+              @case ('facilityGiverDesc2') {
+
+              }
               @default {
                 {{ element[column.key] }}
               }
@@ -253,8 +256,8 @@
       <ng-container matColumnDef="expand">
         <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
       </ng-container>
-      <tr *matHeaderRowDef="columnsToDisplay0" mat-header-row></tr>
-      <tr *matRowDef="let element; columns: columnsToDisplay0;" class="example-element-row" mat-row>
+      <tr *matHeaderRowDef="currentColumnsToDisplay" mat-header-row></tr>
+      <tr *matRowDef="let element; columns: currentColumnsToDisplay;" class="example-element-row" mat-row>
       </tr>
     </table>
     <mat-paginator [length]="totalCount" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>

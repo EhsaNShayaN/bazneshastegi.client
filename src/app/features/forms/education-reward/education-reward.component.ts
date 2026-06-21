@@ -22,7 +22,7 @@ export class EducationRewardComponent extends BaseFormComponent implements OnIni
     {key: 'facilityAmount', name: 'مبلغ تسهیلات دریافتی'},
     {key: 'facilityDate', name: 'تاریخ دریافت'},
   ];
-  columnsToDisplay0: string[] = this.columnsToDisplay.map(s => s.key);
+  currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   prizeReceivers: LookUpData[] = [];
   facilityAmount?: number;
 
