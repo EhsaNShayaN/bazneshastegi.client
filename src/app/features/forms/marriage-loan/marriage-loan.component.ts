@@ -54,9 +54,8 @@ export class MarriageLoanComponent extends BaseFormComponent {
   }
 
   calculateLoanInstallment(principal: number) {
-    const months = this.requestTypeConfig?.profitOrDiscountPercent ?? 36;
+    const months = this.requestTypeConfig?.defaultInstalementCount ?? 36;
     const installment = Math.round(principal / months);
-    this.form.get('facilityInstalementAmount')?.setValue(installment);
     return installment;
   }
 

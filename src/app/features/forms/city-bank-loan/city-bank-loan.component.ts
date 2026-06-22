@@ -74,6 +74,8 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
   }
 
   calculateLoanInstallment(principal: number) {
+    console.log(this.requestTypeConfig?.defaultDiscountPercent);
+    console.log(this.requestTypeConfig?.profitOrDiscountPercent);
     const annualRate = (this.requestTypeConfig?.defaultDiscountPercent ?? 12) / 100;
     const months = this.requestTypeConfig?.defaultInstalementCount ?? 36;
     const monthlyRate = annualRate / 12; // نرخ ماهانه

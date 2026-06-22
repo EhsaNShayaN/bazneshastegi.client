@@ -48,6 +48,9 @@ export class MariageAidComponent extends BaseFormComponent {
   }
 
   submit() {
+    if (!this.form.get('facilityAmount')?.value) {
+      this.form.get('facilityAmount')?.setValue(null);
+    }
     console.log(this.form.getRawValue());
     if (this.form.valid) {
       if (!this.relatedPersonID) {
