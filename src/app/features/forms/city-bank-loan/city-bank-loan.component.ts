@@ -18,7 +18,7 @@ export class CityBankLoanComponent extends BaseFormComponent implements OnInit {
     {key: 'confirmDate', name: 'تاریخ دریافت'},
     {key: 'facilityAmount', name: 'مبلغ دریافتی'},
     {key: 'remainedAmount', name: 'مانده'},
-    {key: 'a', name: 'تاریخ آخرین قسط'},
+    {key: 'lastInstalementDate', name: 'تاریخ آخرین قسط'},
   ];
   currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   requestTypeConfig?: RequestTypeConfigInfo;
