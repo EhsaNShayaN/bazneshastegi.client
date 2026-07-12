@@ -4,6 +4,7 @@ import {BaseFormComponent} from '../base-form-component';
 import {GetRequestTypeConfigResponse, RequestTypeConfigInfo} from '../../../core/models/GetRequestTypeConfigResponse';
 import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {MarriageLoanRequest} from './marriage-loan.model';
+import {MatRadioChange} from '@angular/material/radio';
 
 @Component({
   selector: 'app-marriage-loan',
@@ -20,7 +21,6 @@ export class MarriageLoanComponent extends BaseFormComponent {
   ];
   currentColumnsToDisplay: string[] = this.columnsToDisplay.map(s => s.key);
   requestTypeConfig?: RequestTypeConfigInfo;
-  totalRemainedAmount: number = 0;
 
   constructor() {
     super();
@@ -28,39 +28,46 @@ export class MarriageLoanComponent extends BaseFormComponent {
   }
 
   override createForm() {
-    this.restApiService.getRequestTypeConfig(this.requestTypeID, null, null, null, null)
-      .subscribe((a: GetRequestTypeConfigResponse) => {
-        this.requestTypeConfig = a.data[0];
-        this.form = this.fb.group({
-          facilityAmount: [{value: this.requestTypeConfig?.defaultAmount, disabled: true}, Validators.required],
-          profitOrDiscountPercent: [{value: this.requestTypeConfig?.profitOrDiscountPercent, disabled: true}, Validators.required],
-          facilityInstalementCount: [{value: this.requestTypeConfig?.defaultInstalementCount, disabled: true}, Validators.required],
-          facilityInstalementAmount: [{value: null, disabled: true}, Validators.required],
-          requestDescription: [''],
-          attachments: this.fb.array(
-            this.requestTypes.map(s =>
-              this.fb.group({
-                obj: [s],
-                type: [s.lookupName],
-                file: [null, s.mandantory ? Validators.required : null],
-                uploaded: [false]
-              })
-            )
-          ),
-        });
-        this.calculateLoanInstallment(this.requestTypeConfig?.defaultAmount);
-      });
-    this.totalRemainedAmount = this.dataSource?.data.reduce((total, num) => total + (num.remainedAmount ?? 0), 0) ?? 0;
+    this.form = this.fb.group({
+      facilityAmount: [{value: this.requestTypeConfig?.defaultAmount, disabled: true}, Validators.required],
+      profitOrDiscountPercent: [{value: this.requestTypeConfig?.profitOrDiscountPercent, disabled: true}, Validators.required],
+      facilityInstalementCount: [{value: this.requestTypeConfig?.defaultInstalementCount, disabled: true}, Validators.required],
+      facilityInstalementAmount: [{value: null, disabled: true}, Validators.required],
+      requestDescription: [''],
+      attachments: this.fb.array(
+        this.requestTypes.map(s =>
+          this.fb.group({
+            obj: [s],
+            type: [s.lookupName],
+            file: [null, s.mandantory ? Validators.required : null],
+            uploaded: [false]
+          })
+        )
+      ),
+    });
+    //this.calculateLoanInstallment(this.requestTypeConfig?.defaultAmount);
   }
 
-  calculateLoanInstallment(principal: number) {
+  /*calculateLoanInstallment(principal: number) {
     const months = this.requestTypeConfig?.defaultInstalementCount ?? 36;
     const installment = Math.round(principal / months);
     return installment;
-  }
+  }*/
 
   installmentKeyUpEvent($event: KeyboardEvent) {
-    this.calculateLoanInstallment(this.form.get('facilityAmount')?.value);
+    //this.calculateLoanInstallment(this.form.get('facilityAmount')?.value);
+  }
+
+  override checkRelatedUser($event: MatRadioChange) {
+    super.checkRelatedUser($event);
+    this.restApiService.getRequestTypeConfig(this.requestTypeID, null, this.relatedPerson.relationshipWithParentID, null, null)
+      .subscribe((a: GetRequestTypeConfigResponse) => {
+        this.requestTypeConfig = a.data[2];
+        this.form.get('facilityAmount')?.setValue(this.requestTypeConfig?.defaultAmount);
+        this.form.get('profitOrDiscountPercent')?.setValue(this.requestTypeConfig?.profitOrDiscountPercent);
+        this.form.get('facilityInstalementCount')?.setValue(this.requestTypeConfig?.defaultInstalementCount);
+        //this.calculateLoanInstallment(this.requestTypeConfig?.defaultAmount);
+      });
   }
 
   submit() {
