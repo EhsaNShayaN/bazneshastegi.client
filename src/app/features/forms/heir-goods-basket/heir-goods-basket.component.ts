@@ -6,8 +6,6 @@ import {HeirGoodsBasketRequest} from './heir-goods-basket.model';
 import {LookUpDataResponse} from '../../../core/models/LookUpResponse';
 import {SelectItem} from '../../../shared/components/custom-select/custom-select.component';
 import {PersonInfoResponse} from '../../../core/models/PersonInfoResponse';
-import {environment} from '../../../../environments/environment';
-import {mobileValidator} from '../../../core/utils/app-validators';
 
 @Component({
   selector: 'app-heir-goods-basket',
@@ -33,18 +31,18 @@ export class HeirGoodsBasketComponent extends BaseFormComponent {
       }));
       this.form = this.fb.group({
         basketReceiveTypeID: [false, Validators.required],
-        personAddress: [null, Validators.required],
+
+        /*personAddress: [null, Validators.required],
         personRegion: [null, Validators.required],
         personArea: [null, Validators.required],
         personPhone: [null, Validators.required],
-
         personPostalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
         personCellPhone: [null, Validators.compose([
           Validators.required,
           mobileValidator,
           Validators.minLength(10),
           Validators.maxLength(14)
-        ])],
+        ])],*/
 
         attachments: this.fb.array(
           this.requestTypes.map(s =>
@@ -62,7 +60,6 @@ export class HeirGoodsBasketComponent extends BaseFormComponent {
   }
 
   submit() {
-    console.log(this.form.getRawValue());
     if (this.form.valid) {
       if (!this.relatedPersonID) {
         this.relatedPersonIDError = true;
@@ -90,12 +87,12 @@ export class HeirGoodsBasketComponent extends BaseFormComponent {
             basketReceiveTypeID: this.unCurrentBasketReceiveType!.id,
             thisPersonID: this.relatedPersonID,
 
-            personAddress: request.personAddress,
-            personPostalCode: request.personPostalCode,
+            /*personAddress: request.personAddress,
             personRegion: request.personRegion,
             personArea: request.personArea,
             personPhone: request.personPhone,
-            personCellPhone: request.personCellPhone,
+            personPostalCode: request.personPostalCode,
+            personCellPhone: request.personCellPhone,*/
           };
           this.call<HeirGoodsBasketRequest>(
             insertResponse.data,

@@ -6,10 +6,10 @@ export interface HeirGoodsBasketRequest extends BaseInsertRequestComplementary {
   basketReceiveTypeID: string
   thisPersonID: string
 
-  personAddress: string;
+  /*personAddress: string;
   personPostalCode: string;
   personRegion: number;
   personArea: number;
   personPhone: string;
-  personCellPhone: string;
+  personCellPhone: string;*/
 }

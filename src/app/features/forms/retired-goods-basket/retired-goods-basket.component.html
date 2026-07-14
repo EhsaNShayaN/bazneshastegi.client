@@ -31,6 +31,7 @@
 
     <div fxLayout="row wrap" fxLayoutAlign="end center">
       <button mat-raised-button color="primary" type="submit"
+              submitLoading #btn="submitLoading"
               [disabled]="!form.get('basketReceiveTypeID')?.value">
         ذخیره و ارسال
       </button>
