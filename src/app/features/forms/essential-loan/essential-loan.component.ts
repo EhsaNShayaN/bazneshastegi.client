@@ -34,7 +34,7 @@ export class EssentialLoanComponent extends BaseFormComponent {
         this.form = this.fb.group({
           facilityAmount: [this.requestTypeConfig?.defaultAmount, [Validators.required]],
           defaultInstalementCount: [{value: this.requestTypeConfig?.defaultInstalementCount, disabled: true}, Validators.required],
-          facilityInstalementAmount: [{value: null, disabled: false}, Validators.required],
+          facilityInstalementAmount: [{value: this.requestTypeConfig?.defaultInstalementAmount, disabled: true}, Validators.required],
           requestDescription: [''],
           attachments: this.fb.array(
             this.requestTypes.map(s =>
@@ -47,18 +47,18 @@ export class EssentialLoanComponent extends BaseFormComponent {
             )
           ),
         });
-        this.calculateLoanInstallment(this.requestTypeConfig?.defaultAmount);
+        //this.calculateLoanInstallment(this.requestTypeConfig?.defaultAmount);
       });
     this.totalRemainedAmount = this.dataSource?.data.reduce((total, num) => total + (num.remainedAmount ?? 0), 0) ?? 0;
   }
 
-  calculateLoanInstallment(principal: number) {
+  /*calculateLoanInstallment(principal: number) {
     const months = this.requestTypeConfig?.defaultInstalementCount ?? 36;
     const installment = Math.round(principal * 1.04 / months);
     this.form.get('facilityInstalementAmount')?.setValue(installment);
     this.showDescription = ((this.form.get('facilityAmount')?.value ?? 0) + this.totalRemainedAmount) > (this.requestTypeConfig?.defaultAmount ?? 0);
     return installment;
-  }
+  }*/
 
   submit() {
     console.log(this.form.getRawValue());
@@ -94,6 +94,10 @@ export class EssentialLoanComponent extends BaseFormComponent {
   }
 
   installmentKeyUpEvent($event: KeyboardEvent) {
-    this.calculateLoanInstallment(this.form.get('facilityAmount')?.value);
+    //this.calculateLoanInstallment(this.form.get('facilityAmount')?.value);
+    this.restApiService.getInstallmentAmount(this.requestTypeID, ($event.target as HTMLInputElement).value, this.requestTypeConfig?.defaultInstalementCount ?? 0)
+      .subscribe((a: GetRequestTypeConfigResponse) => {
+        this.form.get('facilityInstalementAmount')?.setValue(a?.data[0]?.defaultInstalementAmount ?? -1);
+      });
   }
 }

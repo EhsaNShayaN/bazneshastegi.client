@@ -60,12 +60,13 @@ export class MarriageLoanComponent extends BaseFormComponent {
 
   override checkRelatedUser($event: MatRadioChange) {
     super.checkRelatedUser($event);
-    this.restApiService.getRequestTypeConfig(this.requestTypeID, null, this.relatedPerson.relationshipWithParentID, null, null)
+    this.restApiService.getRequestTypeConfig(this.requestTypeID, null, null, null, null, this.relatedPerson.personID)
       .subscribe((a: GetRequestTypeConfigResponse) => {
-        this.requestTypeConfig = a.data[2];
+        this.requestTypeConfig = a.data[0];
         this.form.get('facilityAmount')?.setValue(this.requestTypeConfig?.defaultAmount);
         this.form.get('profitOrDiscountPercent')?.setValue(this.requestTypeConfig?.profitOrDiscountPercent);
         this.form.get('facilityInstalementCount')?.setValue(this.requestTypeConfig?.defaultInstalementCount);
+        this.form.get('facilityInstalementAmount')?.setValue(this.requestTypeConfig?.defaultInstalementAmount);
         //this.calculateLoanInstallment(this.requestTypeConfig?.defaultAmount);
       });
   }

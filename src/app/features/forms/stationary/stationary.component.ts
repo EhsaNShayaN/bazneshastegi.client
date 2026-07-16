@@ -48,7 +48,7 @@ export class StationaryComponent extends BaseFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.restApiService.getLookupData('PrizeReceiver', '').subscribe((a: LookUpDataResponse) => {
+    this.restApiService.getLookupData('WrittingSuppliesReceiver', '').subscribe((a: LookUpDataResponse) => {
       this.prizeReceivers = a.data;
     });
   }

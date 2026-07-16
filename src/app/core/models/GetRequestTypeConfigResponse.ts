@@ -23,4 +23,5 @@ export interface RequestTypeConfigInfo {
   facilityReceiverRelationshipName: string | null;
   pensionaryStatusCategoryName: string | null;
   genderName: string | null;
+  defaultInstalementAmount: number | null;
 }

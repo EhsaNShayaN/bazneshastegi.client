@@ -1,4 +1,4 @@
-import {Directive, inject, OnDestroy, Renderer2, ViewChild} from '@angular/core';
+import {Directive, inject, OnDestroy, ViewChild} from '@angular/core';
 import {BaseComponent} from '../../base-component';
 import {ActivatedRoute} from '@angular/router';
 import {PersonInfo} from '../../core/models/PersonInfoResponse';
@@ -39,8 +39,9 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     //{key: 'personID', name: 'شماره پرسنلی'},
     {key: 'personFirstName', name: 'نام'},
     {key: 'personLastName', name: 'نام خانوادگی'},
-    {key: 'pensionaryIsUnderGauranteeText', name: 'وضعیت تکفل'},
+    {key: 'relationshipWithParentName', name: 'نسبت'},
     {key: 'educationTypeName', name: 'مقطع تحصیلی'},
+    {key: 'pensionaryIsUnderGauranteeText', name: 'تحت تکفل'},
     //{key: 'personNationalCode', name: 'کدملی'},
     {key: 'check', name: 'انتخاب'},
   ];
@@ -50,7 +51,6 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   relatedPerson: any;
   relatedPersonID: string = '';
 
-  renderer = inject(Renderer2);
   private sub: any;
   private sub3: any;
   activatedRoute = inject(ActivatedRoute);

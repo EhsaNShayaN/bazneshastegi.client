@@ -34,6 +34,7 @@ import {ImprestRequest} from '../features/forms/imprest/imprest.model';
 import {NewRelatedRequest} from '../features/forms/new-related/new-related.model';
 import {RelationshipResponse} from './models/RelationshipResponse';
 import {RelatedListForPortalResponse} from './models/RelatedListForPortalResponse';
+import {TempPersonsResponse} from './models/TempPersonsResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -79,7 +80,8 @@ export class RestApiService {
                        lookupID: string | null = null,
                        facilityReceiverRelationshipID: number | null = null,
                        pensionaryStatusCategory: string | null = null,
-                       genderLookupID: string | null = null): Observable<any> {
+                       genderLookupID: string | null = null,
+                       facilityReceiverPersonID: string | null = null): Observable<any> {
     let query = `${endpoint()}forms/getRequestTypeConfig?requestTypeId=${requestTypeId}`;
     if (lookupID) {
       query += `&lookupID=${lookupID}`;
@@ -92,6 +94,9 @@ export class RestApiService {
     }
     if (genderLookupID) {
       query += `&genderLookupID=${genderLookupID}`;
+    }
+    if (facilityReceiverPersonID) {
+      query += `&facilityReceiverPersonID=${facilityReceiverPersonID}`;
     }
     return this.http.get<GetRequestTypeConfigResponse>(query).pipe(
       catchError(this.handleError)
@@ -125,6 +130,12 @@ export class RestApiService {
 
   getNewPersonByParentId(): Observable<any> {
     return this.http.get<RelatedPersonsResponse>(`${endpoint()}forms/newPersonByParentId`,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getTempPerson(): Observable<any> {
+    return this.http.get<TempPersonsResponse>(`${endpoint()}forms/getTempPerson`).pipe(
       catchError(this.handleError)
     );
   }
@@ -291,6 +302,13 @@ export class RestApiService {
 
   insertRequestForEditPersonInfo(model: PersonInfo): Observable<any> {
     return this.http.post<BaseResult<PersonInfo>>(`${endpoint()}forms/insertRequestForEditPersonInfo`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getInstallmentAmount(requestTypeId: string, amount: string, instalementCount: number): Observable<any> {
+    return this.http.get<ActiveFacilitiesOfPersonResponse>
+    (`${endpoint()}forms/getInstallmentAmount?requestTypeId=${requestTypeId}&amount=${amount}&instalementCount=${instalementCount}`,).pipe(
       catchError(this.handleError)
     );
   }

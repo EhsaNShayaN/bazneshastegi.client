@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {BaseFormComponent} from '../base-form-component';
 import {MatTableDataSource} from '@angular/material/table';
 import {RelatedPersonsResponse} from '../../../core/models/RelatedPersonsResponse';
+import {TempPersonsResponse} from '../../../core/models/TempPersonsResponse';
 
 @Component({
   selector: 'app-new-related',
@@ -32,6 +33,9 @@ export class NewRelatedComponent extends BaseFormComponent {
   getNewRelations() {
     this.restApiService.getNewPersonByParentId().subscribe((res: RelatedPersonsResponse) => {
       this.newRelationDataSource = new MatTableDataSource<any>(res.data);
+    });
+    this.restApiService.getTempPerson().subscribe((res: TempPersonsResponse) => {
+      console.log(res);
     });
   }
 }
