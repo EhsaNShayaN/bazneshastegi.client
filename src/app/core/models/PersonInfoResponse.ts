@@ -53,7 +53,7 @@ export interface PersonInfo {
   personLastName: string;
   personFatherName: string;
   personCertificateNo: string;
-  personBirthDate: Date;
+  personBirthDate: string;
   personBirthPlaceStateID: string;
   personBirthPlaceCityID: string;
   personCountryID: string;

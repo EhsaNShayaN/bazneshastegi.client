@@ -12,9 +12,11 @@
             <th *matHeaderCellDef mat-header-cell>{{ column.name }}</th>
             <td *matCellDef="let element; let i = index;" mat-cell>
               @switch (column.key) {
-                @case ('personFirstName') {
-                  {{ element.personFirstName }}
-                  {{ element.personLastName }}
+                @case ('actions') {
+                  <a [routerLink]="['/forms/person', requestTypeID, element.tempPersonID]" mat-icon-button class="close"
+                     matTooltip="افزودن وابسته جدید">
+                    <mat-icon color="primary">edit</mat-icon>
+                  </a>
                 }
                 @default {
                   {{ element[column.key] }}
@@ -34,7 +36,8 @@
     <mat-divider class="mt-5"></mat-divider>
     <div fxLayout="row wrap" fxLayoutAlign="space-between center">
       <h3>لیست وابستگان</h3>
-      <a routerLink="/forms/person" mat-icon-button color="warn" class="close" matTooltip="افزودن وابسته جدید">
+      <a [routerLink]="['/forms/person', requestTypeID]" mat-icon-button color="warn" class="close"
+         matTooltip="افزودن وابسته جدید">
         <mat-icon color="warn">add_circle</mat-icon>
       </a>
     </div>

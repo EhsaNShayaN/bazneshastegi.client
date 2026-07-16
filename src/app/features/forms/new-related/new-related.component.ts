@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {BaseFormComponent} from '../base-form-component';
 import {MatTableDataSource} from '@angular/material/table';
-import {RelatedPersonsResponse} from '../../../core/models/RelatedPersonsResponse';
 import {TempPersonsResponse} from '../../../core/models/TempPersonsResponse';
 
 @Component({
@@ -15,9 +14,12 @@ export class NewRelatedComponent extends BaseFormComponent {
     //{key: 'pensionaryID', name: 'شناسه'},
     //{key: 'personFatherName', name: 'نام پدر'},
     //{key: 'personLastName', name: 'نام خانوادگی'},
-    {key: 'personID', name: 'شماره پرسنلی'},
-    {key: 'personFirstName', name: 'نام و نام خانوادگی'},
-    {key: 'personNationalCode', name: 'کدملی'},
+    {key: 'personFirstName', name: 'نام'},
+    {key: 'personLastName', name: 'نام خانوادگی'},
+    {key: 'relationshipWithParentName', name: 'نسبت'},
+    {key: 'educationTypeName', name: 'مقطع تحصیلی'},
+    {key: 'pensionaryIsUnderGauranteeText', name: 'تحت تکفل'},
+    {key: 'actions', name: 'نمایش اطلاعات'},
   ];
   newRelationcurrentColumnsToDisplay: string[] = this.newRelationColumnsToDisplay.map(s => s.key);
   newRelationDataSource: MatTableDataSource<any> | null = null;
@@ -31,11 +33,11 @@ export class NewRelatedComponent extends BaseFormComponent {
   }
 
   getNewRelations() {
-    this.restApiService.getNewPersonByParentId().subscribe((res: RelatedPersonsResponse) => {
+    /*this.restApiService.getNewPersonByParentId().subscribe((res: RelatedPersonsResponse) => {
       this.newRelationDataSource = new MatTableDataSource<any>(res.data);
-    });
+    });*/
     this.restApiService.getTempPerson().subscribe((res: TempPersonsResponse) => {
-      console.log(res);
+      this.newRelationDataSource = new MatTableDataSource<any>(res.data);
     });
   }
 }

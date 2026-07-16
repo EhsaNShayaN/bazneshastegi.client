@@ -33,6 +33,7 @@
           placeholder="مبلغ قسط"
           formControlName="facilityInstalementAmount"
           [required]="true"
+          [disabled]="true"
         ></app-currency-input>
         <mat-error *ngIf="form.get('facilityInstalementAmount')?.touched &&
                     form.get('facilityInstalementAmount')?.hasError('required')">

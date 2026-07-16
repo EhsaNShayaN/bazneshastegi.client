@@ -28,7 +28,7 @@ export class EssentialLoanComponent extends BaseFormComponent {
   }
 
   override createForm() {
-    this.restApiService.getRequestTypeConfig(this.requestTypeID, null, null, null, null)
+    this.restApiService.getRequestTypeConfig(this.requestTypeID, null, null, null, null, '-1')
       .subscribe((a: GetRequestTypeConfigResponse) => {
         this.requestTypeConfig = a.data[0];
         this.form = this.fb.group({
@@ -95,7 +95,10 @@ export class EssentialLoanComponent extends BaseFormComponent {
 
   installmentKeyUpEvent($event: KeyboardEvent) {
     //this.calculateLoanInstallment(this.form.get('facilityAmount')?.value);
-    this.restApiService.getInstallmentAmount(this.requestTypeID, ($event.target as HTMLInputElement).value, this.requestTypeConfig?.defaultInstalementCount ?? 0)
+    this.restApiService.SetInstalementAmount(
+      this.requestTypeID,
+      ($event.target as HTMLInputElement).value ?? 0,
+      this.requestTypeConfig?.defaultInstalementCount ?? 0)
       .subscribe((a: GetRequestTypeConfigResponse) => {
         this.form.get('facilityInstalementAmount')?.setValue(a?.data[0]?.defaultInstalementAmount ?? -1);
       });

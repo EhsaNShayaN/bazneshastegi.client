@@ -7,6 +7,7 @@ import {PersonInfo} from '../../../core/models/PersonInfoResponse';
 import {BaseResult} from '../../../core/models/BaseResult';
 import {CustomConstants} from '../../../core/constants/custom.constants';
 import {BaseFormComponent} from '../base-form-component';
+import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 
 @Component({
   selector: 'app-modify-person-info',
@@ -32,7 +33,7 @@ export class ModifyPersonInfoComponent extends BaseFormComponent {
       personNationalCode: [this.personInfo!.personNationalCode, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
       personFatherName: [this.personInfo!.personFatherName, Validators.required],
       personCertificateNo: [this.personInfo!.personCertificateNo, Validators.required],
-      personBirthDate: [this.personInfo!.personBirthDate, Validators.required],
+      personBirthDate: [this.helpers.convertToShamsi(this.personInfo!.personBirthDate, 'Asia/Tehran', false), Validators.required],
       personBirthPlaceStateID: [null],
       personBirthPlaceCityID: [null],
 
@@ -61,8 +62,26 @@ export class ModifyPersonInfoComponent extends BaseFormComponent {
       const values = this.form.getRawValue();
       values.requestID = this.requestTypeID;
       console.log(values);
-      this.restApiService.insertRequestForEditPersonInfo(values).subscribe((a: BaseResult<PersonInfo>) => {
-        this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL);
+      const insert: InsertRequest = {
+        personID: this.personInfo!.personID,
+        nationalCode: this.personInfo!.personNationalCode,
+        personFirstName: this.personInfo!.personFirstName,
+        personLastName: this.personInfo!.personLastName,
+        requestDate: new Date(),
+        requestTypeID: this.requestTypeID,
+        requestText: 'درخواست اصلاح اطلاعات فردی از طرف بازنشسته',
+        insertUserID: 'baz-1',
+        requestFrom: 2,
+      };
+      this.insert(insert).then(insertResponse => {
+        if (insertResponse) {
+          const value = this.form.value;
+          value.requestId = insertResponse.data.requestID;
+          this.restApiService.insertRequestForEditPersonInfo(values).subscribe((a: BaseResult<PersonInfo>) => {
+            this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL);
+            this.stopLoading();
+          });
+        }
       });
     } else {
       this.form.markAllAsTouched();

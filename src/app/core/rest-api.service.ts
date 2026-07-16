@@ -300,15 +300,21 @@ export class RestApiService {
     );
   }
 
+  updateNewPerson(model: NewRelatedRequest): Observable<any> {
+    return this.http.post<BaseResult<NewRelatedRequest>>(`${endpoint()}forms/updateNewPerson`, model).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   insertRequestForEditPersonInfo(model: PersonInfo): Observable<any> {
     return this.http.post<BaseResult<PersonInfo>>(`${endpoint()}forms/insertRequestForEditPersonInfo`, model).pipe(
       catchError(this.handleError)
     );
   }
 
-  getInstallmentAmount(requestTypeId: string, amount: string, instalementCount: number): Observable<any> {
+  SetInstalementAmount(requestTypeId: string, defaultAmount: string, instalementCount: number): Observable<any> {
     return this.http.get<ActiveFacilitiesOfPersonResponse>
-    (`${endpoint()}forms/getInstallmentAmount?requestTypeId=${requestTypeId}&amount=${amount}&instalementCount=${instalementCount}`,).pipe(
+    (`${endpoint()}forms/setInstalementAmount?requestTypeId=${requestTypeId}&defaultAmount=${defaultAmount}&DefaultInstalementCount=${instalementCount}`,).pipe(
       catchError(this.handleError)
     );
   }

@@ -52,6 +52,7 @@ const routes: Routes = [
   {path: 'none/:id', component: NewRelatedComponent},
   {path: 'person', component: PersonFormComponent},
   {path: 'person/:id', component: PersonFormComponent},
+  {path: 'person/:id/:tempId', component: PersonFormComponent},
   {path: 'modifypersoninfo/:id', component: ModifyPersonInfoComponent},
 ];
 

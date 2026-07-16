@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BaseComponent} from '../../../../base-component';
 import {RestApiService} from '../../../../core/rest-api.service';
@@ -10,7 +10,12 @@ import {BaseResult} from '../../../../core/models/BaseResult';
 import {NewRelatedRequest} from '../new-related.model';
 import {ToastrService} from 'ngx-toastr';
 import {CustomConstants} from '../../../../core/constants/custom.constants';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {InsertRequest} from '../../pay-fraction-certificate/pay-fraction-certificate.model';
+import {PersonInfo} from '../../../../core/models/PersonInfoResponse';
+import {RequestTypeAttachmentResponse} from '../../../../core/models/RequestTypeAttachmentResponse';
+import {InsertResponse} from '../../../../core/models/InsertResponse';
+import {TempPerson, TempPersonsResponse} from '../../../../core/models/TempPersonsResponse';
 
 @Component({
   selector: 'app-person-form',
@@ -18,7 +23,7 @@ import {Router} from '@angular/router';
   styleUrl: './person-form.component.scss',
   standalone: false
 })
-export class PersonFormComponent extends BaseComponent implements OnInit {
+export class PersonFormComponent extends BaseComponent implements OnInit, OnDestroy {
   relationships: SelectItem[] = [];
   states: SelectItem[] = [];
   cities: SelectItem[] = [];
@@ -28,11 +33,32 @@ export class PersonFormComponent extends BaseComponent implements OnInit {
   universities: SelectItem[] = [];
   form!: FormGroup;
 
+  private sub: any;
+  private sub3: any;
+  personInfo: PersonInfo | null = null;
+  requestTypeID: string = '';
+  tempPersonID: string = '';
+  tempPerson?: TempPerson;
+
   constructor(private restApiService: RestApiService,
               private fb: FormBuilder,
               private toaster: ToastrService,
-              private router: Router) {
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
     super();
+    this.sub = this.activatedRoute.params.subscribe(({id, tempId}) => {
+      this.requestTypeID = id;
+      this.tempPersonID = tempId;
+      this.sub3 = this.restApiService.personInfoSubject.subscribe(personInfo => {
+        if (personInfo) {
+          this.personInfo = personInfo;
+          this.restApiService.getRequestTypeAttachment(this.requestTypeID).subscribe((b: RequestTypeAttachmentResponse) => {
+            if (b.isSuccess) {
+            }
+          });
+        }
+      });
+    });
   }
 
   ngOnInit(): void {
@@ -61,37 +87,42 @@ export class PersonFormComponent extends BaseComponent implements OnInit {
                 id: s.lookUpID,
                 name: s.lookUpName,
               }));
-              this.form = this.fb.group({
-                relationshipID: ['', Validators.required],
-                personFirstName: ['', Validators.required],
-                personLastName: ['', Validators.required],
-                personNationalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
-                personFatherName: ['', Validators.required],
-                personCertificateNo: ['', Validators.required],
-                personBirthDate: ['', Validators.required],
-                personBirthPlaceStateID: [null],
-                personBirthPlaceCityID: [null],
+              if (this.tempPersonID) {
+                this.restApiService.getTempPerson().subscribe((res: TempPersonsResponse) => {
+                  this.tempPerson = res.data.find(s => s.tempPersonID === this.tempPersonID);
+                  this.form = this.fb.group({
+                    relationshipID: [this.tempPerson?.relationshipID, Validators.required],
+                    personFirstName: [this.tempPerson?.personFirstName, Validators.required],
+                    personLastName: [this.tempPerson?.personLastName, Validators.required],
+                    personNationalCode: [this.tempPerson?.personNationalCode, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+                    personFatherName: [this.tempPerson?.personFatherName, Validators.required],
+                    personCertificateNo: [this.tempPerson?.personCertificateNo, Validators.required],
+                    personBirthDate: [this.tempPerson?.personBirthDate, Validators.required],
+                    personBirthPlaceStateID: [this.tempPerson?.personBirthPlaceStateID],
+                    personBirthPlaceCityID: [this.tempPerson?.personBirthPlaceCityID],
 
-                genderID: ['', Validators.required],
-                maritalStatusID: ['', Validators.required],
+                    genderID: [this.tempPerson?.genderID, Validators.required],
+                    maritalStatusID: [this.tempPerson?.maritalStatusID, Validators.required],
 
-                educationTypeID: [null],
-                educationBranchID: [null],
-                universityID: [null],
+                    educationTypeID: [this.tempPerson?.educationTypeID],
+                    educationBranchID: [null],
+                    universityID: [this.tempPerson?.universityID],
 
-                personPhone: [''],
-                personCellPhone: ['', Validators.required],
+                    personPhone: [this.tempPerson?.personPhone],
+                    personCellPhone: [this.tempPerson?.personCellPhone, Validators.required],
 
-                personStateID: ['', Validators.required],
-                personCityID: ['', Validators.required],
-                personRegion: [null, Validators.required],
-                personArea: [null, Validators.required],
+                    personStateID: [this.tempPerson?.personStateID, Validators.required],
+                    personCityID: [this.tempPerson?.personCityID, Validators.required],
+                    personRegion: [this.tempPerson?.personRegion, Validators.required],
+                    personArea: [this.tempPerson?.personArea, Validators.required],
 
-                personPostalCode: [null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
-                personAddress: ['', Validators.required],
+                    personPostalCode: [this.tempPerson?.personPostalCode, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+                    personAddress: [this.tempPerson?.personAddress, Validators.required],
 
-                personDescription: [''],
-              });
+                    personDescription: [this.tempPerson?.personDescription],
+                  });
+                });
+              }
             });
           });
         });
@@ -102,16 +133,64 @@ export class PersonFormComponent extends BaseComponent implements OnInit {
   submit() {
     if (this.form.valid) {
       console.log(this.form.value);
-      this.restApiService.insertNewPerson(this.form.value).subscribe((a: BaseResult<NewRelatedRequest>) => {
-        this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL)
-          .onHidden.subscribe(() => {
-          this.router.navigate(['/forms/none/63cf4a02-5237-44b6-911e-1747ede53238']);
-        });
+
+      const insert: InsertRequest = {
+        personID: this.personInfo!.personID,
+        nationalCode: this.personInfo!.personNationalCode,
+        personFirstName: this.personInfo!.personFirstName,
+        personLastName: this.personInfo!.personLastName,
+        requestDate: new Date(),
+        requestTypeID: this.requestTypeID,
+        requestText: 'درخواست افزودن وابسته جدید از طرف بازنشسته',
+        insertUserID: 'baz-1',
+        requestFrom: 2,
+      };
+      this.insert(insert).then(insertResponse => {
+        if (insertResponse) {
+          const value = this.form.value;
+          value.requestId = insertResponse.data.requestID;
+          if (this.tempPersonID) {
+            value.tempPersonID = this.tempPersonID;
+            this.restApiService.updateNewPerson(value).subscribe((a: BaseResult<NewRelatedRequest>) => {
+              this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL)
+                .onHidden.subscribe(() => {
+                this.router.navigate(['/forms/none/63cf4a02-5237-44b6-911e-1747ede53238']);
+              });
+            });
+          } else {
+            this.restApiService.insertNewPerson(value).subscribe((a: BaseResult<NewRelatedRequest>) => {
+              this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL)
+                .onHidden.subscribe(() => {
+                this.router.navigate(['/forms/none/63cf4a02-5237-44b6-911e-1747ede53238']);
+              });
+            });
+          }
+        }
       });
     } else {
       this.form.markAllAsTouched();
       console.log(this.findInvalidControls(this.form));
     }
+  }
+
+  insert(insert: InsertRequest): Promise<InsertResponse | null> {
+    //this.startLoading();
+    return new Promise(resolve => {
+      this.restApiService.insert(insert).subscribe({
+        next: (a: InsertResponse) => {
+          if (a.isSuccess) {
+            resolve(a);
+          } else {
+            //this.toaster.error(a.errors[0]?.errorMessage ?? 'خطای نامشخص', 'خطا');
+            resolve(null);
+            //this.stopLoading();
+          }
+        },
+        error: (err) => {
+          //this.stopLoading();
+        }
+      });
+    });
   }
 
   stateChanged($event: MatSelectChange<any>) {
@@ -130,5 +209,10 @@ export class PersonFormComponent extends BaseComponent implements OnInit {
         name: s.lookUpName,
       }));
     });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+    this.sub3.unsubscribe();
   }
 }
