@@ -154,14 +154,14 @@ export class PersonFormComponent extends BaseComponent implements OnInit, OnDest
             this.restApiService.updateNewPerson(value).subscribe((a: BaseResult<NewRelatedRequest>) => {
               this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL)
                 .onHidden.subscribe(() => {
-                this.router.navigate(['/forms/none/63cf4a02-5237-44b6-911e-1747ede53238']);
+                this.router.navigate([`/forms/none/${this.requestTypeID}`]);
               });
             });
           } else {
             this.restApiService.insertNewPerson(value).subscribe((a: BaseResult<NewRelatedRequest>) => {
               this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL)
                 .onHidden.subscribe(() => {
-                this.router.navigate(['/forms/none/63cf4a02-5237-44b6-911e-1747ede53238']);
+                this.router.navigate([`/forms/none/${this.requestTypeID}`]);
               });
             });
           }
