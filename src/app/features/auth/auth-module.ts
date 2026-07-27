@@ -7,6 +7,7 @@ import {Register} from './register/register';
 import {ForgotPassword} from './forgot-password/forgot-password';
 import {SharedModule} from '../../shared/shared-module';
 import {Logout} from './logout/logout';
+import {NumericCaptchaComponent} from "ngx-numeric-captcha";
 
 @NgModule({
   declarations: [
@@ -16,11 +17,12 @@ import {Logout} from './logout/logout';
     Register,
     ForgotPassword
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    AuthRoutingModule,
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        AuthRoutingModule,
+        NumericCaptchaComponent,
+    ]
 })
 export class AuthModule {
 }

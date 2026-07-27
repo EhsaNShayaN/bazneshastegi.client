@@ -69,7 +69,7 @@
           @for (attachment of attachments.controls; track attachment; let i = $index) {
             <div [formGroupName]="i" class="attachment-row">
               <mat-label class="ml-1">{{ attachment.get('type')?.value }}</mat-label>
-              <input type="file" (change)="onFileSelected($event, i)"/>
+              <input type="file" accept="image/*,application/pdf" (change)="onFileSelected($event, i)"/>
               @if (attachment.get('file')?.invalid && attachment.get('file')?.touched) {
                 <div class="error">
                   {{ attachment.get('type')?.value }}

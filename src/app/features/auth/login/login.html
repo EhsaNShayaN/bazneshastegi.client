@@ -1,7 +1,6 @@
 <div class="login-container">
   <mat-card class="login-card">
     <h2 class="mb-2">ورود به حساب کاربری</h2>
-
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div>
         <mat-form-field appearance="outline" class="full-width">
@@ -35,7 +34,21 @@
           </mat-error>
         }
       </div>
-      <button mat-raised-button color="primary" type="submit">
+      <div class="mb-3">
+        <ngx-numeric-captcha
+          [type]="captchaType"
+          size="medium"
+          (captchaResult)="onCaptchaResult($event)">
+        </ngx-numeric-captcha>
+      </div>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>کد امنیتی</mat-label>
+        <input matInput formControlName="captcha">
+        <mat-error *ngIf="form.controls['captcha'].hasError('required')">
+          کد امنیتی الزامی است.
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" submitLoading #btn="submitLoading">
         ورود
       </button>
     </form>

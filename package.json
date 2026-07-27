@@ -37,6 +37,7 @@
     "jalali-moment": "^3.3.11",
     "moment-jalaali": "^0.10.4",
     "ngx-flexible-layout": "^20.0.0",
+    "ngx-numeric-captcha": "^1.1.2",
     "ngx-toastr": "^19.0.0",
     "run-script-os": "*",
     "rxjs": "~7.8.0",

@@ -12,8 +12,15 @@ import {DatePipe} from '@angular/common';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
-import {InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from './pay-fraction-certificate/pay-fraction-certificate.model';
+import {
+  ActiveFacilitiesOfPerson,
+  ActiveFacilitiesOfPersonResponse
+} from '../../core/models/ActiveFacilitiesOfPersonResponse';
+import {
+  InsertRequest,
+  InsertRequestAttachment,
+  InsertRequestComplementary
+} from './pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 import {CustomConstants} from '../../core/constants/custom.constants';
 import {MatRadioChange} from '@angular/material/radio';
@@ -118,13 +125,40 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
       .format('jYYYY/jMM/jDD'); // use "j" for Jalali calendar
   }
 
-  onFileSelected(event: Event, index: number) {
+  onFileSelected(event: Event, index: number): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      const file = input.files[0];
+
+      const allowedTypes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/webp',
+        'image/bmp',
+        'image/svg+xml',
+        'image/tiff'
+      ];
+
+      if (!allowedTypes.includes(file.type)) {
+        this.toaster.error('فقط فایل‌های PDF و تصاویر مجاز هستند.', '', {});
+        input.value = '';
+        return;
+      }
+
+      this.attachments.at(index).patchValue({
+        uploaded: true,
+        file
+      });
+      this.attachments.at(index).get('file')?.markAsTouched();
+    }
+  }
+
+  onFileSelected0(event: Event, index: number) {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
       const file = input.files[0];
-      console.log('Selected file for', this.attachments.at(index).get('type')?.value, file);
-
-      // mark as uploaded
       this.attachments.at(index).patchValue({uploaded: true, file: file});
       this.attachments.at(index).get('file')?.markAsTouched();
     }
@@ -153,7 +187,6 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
         this.restApiService.insertRequestAttachment(insertRequestAttachment, attachment.file)
           .subscribe({
             next: (c: InsertRequestAttachmentResponse) => {
-              console.log(c);
               counter++;
               if (counter === lastIndex) {
                 this.showResult(requestNO);
@@ -198,11 +231,9 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
     this.restApiService.insert(insert).subscribe({
       next: (a: InsertResponse) => {
         if (a.isSuccess) {
-          console.log(a);
           insertComplementary.requestID = a.data.requestID;
           this.restApiService.insertComplementary(insertComplementary).subscribe({
             next: (b: InsertComplementaryResponse) => {
-              console.log(b);
               if (b.isSuccess) {
                 if ((this.attachments.controls?.length ?? 0) > 0) {
                   this.insertAttachments(a.data.requestID, a.data.requestNO);

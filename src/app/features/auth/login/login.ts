@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {mobileValidator} from '../../../core/utils/app-validators';
 import {PureComponent} from '../../../pure-component';
@@ -7,6 +7,9 @@ import {Router} from '@angular/router';
 import {LoginForPortalResponse} from '../../../core/models/LoginForPortalResponse';
 import {AuthService} from '../../../core/services/auth.service';
 import {environment} from '../../../../environments/environment';
+import {SubmitLoadingDirective} from '../../../core/directives/submit-loading.directive';
+import {ToastrService} from 'ngx-toastr';
+import {CaptchaResult, CaptchaType, NumericCaptchaComponent} from 'ngx-numeric-captcha';
 
 @Component({
   selector: 'app-login',
@@ -16,27 +19,57 @@ import {environment} from '../../../../environments/environment';
 })
 export class Login extends PureComponent {
   form: FormGroup;
+  @ViewChild('btn') btn!: SubmitLoadingDirective;
+  captchaType = CaptchaType.MATH;
+  @ViewChild(NumericCaptchaComponent)
+  captcha!: NumericCaptchaComponent;
 
   constructor(private restApiService: RestApiService,
               private router: Router,
               private fb: FormBuilder,
-              private auth: AuthService) {
+              private auth: AuthService,
+              private toaster: ToastrService) {
     super();
     this.form = this.fb.group({
       nationalCode: [environment.production ? '' : '0045723702', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
       cellPhone: [environment.production ? '' : '09121017503', Validators.compose([Validators.required, mobileValidator])],
+      captcha: ['', Validators.required]
     });
+  }
+
+  onCaptchaResult(result: CaptchaResult) {
+    console.log('captchaResult', result);
+    this.form.patchValue({
+      captcha: result.isValid
+    });
+    if (!result.isValid) {
+      this.toaster.error('کد امنیتی صحیح نیست.', '', {});
+      this.captcha.refreshCaptcha();
+      this.form.get('captcha')?.reset();
+      return;
+    }
+  }
+
+  startLoading() {
+    this.btn.startLoading();
+  }
+
+  stopLoading() {
+    this.btn.stopLoading();
   }
 
   onSubmit() {
     if (this.form.valid) {
+      this.startLoading();
       const {nationalCode, cellPhone} = this.form.value;
-      // ارسال به سرویس ورود...
       this.restApiService.loginForPortal(nationalCode, cellPhone).subscribe((b: LoginForPortalResponse) => {
         if (b.data) {
           this.auth.login(b.data.token);
           this.router.navigate(['/']);
         }
+        this.stopLoading();
+      }, (err) => {
+        this.stopLoading();
       });
     } else {
       this.form.markAllAsTouched();

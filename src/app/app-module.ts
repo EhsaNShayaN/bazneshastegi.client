@@ -31,6 +31,7 @@ import {AuthGuard} from './core/guards/auth.guard';
 import {DatePipe} from '@angular/common';
 import {MatDialogModule} from '@angular/material/dialog';
 import {DialogContentComponent} from './features/dialog-content/dialog-content.component';
+import {NumericCaptchaComponent} from 'ngx-numeric-captcha';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -57,6 +58,7 @@ export function tokenGetter() {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NumericCaptchaComponent,
     HttpClientModule,
     BidiModule,
     AppRoutingModule,
