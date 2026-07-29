@@ -40,14 +40,10 @@
           size="medium"
           (captchaResult)="onCaptchaResult($event)">
         </ngx-numeric-captcha>
-      </div>
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>کد امنیتی</mat-label>
-        <input matInput formControlName="captcha">
-        <mat-error *ngIf="form.controls['captcha'].hasError('required')">
+        <mat-error *ngIf="captchaVerified === false">
           کد امنیتی الزامی است.
         </mat-error>
-      </mat-form-field>
+      </div>
       <button mat-raised-button color="primary" type="submit" submitLoading #btn="submitLoading">
         ورود
       </button>
