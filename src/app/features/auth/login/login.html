@@ -34,16 +34,6 @@
           </mat-error>
         }
       </div>
-      <div class="mb-3">
-        <ngx-numeric-captcha
-          [type]="captchaType"
-          size="medium"
-          (captchaResult)="onCaptchaResult($event)">
-        </ngx-numeric-captcha>
-        <mat-error *ngIf="captchaVerified === false">
-          کد امنیتی الزامی است.
-        </mat-error>
-      </div>
       <button mat-raised-button color="primary" type="submit" submitLoading #btn="submitLoading">
         ورود
       </button>

@@ -8,8 +8,6 @@ import {LoginForPortalResponse} from '../../../core/models/LoginForPortalRespons
 import {AuthService} from '../../../core/services/auth.service';
 import {environment} from '../../../../environments/environment';
 import {SubmitLoadingDirective} from '../../../core/directives/submit-loading.directive';
-import {ToastrService} from 'ngx-toastr';
-import {CaptchaResult, CaptchaType, NumericCaptchaComponent} from 'ngx-numeric-captcha';
 
 @Component({
   selector: 'app-login',
@@ -20,26 +18,16 @@ import {CaptchaResult, CaptchaType, NumericCaptchaComponent} from 'ngx-numeric-c
 export class Login extends PureComponent {
   form: FormGroup;
   @ViewChild('btn') btn!: SubmitLoadingDirective;
-  captchaType = CaptchaType.MATH;
-  @ViewChild(NumericCaptchaComponent)
-  captcha!: NumericCaptchaComponent;
-  captchaVerified: boolean | null = null;
 
   constructor(private restApiService: RestApiService,
               private router: Router,
               private fb: FormBuilder,
-              private auth: AuthService,
-              private toaster: ToastrService) {
+              private auth: AuthService) {
     super();
     this.form = this.fb.group({
       nationalCode: [environment.production ? '' : '0045723702', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
       cellPhone: [environment.production ? '' : '09121017503', Validators.compose([Validators.required, mobileValidator])],
     });
-  }
-
-  onCaptchaResult(result: CaptchaResult) {
-    console.log('captchaResult', result);
-    this.captchaVerified = result.isValid;
   }
 
   startLoading() {
@@ -52,13 +40,6 @@ export class Login extends PureComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      if (!this.captchaVerified) {
-        this.captchaVerified = false;
-        //this.toaster.error('کد امنیتی صحیح نیست.', '', {});
-        this.captcha.refreshCaptcha();
-        this.form.get('captcha')?.reset();
-        return;
-      }
       this.startLoading();
       const {nationalCode, cellPhone} = this.form.value;
       this.restApiService.loginForPortal(nationalCode, cellPhone).subscribe((b: LoginForPortalResponse) => {
