@@ -34,6 +34,15 @@
           </mat-error>
         }
       </div>
+      <div>
+        <img [src]="captchaImage">
+        <button
+          type="button"
+          (click)="loadCaptcha()">
+          Refresh
+        </button>
+        <input formControlName="captcha">
+      </div>
       <button mat-raised-button color="primary" type="submit" submitLoading #btn="submitLoading">
         ورود
       </button>

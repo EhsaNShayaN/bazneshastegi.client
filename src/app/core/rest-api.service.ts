@@ -1,4 +1,4 @@
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpContext, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, map, Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -35,6 +35,7 @@ import {NewRelatedRequest} from '../features/forms/new-related/new-related.model
 import {RelationshipResponse} from './models/RelationshipResponse';
 import {RelatedListForPortalResponse} from './models/RelatedListForPortalResponse';
 import {TempPersonsResponse} from './models/TempPersonsResponse';
+import {SKIP_INTERCEPTOR} from './services/http-context.tokens';
 
 @Injectable({
   providedIn: 'root'
@@ -315,6 +316,39 @@ export class RestApiService {
   SetInstalementAmount(requestTypeId: string, defaultAmount: string, instalementCount: number): Observable<any> {
     return this.http.get<ActiveFacilitiesOfPersonResponse>
     (`${endpoint()}forms/setInstalementAmount?requestTypeId=${requestTypeId}&defaultAmount=${defaultAmount}&DefaultInstalementCount=${instalementCount}`,).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getCookieConsentStatus(): Observable<any> {
+    return this.http.get<BaseResult<{ accepted: boolean }>>(`${endpoint()}cookie-consent/status`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  setCookieConsent(): Observable<any> {
+    return this.http.post<BaseResult<{ done: boolean }>>(`${endpoint()}cookie-consent`, {}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getCaptchaInfo(): Observable<any> {
+    return this.http.get<BaseResult<{ id: string, expiry: string }>>(`${endpoint()}captcha/new`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  generateCaptcha(id: string, width: number = 200, height: number = 200): Observable<any> {
+    return this.http.get<any>(`${endpoint()}captcha?id=${id}&width=${width}&height=${height}`, {
+      context: new HttpContext().set(SKIP_INTERCEPTOR, true)
+    });
+  }
+
+  validateCaptcha(id: string, code: string): Observable<any> {
+    return this.http.post<BaseResult<{ done: boolean }>>(`${endpoint()}captcha/validate`, {
+      id,
+      code
+    }).pipe(
       catchError(this.handleError)
     );
   }

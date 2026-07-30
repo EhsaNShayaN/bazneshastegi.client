@@ -32,7 +32,6 @@ import {MatPaginator} from '@angular/material/paginator';
 import {CommonModule} from '@angular/common';
 import {CurrencyInputComponent} from './components/currency-input/currency-input.component';
 import {CustomSelectComponent} from './components/custom-select/custom-select.component';
-import {NumericCaptchaComponent} from 'ngx-numeric-captcha';
 
 @NgModule({
   declarations: [

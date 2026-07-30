@@ -3,6 +3,7 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,
 import {Observable, tap} from 'rxjs';
 import {AuthService} from './auth.service';
 import {ToastrService} from 'ngx-toastr';
+import {SKIP_INTERCEPTOR} from './http-context.tokens';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,10 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const skip = req.context.get(SKIP_INTERCEPTOR);
+    if (skip) {
+      return next.handle(req);
+    }
     const token = this.auth.getToken();
     let cloned: HttpRequest<any> = req;
     if (token) {

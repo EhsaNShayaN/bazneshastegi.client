@@ -430,3 +430,15 @@
     transform: rotate(360deg);
   }
 }
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+  text-align: center;
+  background: $primary;
+  padding: 1rem;
+  direction: rtl;
+}
