@@ -35,13 +35,17 @@
         }
       </div>
       <div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>کد امنیتی</mat-label>
+          <input matInput formControlName="captcha" required onlyNumber class="ltr">
+        </mat-form-field>
+        @if (form.get('captcha')?.touched) {
+          <mat-error *ngIf="form.get('captcha')?.hasError('required')">
+            کد امنیتی اجباری می باشد
+          </mat-error>
+        }
+        <button type="button" mat-raised-button color="accent" class="my-2" (click)="loadCaptcha()">بازنشانی</button>
         <img [src]="captchaImage">
-        <button
-          type="button"
-          (click)="loadCaptcha()">
-          Refresh
-        </button>
-        <input formControlName="captcha">
       </div>
       <button mat-raised-button color="primary" type="submit" submitLoading #btn="submitLoading">
         ورود

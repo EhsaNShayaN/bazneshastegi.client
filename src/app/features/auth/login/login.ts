@@ -38,11 +38,9 @@ export class Login extends PureComponent implements OnInit {
   }
 
   loadCaptcha() {
-    this.restApiService.getCaptchaInfo().subscribe(y => {
-      this.restApiService.generateCaptcha(y.id).subscribe(x => {
-        this.captchaId = y.id;
-        this.captchaImage = 'data:image/png;base64,' + x;
-      });
+    this.restApiService.generateCaptcha('').subscribe(x => {
+      this.captchaId = x.id;
+      this.captchaImage = x.image;
     });
   }
 
@@ -56,29 +54,20 @@ export class Login extends PureComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.restApiService.validateCaptcha(
-        this.captchaId,
-        this.form.value.captcha!)
-        .subscribe(result => {
-          if (!result.valid) {
-            alert('Captcha is invalid');
+      this.startLoading();
+      const values = this.form.value;
+      this.restApiService.loginForPortal(values.nationalCode, values.cellPhone, values.captcha, this.captchaId)
+        .subscribe((b: LoginForPortalResponse) => {
+          if (b.data) {
+            this.auth.login(b.data.token);
+            this.router.navigate(['/']);
+          } else {
             this.loadCaptcha();
-            return;
+            this.stopLoading();
           }
-          this.startLoading();
-          const {nationalCode, cellPhone} = this.form.value;
-          this.restApiService.loginForPortal(nationalCode, cellPhone).subscribe((b: LoginForPortalResponse) => {
-            if (b.data) {
-              this.auth.login(b.data.token);
-              this.router.navigate(['/']);
-            }
-            this.stopLoading();
-          }, (err) => {
-            this.loadCaptcha();
-            this.stopLoading();
-          });
-        }, error => {
+        }, (err) => {
           this.loadCaptcha();
+          this.stopLoading();
         });
     } else {
       this.form.markAllAsTouched();

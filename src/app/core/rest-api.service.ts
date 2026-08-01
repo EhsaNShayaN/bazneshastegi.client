@@ -1,4 +1,4 @@
-import {HttpClient, HttpContext, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpContext, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, map, Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -49,8 +49,14 @@ export class RestApiService {
               private authService: AuthService) {
   }
 
-  loginForPortal(nationalCode: string, cellPhone: string): Observable<any> {
-    return this.http.get<LoginForPortalResponse>(`${endpoint()}forms/loginForPortal?nationalCode=${nationalCode}&cellPhone=${cellPhone}`)
+  loginForPortal(nationalCode: string, cellPhone: string, captcha: string, captchaId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'x-CaptchaValue': captcha,
+      'x-CaptchaId': captchaId
+    });
+    return this.http.get<LoginForPortalResponse>(
+      `${endpoint()}forms/loginForPortal?nationalCode=${nationalCode}&cellPhone=${cellPhone}`,
+      { headers })
       .pipe(catchError(this.handleError),
         map((d: LoginForPortalResponse) => {
           if (d.isSuccess) {
@@ -338,19 +344,10 @@ export class RestApiService {
     );
   }
 
-  generateCaptcha(id: string, width: number = 200, height: number = 200): Observable<any> {
-    return this.http.get<any>(`${endpoint()}captcha?id=${id}&width=${width}&height=${height}`, {
+  generateCaptcha(id: string, width: number = 300, height: number = 200): Observable<CaptchaImageInfo> {
+    return this.http.get<CaptchaImageInfo>(`${endpoint()}captcha/img?id=${id}&width=${width}&height=${height}`, {
       context: new HttpContext().set(SKIP_INTERCEPTOR, true)
     });
-  }
-
-  validateCaptcha(id: string, code: string): Observable<any> {
-    return this.http.post<BaseResult<{ done: boolean }>>(`${endpoint()}captcha/validate`, {
-      id,
-      code
-    }).pipe(
-      catchError(this.handleError)
-    );
   }
 
   handleError<T>(error: HttpErrorResponse): Observable<any> {
@@ -364,4 +361,10 @@ export class RestApiService {
     }
     return throwError('خطای نامشخص، لطفاً لحظاتی دیگر تلاش نمایید.');
   }
+}
+
+export interface CaptchaImageInfo {
+  id: string;
+  expiry: string;
+  image: string;
 }
