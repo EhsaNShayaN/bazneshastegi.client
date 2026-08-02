@@ -23,7 +23,7 @@ export class TreatmentBookletComponent extends BaseFormComponent implements OnIn
   }
 
   override createForm() {
-    this.restApiService.getRequestTypeConfig(this.requestTypeID, null, null, null, null).subscribe((a: GetRequestTypeConfigResponse) => {
+    this.restApiService.getRequestTypeConfig(this.requestTypeID).subscribe((a: GetRequestTypeConfigResponse) => {
       this.requestTypeConfig = a.data[0];
     });
     this.restApiService.getLookup('MedicalTreatmentServiceType').subscribe((a: GetLookupResponse) => {
