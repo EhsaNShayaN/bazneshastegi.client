@@ -101,4 +101,12 @@ export interface PersonInfo {
   remainedAmountForCertificate?: number;
   employmentTypeID: string;
   employmentTypeName: string;
+  backup?: BackupInfo;
+}
+export interface BackupInfo {
+  backupFirstName: string;
+  backupLastName: string;
+  backupNationalCode: string;
+  backupCellPhone: string;
+  backupPhone: string;
 }

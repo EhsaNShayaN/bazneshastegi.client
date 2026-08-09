@@ -37,4 +37,6 @@ export interface TempPerson {
   personDescription?: string | null;
   isUnderGauarantee?: boolean | null;
   existingPerson?: string | null;
+  educationTypeName?: string | null;
+  relationshipName?: string | null;
 }

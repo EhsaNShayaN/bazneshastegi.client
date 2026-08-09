@@ -8,6 +8,7 @@ import {BaseResult} from '../../../core/models/BaseResult';
 import {CustomConstants} from '../../../core/constants/custom.constants';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest} from '../pay-fraction-certificate/pay-fraction-certificate.model';
+import jMoment from 'moment-jalaali';
 
 @Component({
   selector: 'app-modify-person-info',
@@ -27,21 +28,27 @@ export class ModifyPersonInfoComponent extends BaseFormComponent {
         name: s.lookUpName,
       }));
     });
+    const personBirthDate = this.personInfo?.personBirthDate
+      ? jMoment(this.personInfo.personBirthDate)
+      : null;
     this.form = this.fb.group({
       personFirstName: [this.personInfo!.personFirstName, Validators.required],
       personLastName: [this.personInfo!.personLastName, Validators.required],
       personNationalCode: [this.personInfo!.personNationalCode, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
       personFatherName: [this.personInfo!.personFatherName, Validators.required],
       personCertificateNo: [this.personInfo!.personCertificateNo, Validators.required],
-      personBirthDate: [this.helpers.convertToShamsi(this.personInfo!.personBirthDate, 'Asia/Tehran', false), Validators.required],
-      personBirthPlaceStateID: [null],
+      personBirthDate: [personBirthDate, Validators.required],
+      personBirthPlaceStateID: [this.personInfo!.personBirthPlaceStateID],
       personBirthPlaceCityID: [null],
 
-      personPhone: [this.personInfo!.personPhone],
       personCellPhone: [this.personInfo!.personCellPhone, Validators.required],
+      personPhone: [this.personInfo!.personPhone],
 
-      personStateID: ['', Validators.required],
-      personCityID: ['', Validators.required],
+      latitude: [null],
+      longitude: [null],
+
+      personStateID: [this.personInfo!.personStateID, Validators.required],
+      personCityID: [null, Validators.required],
       personRegion: [this.personInfo!.personRegion, Validators.required],
       personArea: [this.personInfo!.personArea, Validators.required],
 
@@ -50,11 +57,18 @@ export class ModifyPersonInfoComponent extends BaseFormComponent {
 
       personCountryID: [''],
 
-      backupFirstName: [''],
-      backupLastName: [''],
-      backupCellphone: [''],
-      backupNationalCode: [''],
+      backupFirstName: [this.personInfo!.backup?.backupFirstName, Validators.required],
+      backupLastName: [this.personInfo!.backup?.backupLastName, Validators.required],
+      backupNationalCode: [this.personInfo!.backup?.backupNationalCode, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+      backupCellPhone: [this.personInfo!.backup?.backupCellPhone, Validators.required],
+      backupPhone: [this.personInfo!.backup?.backupPhone],
     });
+    if (this.personInfo?.personBirthPlaceStateID && this.personInfo?.personBirthPlaceCityID) {
+      this.onStateChanged(this.personInfo?.personBirthPlaceStateID, this.personInfo?.personBirthPlaceCityID);
+    }
+    if (this.personInfo?.personStateID && this.personInfo?.personCityID) {
+      this.onPersonStateChanged(this.personInfo?.personStateID, this.personInfo?.personCityID);
+    }
   }
 
   submit() {
@@ -90,20 +104,34 @@ export class ModifyPersonInfoComponent extends BaseFormComponent {
   }
 
   stateChanged($event: MatSelectChange<any>) {
-    this.restApiService.getLookupData('city', $event.value).subscribe((a: LookUpDataResponse) => {
+    this.onStateChanged($event.value);
+  }
+
+  onStateChanged(stateId: string, cityId: string | null = null) {
+    this.restApiService.getLookupData('city', stateId).subscribe((a: LookUpDataResponse) => {
       this.cities = a.data.map(s => ({
         id: s.lookUpID,
         name: s.lookUpName,
       }));
+      if (cityId) {
+        this.form.get('personBirthPlaceCityID')?.setValue(cityId);
+      }
     });
   }
 
   personStateChanged($event: MatSelectChange<any>) {
-    this.restApiService.getLookupData('city', $event.value).subscribe((a: LookUpDataResponse) => {
+    this.onPersonStateChanged($event.value);
+  }
+
+  onPersonStateChanged(stateId: string, cityId: string | null = null) {
+    this.restApiService.getLookupData('city', stateId).subscribe((a: LookUpDataResponse) => {
       this.personCities = a.data.map(s => ({
         id: s.lookUpID,
         name: s.lookUpName,
       }));
+      if (cityId) {
+        this.form.get('personCityID')?.setValue(cityId);
+      }
     });
   }
 }

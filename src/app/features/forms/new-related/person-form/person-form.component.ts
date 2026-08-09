@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BaseComponent} from '../../../../base-component';
 import {RestApiService} from '../../../../core/rest-api.service';
@@ -16,6 +16,8 @@ import {PersonInfo} from '../../../../core/models/PersonInfoResponse';
 import {RequestTypeAttachmentResponse} from '../../../../core/models/RequestTypeAttachmentResponse';
 import {InsertResponse} from '../../../../core/models/InsertResponse';
 import {TempPerson, TempPersonsResponse} from '../../../../core/models/TempPersonsResponse';
+import jMoment from 'moment-jalaali';
+import {SubmitLoadingDirective} from '../../../../core/directives/submit-loading.directive';
 
 @Component({
   selector: 'app-person-form',
@@ -39,6 +41,7 @@ export class PersonFormComponent extends BaseComponent implements OnInit, OnDest
   requestTypeID: string = '';
   tempPersonID: string = '';
   tempPerson?: TempPerson;
+  @ViewChild('btn') btn!: SubmitLoadingDirective;
 
   constructor(private restApiService: RestApiService,
               private fb: FormBuilder,
@@ -90,6 +93,9 @@ export class PersonFormComponent extends BaseComponent implements OnInit, OnDest
               if (this.tempPersonID) {
                 this.restApiService.getTempPerson().subscribe((res: TempPersonsResponse) => {
                   this.tempPerson = res.data.find(s => s.tempPersonID === this.tempPersonID);
+                  const personBirthDate = this.tempPerson?.personBirthDate
+                    ? jMoment(this.tempPerson.personBirthDate)
+                    : null;
                   this.form = this.fb.group({
                     relationshipID: [this.tempPerson?.relationshipID, Validators.required],
                     personFirstName: [this.tempPerson?.personFirstName, Validators.required],
@@ -97,9 +103,10 @@ export class PersonFormComponent extends BaseComponent implements OnInit, OnDest
                     personNationalCode: [this.tempPerson?.personNationalCode, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
                     personFatherName: [this.tempPerson?.personFatherName, Validators.required],
                     personCertificateNo: [this.tempPerson?.personCertificateNo, Validators.required],
-                    personBirthDate: [this.tempPerson?.personBirthDate, Validators.required],
+                    personBirthDate: [personBirthDate, Validators.required],
+
                     personBirthPlaceStateID: [this.tempPerson?.personBirthPlaceStateID],
-                    personBirthPlaceCityID: [this.tempPerson?.personBirthPlaceCityID],
+                    personBirthPlaceCityID: [null],
 
                     genderID: [this.tempPerson?.genderID, Validators.required],
                     maritalStatusID: [this.tempPerson?.maritalStatusID, Validators.required],
@@ -112,7 +119,7 @@ export class PersonFormComponent extends BaseComponent implements OnInit, OnDest
                     personCellPhone: [this.tempPerson?.personCellPhone, Validators.required],
 
                     personStateID: [this.tempPerson?.personStateID, Validators.required],
-                    personCityID: [this.tempPerson?.personCityID, Validators.required],
+                    personCityID: [null, Validators.required],
                     personRegion: [this.tempPerson?.personRegion, Validators.required],
                     personArea: [this.tempPerson?.personArea, Validators.required],
 
@@ -121,6 +128,12 @@ export class PersonFormComponent extends BaseComponent implements OnInit, OnDest
 
                     personDescription: [this.tempPerson?.personDescription],
                   });
+                  if (this.tempPerson?.personBirthPlaceStateID && this.tempPerson?.personBirthPlaceCityID) {
+                    this.onStateChanged(this.tempPerson?.personBirthPlaceStateID, this.tempPerson?.personBirthPlaceCityID);
+                  }
+                  if (this.tempPerson?.personStateID && this.tempPerson?.personCityID) {
+                    this.onPersonStateChanged(this.tempPerson?.personStateID, this.tempPerson?.personCityID);
+                  }
                 });
               }
             });
@@ -130,8 +143,17 @@ export class PersonFormComponent extends BaseComponent implements OnInit, OnDest
     });
   }
 
+  startLoading() {
+    this.btn.startLoading();
+  }
+
+  stopLoading() {
+    this.btn.stopLoading();
+  }
+
   submit() {
     if (this.form.valid) {
+      this.startLoading();
       console.log(this.form.value);
 
       const insert: InsertRequest = {
@@ -152,20 +174,30 @@ export class PersonFormComponent extends BaseComponent implements OnInit, OnDest
           if (this.tempPersonID) {
             value.tempPersonID = this.tempPersonID;
             this.restApiService.updateNewPerson(value).subscribe((a: BaseResult<NewRelatedRequest>) => {
+              this.stopLoading();
               this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL)
                 .onHidden.subscribe(() => {
                 this.router.navigate([`/forms/none/${this.requestTypeID}`]);
+              }, (err) => {
+                this.stopLoading();
               });
             });
           } else {
             this.restApiService.insertNewPerson(value).subscribe((a: BaseResult<NewRelatedRequest>) => {
+              this.stopLoading();
               this.toaster.success(CustomConstants.THE_OPERATION_WAS_SUCCESSFUL)
                 .onHidden.subscribe(() => {
                 this.router.navigate([`/forms/none/${this.requestTypeID}`]);
+              }, (err) => {
+                this.stopLoading();
               });
             });
           }
+        } else {
+          this.stopLoading();
         }
+      }, (err) => {
+        this.stopLoading();
       });
     } else {
       this.form.markAllAsTouched();
@@ -194,20 +226,34 @@ export class PersonFormComponent extends BaseComponent implements OnInit, OnDest
   }
 
   stateChanged($event: MatSelectChange<any>) {
-    this.restApiService.getLookupData('city', $event.value).subscribe((a: LookUpDataResponse) => {
+    this.onStateChanged($event.value);
+  }
+
+  onStateChanged(stateId: string, cityId: string | null = null) {
+    this.restApiService.getLookupData('city', stateId).subscribe((a: LookUpDataResponse) => {
       this.cities = a.data.map(s => ({
         id: s.lookUpID,
         name: s.lookUpName,
       }));
+      if (cityId) {
+        this.form.get('personBirthPlaceCityID')?.setValue(cityId);
+      }
     });
   }
 
   personStateChanged($event: MatSelectChange<any>) {
-    this.restApiService.getLookupData('city', $event.value).subscribe((a: LookUpDataResponse) => {
+    this.onPersonStateChanged($event.value);
+  }
+
+  onPersonStateChanged(stateId: string, cityId: string | null = null) {
+    this.restApiService.getLookupData('city', stateId).subscribe((a: LookUpDataResponse) => {
       this.personCities = a.data.map(s => ({
         id: s.lookUpID,
         name: s.lookUpName,
       }));
+      if (cityId) {
+        this.form.get('personCityID')?.setValue(cityId);
+      }
     });
   }
 

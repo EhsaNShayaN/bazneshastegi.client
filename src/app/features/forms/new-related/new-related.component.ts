@@ -16,7 +16,7 @@ export class NewRelatedComponent extends BaseFormComponent {
     //{key: 'personLastName', name: 'نام خانوادگی'},
     {key: 'personFirstName', name: 'نام'},
     {key: 'personLastName', name: 'نام خانوادگی'},
-    {key: 'relationshipWithParentName', name: 'نسبت'},
+    {key: 'relationshipName', name: 'نسبت'},
     {key: 'educationTypeName', name: 'مقطع تحصیلی'},
     {key: 'pensionaryIsUnderGauranteeText', name: 'تحت تکفل'},
     {key: 'actions', name: 'نمایش اطلاعات'},
