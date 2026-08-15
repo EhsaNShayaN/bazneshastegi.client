@@ -7,7 +7,7 @@
       <div fxFlex="100" fxFlex.gt-xs="33.3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>نوع درخواست</mat-label>
-          <mat-select formControlName="issueTypeLookupID">
+          <mat-select formControlName="issueTypeLookupID" (selectionChange)="calculateMedicalTreatment()">
             @for (item of medicalTreatmentServiceTypes; track item.lookUpID) {
               <mat-option [value]="item.lookUpID">{{ item.lookUpName }}</mat-option>
             }
@@ -21,7 +21,7 @@
       <div fxFlex="100" fxFlex.gt-xs="33.3" class="px-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>نحوه تحویل</mat-label>
-          <mat-select formControlName="facilityReceiveTypeLookupID">
+          <mat-select formControlName="facilityReceiveTypeLookupID" (selectionChange)="calculateMedicalTreatment()">
             @for (item of medicalBookletReceiveTypes; track item.lookUpID) {
               <mat-option [value]="item.lookUpID">{{ item.lookUpName }}</mat-option>
             }
@@ -35,7 +35,8 @@
       <div fxFlex="100" fxFlex.gt-xs="33.3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>هزینه ارسال (ریال)</mat-label>
-          <input matInput [disabled]="true" [value]="requestTypeConfig?.deliveryCost | customCurrency" class="ltr">
+          <input matInput [disabled]="true" [value]="calculateMedicalTreatmentCost?.deliveryCost | customCurrency"
+                 class="ltr">
         </mat-form-field>
       </div>
 

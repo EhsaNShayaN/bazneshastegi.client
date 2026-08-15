@@ -36,6 +36,7 @@ import {RelationshipResponse} from './models/RelationshipResponse';
 import {RelatedListForPortalResponse} from './models/RelatedListForPortalResponse';
 import {TempPersonsResponse} from './models/TempPersonsResponse';
 import {SKIP_INTERCEPTOR} from './services/http-context.tokens';
+import {CalculateMedicalTreatmentCostResponse} from './models/CalculateMedicalTreatmentCostResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -348,6 +349,26 @@ export class RestApiService {
     return this.http.get<CaptchaImageInfo>(`${endpoint()}captcha/img?id=${id}&width=${width}&height=${height}`, {
       context: new HttpContext().set(SKIP_INTERCEPTOR, true)
     });
+  }
+
+  calculateMedicalTreatmentCost(
+    requestTypeId: string,
+    lookupID: string | null = null,
+    relatedPersonId: string | null = null,
+    deliveryType: string | null = null): Observable<any> {
+    let query = `${endpoint()}forms/calculateMedicalTreatmentCost?requestTypeId=${requestTypeId}`;
+    if (lookupID) {
+      query += `&serviceTypeLookupID=${lookupID}`;
+    }
+    if (relatedPersonId) {
+      query += `&relatedPersonId=${relatedPersonId}`;
+    }
+    if (deliveryType) {
+      query += `&deliveryType=${deliveryType}`;
+    }
+    return this.http.get<CalculateMedicalTreatmentCostResponse>(query).pipe(
+      catchError(this.handleError)
+    );
   }
 
   handleError<T>(error: HttpErrorResponse): Observable<any> {

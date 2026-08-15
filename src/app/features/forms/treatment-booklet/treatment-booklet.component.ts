@@ -3,8 +3,8 @@ import {Validators} from '@angular/forms';
 import {HealthBookletRequest} from './treatment-booklet.model';
 import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
-import {GetRequestTypeConfigResponse, RequestTypeConfigInfo} from '../../../core/models/GetRequestTypeConfigResponse';
 import {GetLookupResponse, LookupInfo} from '../../../core/models/GetLookupResponse';
+import {CalculateMedicalTreatmentCostInfo, CalculateMedicalTreatmentCostResponse} from '../../../core/models/CalculateMedicalTreatmentCostResponse';
 
 @Component({
   selector: 'app-treatment-booklet',
@@ -13,7 +13,7 @@ import {GetLookupResponse, LookupInfo} from '../../../core/models/GetLookupRespo
   standalone: false
 })
 export class TreatmentBookletComponent extends BaseFormComponent implements OnInit {
-  requestTypeConfig?: RequestTypeConfigInfo;
+  calculateMedicalTreatmentCost?: CalculateMedicalTreatmentCostInfo;
   medicalTreatmentServiceTypes: LookupInfo[] = [];
   medicalBookletReceiveTypes: LookupInfo[] = [];
 
@@ -23,9 +23,6 @@ export class TreatmentBookletComponent extends BaseFormComponent implements OnIn
   }
 
   override createForm() {
-    this.restApiService.getRequestTypeConfig(this.requestTypeID).subscribe((a: GetRequestTypeConfigResponse) => {
-      this.requestTypeConfig = a.data[0];
-    });
     this.restApiService.getLookup('MedicalTreatmentServiceType').subscribe((a: GetLookupResponse) => {
       this.medicalTreatmentServiceTypes = a.data;
     });
@@ -46,6 +43,17 @@ export class TreatmentBookletComponent extends BaseFormComponent implements OnIn
         )
       ),
     });
+  }
+
+  calculateMedicalTreatment() {
+    const medicalTreatmentServiceTypeId = this.form.get('issueTypeLookupID')?.value;
+    const medicalBookletReceiveTypeId = this.form.get('facilityReceiveTypeLookupID')?.value;
+    if (this.relatedPersonID && medicalTreatmentServiceTypeId && medicalBookletReceiveTypeId) {
+      this.restApiService.calculateMedicalTreatmentCost(this.requestTypeID, medicalTreatmentServiceTypeId, this.relatedPersonID, medicalBookletReceiveTypeId)
+        .subscribe((a: CalculateMedicalTreatmentCostResponse) => {
+          this.calculateMedicalTreatmentCost = a.data[0];
+        });
+    }
   }
 
   ngOnInit() {

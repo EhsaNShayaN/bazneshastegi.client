@@ -18,6 +18,13 @@
                     <mat-icon color="primary">edit</mat-icon>
                   </a>
                 }
+                @case ('isUnderGauarantee') {
+                  @if (element[column.key]) {
+                    تحت تکفل
+                  } @else {
+                    خارج از تکفل
+                  }
+                }
                 @default {
                   {{ element[column.key] }}
                 }

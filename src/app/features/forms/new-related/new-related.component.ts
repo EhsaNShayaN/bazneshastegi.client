@@ -18,7 +18,7 @@ export class NewRelatedComponent extends BaseFormComponent {
     {key: 'personLastName', name: 'نام خانوادگی'},
     {key: 'relationshipName', name: 'نسبت'},
     {key: 'educationTypeName', name: 'مقطع تحصیلی'},
-    {key: 'pensionaryIsUnderGauranteeText', name: 'تحت تکفل'},
+    {key: 'isUnderGauarantee', name: 'تحت تکفل'},
     {key: 'actions', name: 'نمایش اطلاعات'},
   ];
   newRelationcurrentColumnsToDisplay: string[] = this.newRelationColumnsToDisplay.map(s => s.key);
