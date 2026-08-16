@@ -5,6 +5,7 @@ import {BaseFormComponent} from '../base-form-component';
 import {InsertRequest, InsertRequestComplementary} from '../pay-fraction-certificate/pay-fraction-certificate.model';
 import {GetLookupResponse, LookupInfo} from '../../../core/models/GetLookupResponse';
 import {CalculateMedicalTreatmentCostInfo, CalculateMedicalTreatmentCostResponse} from '../../../core/models/CalculateMedicalTreatmentCostResponse';
+import {MatRadioChange} from '@angular/material/radio';
 
 @Component({
   selector: 'app-treatment-booklet',
@@ -59,10 +60,15 @@ export class TreatmentBookletComponent extends BaseFormComponent implements OnIn
   ngOnInit() {
   }
 
+  override checkRelatedUser($event: MatRadioChange) {
+    super.checkRelatedUser($event);
+    this.calculateMedicalTreatment();
+  }
+
   submit() {
     this.relatedPersonIDError = !this.relatedPersonID;
     console.log(this.form.getRawValue());
-    if (this.form.valid && !this.relatedPersonIDError) {
+    if (this.form.valid && !this.relatedPersonIDError && this.calculateMedicalTreatmentCost) {
       const request: HealthBookletRequest = this.form.getRawValue();
       console.log('📌 فرم دفترچه درمانی ثبت شد:', request);
       const insert: InsertRequest = {
@@ -86,6 +92,7 @@ export class TreatmentBookletComponent extends BaseFormComponent implements OnIn
       };
       this.send(insert, insertComplementary);
     } else {
+      //this.toaster.error('لطفا همه آیتم ها را انتخاب نمایید.', '', {});
       this.form.markAllAsTouched();
       console.log(this.findInvalidControls(this.form));
     }
