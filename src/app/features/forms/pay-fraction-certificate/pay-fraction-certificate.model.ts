@@ -87,6 +87,8 @@ export class InsertRequestComplementary {
   ceremonyTypeLookupID?: string;
   ceremonyGuestCount?: number;
   introducedToLookupID?: string;
+  serviceCost?: number | null;
+  deliveryCost?: number | null;
 }
 
 export interface InsertRequestAttachment {

@@ -8,5 +8,5 @@ export interface CalculateMedicalTreatmentCostInfo {
   deliveryCost: number | null;
   serviceDiscount: number | null;
   serviceCountOfInstalement: number | null;
-  messageForUser: number | null;
+  messageForUser: string | null;
 }

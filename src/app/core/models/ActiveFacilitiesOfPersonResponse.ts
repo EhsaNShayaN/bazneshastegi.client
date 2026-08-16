@@ -52,4 +52,6 @@ export interface ActiveFacilitiesOfPerson {
   facilityReceiveTypeLookupName: string | null;
   ceremonyTypeLookupName: string | null;
   introducedToLookupName: string | null;
+  basketRecieveTypeID: string | null;
+  basketRecieveTypeName: string | null;
 }

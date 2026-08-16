@@ -12,15 +12,8 @@ import {DatePipe} from '@angular/common';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {
-  ActiveFacilitiesOfPerson,
-  ActiveFacilitiesOfPersonResponse
-} from '../../core/models/ActiveFacilitiesOfPersonResponse';
-import {
-  InsertRequest,
-  InsertRequestAttachment,
-  InsertRequestComplementary
-} from './pay-fraction-certificate/pay-fraction-certificate.model';
+import {ActiveFacilitiesOfPerson, ActiveFacilitiesOfPersonResponse} from '../../core/models/ActiveFacilitiesOfPersonResponse';
+import {InsertRequest, InsertRequestAttachment, InsertRequestComplementary} from './pay-fraction-certificate/pay-fraction-certificate.model';
 import {InsertRequestAttachmentResponse} from '../../core/models/InsertRequestAttachmentResponse';
 import {CustomConstants} from '../../core/constants/custom.constants';
 import {MatRadioChange} from '@angular/material/radio';
@@ -36,6 +29,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
   @ViewChild('btn') btn!: SubmitLoadingDirective;
   message: string = '';
   dataSource: MatTableDataSource<ActiveFacilitiesOfPerson> | null = null;
+  firstActiveFacility: ActiveFacilitiesOfPerson | null = null;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, {static: true}) sort: MatSort | null = null;
   totalCount = 0;
@@ -79,6 +73,7 @@ export class BaseFormComponent extends BaseComponent implements OnDestroy {
       this.restApiService.formSubmittedSubject.next('');
       this.requestTypeID = id;
       this.restApiService.getActiveFacilitiesOfPerson(this.requestTypeID).subscribe((a: ActiveFacilitiesOfPersonResponse) => {
+        if (a.data?.length > 0) this.firstActiveFacility = a.data[0];
         this.initDataSource(a);
         this.sub3 = this.restApiService.personInfoSubject.subscribe(personInfo => {
           if (personInfo) {

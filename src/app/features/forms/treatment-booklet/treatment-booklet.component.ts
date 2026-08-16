@@ -89,10 +89,11 @@ export class TreatmentBookletComponent extends BaseFormComponent implements OnIn
         relatedPersonID: this.relatedPersonID,
         issueTypeLookupID: request.issueTypeLookupID,
         facilityReceiveTypeLookupID: request.facilityReceiveTypeLookupID,
+        serviceCost: this.calculateMedicalTreatmentCost.serviceCost,
+        deliveryCost: this.calculateMedicalTreatmentCost.deliveryCost,
       };
       this.send(insert, insertComplementary);
     } else {
-      //this.toaster.error('لطفا همه آیتم ها را انتخاب نمایید.', '', {});
       this.form.markAllAsTouched();
       console.log(this.findInvalidControls(this.form));
     }
