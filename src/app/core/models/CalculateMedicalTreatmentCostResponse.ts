@@ -4,24 +4,9 @@ export interface CalculateMedicalTreatmentCostResponse extends BaseResult<Calcul
 }
 
 export interface CalculateMedicalTreatmentCostInfo {
-  requestTypeConfigID: string | null;
-  requestTypeID: string;
-  lookupID: number;
-  defaultAmount: number;
-  deliveryCost?: number;
-  defaultInstalementCount: number | null;
-  defaultDiscountPercent: number | null;
-  profitOrDiscountPercent: number | null;
-  guarantorCost: number | null;
-  validationStartDate: string;
-  facilityReceiverRelationshipID: string | null;
-  pensionaryStatusCategory: string | null;
-  genderLookupID: number | null;
-  isActive: boolean;
-  requestTypeName: string;
-  lookupName: string;
-  facilityReceiverRelationshipName: string | null;
-  pensionaryStatusCategoryName: string | null;
-  genderName: string | null;
-  defaultInstalementAmount: number | null;
+  serviceCost: number | null;
+  deliveryCost: number | null;
+  serviceDiscount: number | null;
+  serviceCountOfInstalement: number | null;
+  messageForUser: number | null;
 }

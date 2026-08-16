@@ -35,8 +35,8 @@
       <div fxFlex="100" fxFlex.gt-xs="33.3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>هزینه ارسال (ریال)</mat-label>
-          <input matInput [disabled]="true" [value]="calculateMedicalTreatmentCost?.deliveryCost | customCurrency"
-                 class="ltr">
+          <input matInput [disabled]="true" class="ltr"
+                 [value]="calculateMedicalTreatmentCost?.deliveryCost | customCurrency">
         </mat-form-field>
       </div>
 
