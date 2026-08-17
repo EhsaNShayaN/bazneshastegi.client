@@ -20,6 +20,7 @@ export class ModifyPersonInfoComponent extends BaseFormComponent {
   states: SelectItem[] = [];
   cities: SelectItem[] = [];
   personCities: SelectItem[] = [];
+  src = '/assets/no-profile.png';
 
   override createForm() {
     this.restApiService.getLookupData('state', '').subscribe((states: LookUpDataResponse) => {
@@ -28,6 +29,9 @@ export class ModifyPersonInfoComponent extends BaseFormComponent {
         name: s.lookUpName,
       }));
     });
+    if (this.personInfo?.picture) {
+      this.src = this.personInfo.picture;
+    }
     const personBirthDate = this.personInfo?.personBirthDate
       ? jMoment(this.personInfo.personBirthDate)
       : null;
@@ -57,11 +61,11 @@ export class ModifyPersonInfoComponent extends BaseFormComponent {
 
       personCountryID: [''],
 
-      backupFirstName: [this.personInfo!.backup?.backupFirstName, Validators.required],
-      backupLastName: [this.personInfo!.backup?.backupLastName, Validators.required],
-      backupNationalCode: [this.personInfo!.backup?.backupNationalCode, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
-      backupCellPhone: [this.personInfo!.backup?.backupCellPhone, Validators.required],
-      backupPhone: [this.personInfo!.backup?.backupPhone],
+      backupFirstName: [this.personInfo!.backupFirstName, Validators.required],
+      backupLastName: [this.personInfo!.backupLastName, Validators.required],
+      backupNationalCode: [this.personInfo!.backupNationalCode, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+      backupCellPhone: [this.personInfo!.backupCellphone, Validators.required],
+      backupPhone: [this.personInfo!.backupPhone],
     });
     if (this.personInfo?.personBirthPlaceStateID && this.personInfo?.personBirthPlaceCityID) {
       this.onStateChanged(this.personInfo?.personBirthPlaceStateID, this.personInfo?.personBirthPlaceCityID);
